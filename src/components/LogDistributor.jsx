@@ -35,8 +35,8 @@ export default function LogDistributor() {
         <img src={logi} alt="Login" className="contrast-200 w-44" />
       </div>
       <div className='rounded-3xl w-1/2 bg-[#ffff]'>
-        <h2 className='ml-6 font-extrabold text-3xl mb-6'>Sign In</h2>
-        <p className='ml-6 text-xl mb-6'>You are signing in as Distributor</p>
+        <h2 className='ml-6 font-extrabold text-3xl mt-8 mb-6'>Log In</h2>
+        <p className='ml-6 text-xl mb-6'>You are signing in </p>
         <form onSubmit={handleSubmit}>
           <div className='flex flex-col ml-6 gap-2'>
             <input className='p-4 text-2xl border-b-2' placeholder='Email Address' type="email" name="email" required />

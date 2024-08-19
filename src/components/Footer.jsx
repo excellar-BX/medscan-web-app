@@ -4,10 +4,9 @@ import logo from '../assets/images/image 2.png';
 
 export default function Footer() {
   return (
-    <div className='bg-black text-white '>
+    <div className='bg-black text-white sm:h-[800px] md:h-72 pt-20'>
       <div className='container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8'>
         {/* Logo and Title */}
-        <img src={logo} alt="" />
         <div className='flex flex-col items-center md:items-start'>
           <img src={logo} alt="MEDSCAN AFRICA" className='w-20 h-20 mb-4' />
           <h1 className='text-lg font-bold'>MEDSCAN AFRICA</h1>

@@ -42,7 +42,7 @@ export default function OurService() {
     <div className='flex relative justify-between'>
         <p className="mt-2 text-gray-500 text-2xl md:w-[800px] sm:w-[400px] ">Our mission is to combat counterfeit products and enhance customer trust by providing a secure, transparent and efficient supply chain solution. We strive to safeguard public health and bolster the economy by ensuring that only genuine, high-quality products reach the market.</p>
        
-        <img className=" h-72 ml-10 absolute lg:w-60 right-0 bottom-0 -top-24 object-cover " src={group5} alt="Mission Image"/>
+        <img className=" h-72 ml-10 lg:w-60 right-0 bottom-0 -top-24 object-cover " src={group5} alt="Mission Image"/>
     
     </div>
 </div>
