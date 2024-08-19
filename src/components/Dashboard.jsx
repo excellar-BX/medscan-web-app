@@ -23,9 +23,9 @@ export default function Dashboard() {
         const headers = { Authorization: `Bearer ${token}` };
 
         const [salesTrendRes, marketShareRes, topProductsRes] = await Promise.all([
-          axios.get('api/dashboard/sales-trend', { headers }),
-          axios.get('api/dashboard/market-share', { headers }),
-          axios.get('api/dashboard/top-products', { headers })
+          axios.get('https://meds-scan-backend.onrender.com/api/dashboard/sales-trend', { headers }),
+          axios.get('https://meds-scan-backend.onrender.com/api/dashboard/market-share', { headers }),
+          axios.get('https://meds-scan-backend.onrender.com/api/dashboard/top-products', { headers })
         ]);
 
         console.log('Sales Trend Response:', salesTrendRes.data);
