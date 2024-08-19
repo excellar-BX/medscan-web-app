@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logi from '../assets/images/image 2.png';
@@ -17,8 +16,12 @@ export default function LogDistributor() {
       });
 
       if (response.status === 200) {
-        // Save the token if needed
-        localStorage.setItem('token', response.data.token);
+        const { token, userId } = response.data;
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', userId);
+
+        console.log('Login successful, userId and token stored in localStorage');
         navigate('/dashboard');
       }
     } catch (error) {

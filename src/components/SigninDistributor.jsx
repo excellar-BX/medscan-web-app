@@ -40,7 +40,7 @@ export default function SignInManufactur() {
 
       <div className='w-1/2 ml-10'>
         <h2 className='text-2xl font-extrabold'>Create an Account</h2>
-        <p className=' mt-6 text-2xl'>You are creating an account as a Distributor </p>
+        <p className=' mt-6 text-2xl'>You are creating an account </p>
 
         <Formik
           initialValues={{

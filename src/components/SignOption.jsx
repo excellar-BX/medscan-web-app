@@ -12,9 +12,9 @@ export default function SignOption() {
         <h1 className=" text-center text-2xl font-extrabold mb-8 m"> Login Your Account</h1>
         <h4 className=" mb-20">Kindly click on one of the categories below and provide all valid information as required.</h4>
        <div className=" flex flex-wrap justify-center gap-14">
-         <Link to="./logManufactur" className=" py-16 px-10 shadow-md">Manufacturer </Link>
+         <Link to="./logDistributor" className=" py-16 px-10 shadow-md">Manufacturer </Link>
           <Link to="./logDistributor" className=" py-16 px-10 shadow-md">Distributor</Link>
-           <Link to="./LogStore" className="py-16 px-16 shadow-md">Store</Link>
+           <Link to="./logDistributor" className="py-16 px-16 shadow-md">Store</Link>
        </div>
       </div>
     </div>

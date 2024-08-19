@@ -12,9 +12,9 @@ export default function LogOption() {
         <h1 className=" text-center text-2xl font-extrabold mb-8 m">Create an Account</h1>
         <h4 className=" mb-20">Kindly click on one of the categories below and provide all valid information as required.</h4>
        <div className=" flex flex-wrap justify-center gap-14">
-         <Link to="./SigninManufactur" className=" py-16 px-10 shadow-md">Manufacturer </Link>
+         <Link to="./signinDistributor" className=" py-16 px-10 shadow-md">Manufacturer </Link>
           <Link to="./signinDistributor" className=" py-16 px-10 shadow-md">Distributor</Link>
-           <Link to="./signinStore" className="py-16 px-16 shadow-md">Store</Link>
+           <Link to="./signinDistributor" className="py-16 px-16 shadow-md">Store</Link>
        </div>
       </div>
     </div>

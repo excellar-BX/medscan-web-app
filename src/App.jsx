@@ -4,15 +4,17 @@ import './App.css';
 import Navlink from './components/Navlink';
 import Welcomepage from './components/Welcomepage';
 import LogOption from './components/LogOption';
-import SignInManufactur from './components/SignInManufactur';
 import SigninDistributor from './components/SigninDistributor';
-import SigninStore from './components/SigninStore';
 import SignOption from './components/SignOption';
 import LogDistributor from './components/LogDistributor';
-import LogStore from './components/LogStore';
-import LogManufactur from './components/LogManufactur';
 import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import AddNewPro from './components/AddNewPro';
+import AllProduct from './components/AllProduct';
+import Message from './components/Message';
+import TeamMember from './components/TeamMember';
+import Profile from './components/Profile';
+import ManufacturerForm from './components/ManufacturerForm';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -21,7 +23,6 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      // Fetch user profile if token exists
       fetchUserProfile(token);
     }
   }, []);
@@ -33,36 +34,43 @@ function App() {
           Authorization: `Bearer ${token}`,
         },
       });
-      const data = await response.json();
-      if (response.ok) {
-        setIsAuthenticated(true);
-        setUserProfile(data);
-      } else {
-        console.error('Failed to fetch user profile:', data.message);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch user profile');
       }
+
+      const data = await response.json();
+      setIsAuthenticated(true);
+      setUserProfile(data);
     } catch (error) {
       console.error('Error fetching user profile:', error);
+      localStorage.removeItem('token'); // Remove token from local storage
+      setIsAuthenticated(false); // Set authentication state to false
+      setUserProfile(null); // Clear user profile
+      window.location.href = '/option'; // Redirect to login page
     }
   };
 
   return (
-    <>
-      <Router>
-        <Navlink isAuthenticated={isAuthenticated} userProfile={userProfile} />
-        <Routes>
-          <Route path='/' element={<Welcomepage />} />
-          <Route path='/option' element={<LogOption />} />
-          <Route path='option/signinManufactur' element={<SignInManufactur />} />
-          <Route path='option/signinDistributor' element={<SigninDistributor />} />
-          <Route path='option/signinStore' element={<SigninStore />} />
-          <Route path='/signup' element={<SignOption />} />
-          <Route path='signup/logManufactur' element={<LogManufactur />} />
-          <Route path='signup/LogDistributor' element={<LogDistributor />} />
-          <Route path='signup/LogStore' element={<LogStore />} />
-          <Route path='/dashboard' element={<ProtectedRoute element={Dashboard} />} /> {/* Protect the Dashboard route */}
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Navlink isAuthenticated={isAuthenticated} userProfile={userProfile} />
+      <Routes>
+        <Route path='/' element={<Welcomepage />} />
+        <Route path='/option' element={<LogOption />} />
+        <Route path='option/signinDistributor' element={<SigninDistributor />} />
+        <Route path='/signup' element={<SignOption />} />
+        <Route path='signup/LogDistributor' element={<LogDistributor />} />
+        <Route path='/dashboard' element={<ProtectedRoute component={Dashboard} />} /> 
+        <Route path='/addNewPro' element={<ProtectedRoute component={AddNewPro} />} /> 
+        <Route path='/allProducts' element={<ProtectedRoute component={AllProduct} />} /> 
+        <Route path='/trackProducts' element={<ProtectedRoute component={Dashboard} />} /> 
+        <Route path='/team' element={<ProtectedRoute component={TeamMember} />} /> 
+        <Route path='/message' element={<ProtectedRoute component={Message} />} /> 
+        <Route path='/profile' element={<ProtectedRoute component={Profile} />} /> 
+        <Route path='/addStock' element={<ProtectedRoute component={ManufacturerForm} />} /> 
+      </Routes>
+    </Router>
   );
 }
 
