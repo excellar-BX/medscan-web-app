@@ -8,7 +8,7 @@ export default function AllProduct() {
     const fetchProducts = async () => {
       try {
         const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
-        const response = await axios.get(`http://localhost:5000/api/products?userId=${userId}`, {
+        const response = await axios.get(`https://meds-scan-backend.onrender.com/api/products?userId=${userId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include the token in the headers
           },

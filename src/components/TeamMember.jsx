@@ -15,7 +15,7 @@ export default function TeamMember() {
   const getToken = () => localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/team', {
+    axios.get('https://meds-scan-backend.onrender.com/api/team', {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
       .then(response => setTeamMembers(response.data))
@@ -28,7 +28,7 @@ export default function TeamMember() {
 
   const handleAddMember = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/api/team', newMember, {
+    axios.post('https://meds-scan-backend.onrender.com/api/team', newMember, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
       .then(response => {
@@ -39,7 +39,7 @@ export default function TeamMember() {
   };
 
   const handleDeleteMember = (id) => {
-    axios.delete(`http://localhost:5000/api/team/${id}`, {
+    axios.delete(`https://meds-scan-backend.onrender.com/api/team/${id}`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
       .then(() => {

@@ -59,7 +59,7 @@ export default function AddNewPro() {
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/api/products/create', productData, {
+      const response = await axios.post('https://meds-scan-backend.vercel.app/api/products/create', productData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

@@ -18,7 +18,7 @@ export default function SignInManufactur() {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', values);
+      const response = await axios.post('https://meds-scan-backend.vercel.app/api/auth/register', values);
       console.log(response.data);
       // Handle successful registration (e.g., redirect to login page)
     } catch (error) {

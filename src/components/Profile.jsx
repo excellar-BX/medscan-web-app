@@ -13,7 +13,7 @@ export default function Profile() {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token'); // Get the token from localStorage
-        const response = await axios.get('http://localhost:5000/api/auth/profile', {
+        const response = await axios.get('https://meds-scan-backend.onrender.com/api/auth/profile', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -59,7 +59,7 @@ export default function Profile() {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete('http://localhost:5000/api/auth/profile', {
+      await axios.delete('https://meds-scan-backend.vercel.app/api/auth/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

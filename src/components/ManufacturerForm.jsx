@@ -32,7 +32,7 @@ const ManufacturerForm = () => {
           throw new Error('No token found');
         }
 
-        const response = await axios.get('/api/auth/user', {
+        const response = await axios.get('https://meds-scan-backend.vercel.app//api/auth/user', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -121,7 +121,7 @@ const ManufacturerForm = () => {
       // Include the userId with the form data
       const dataToSend = { ...formData, userId };
 
-      await axios.post('/api/manufacturer/create', dataToSend, {
+      await axios.post('https://meds-scan-backend.onrender.com/api/manufacturer/create', dataToSend, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

@@ -10,7 +10,7 @@ export default function LogDistributor() {
     const { email, password } = event.target.elements;
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('https://meds-scan-backend.onrender.com/api/auth/login', {
         email: email.value,
         password: password.value,
       });

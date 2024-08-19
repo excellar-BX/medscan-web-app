@@ -30,7 +30,7 @@ export default function Message() {
       }
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/messages/${senderId}/${receiverId}`, {
+        const response = await axios.get(`https://meds-scan-backend.onrender.com/api/messages/${senderId}/${receiverId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -56,7 +56,7 @@ export default function Message() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/messages', {
+      const response = await axios.post('https://meds-scan-backend.onrender.com/api/messages', {
         senderId,
         receiverId,
         content: newMessage,
