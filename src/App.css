@@ -1,5 +1,8 @@
 .welcome {
     background-image: url('./assets/images/Rectangle 2hero-img.png');
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: 100%;
 }
 
 .meds {

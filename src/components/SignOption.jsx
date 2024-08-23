@@ -1,22 +1,42 @@
+import logi from "../assets/images/image 2.png";
+import bgImage from "../assets/images/login-img.jpg";
+import "../App.css";
 import { Link } from "react-router-dom";
- import logi from '../assets/images/image 2.png'
- import '../App.css'
 
 export default function SignOption() {
   return (
-    <div className=" flex">
-     <div className="login-image h-[700px] w-1/2 flex justify-center items-center">
-  <img src={logi} alt="" className="contrast-200 w-44" />
-</div>
-      <div className="w-1/2 bg-[#FFFFFF] rounded-2xl text-center ">
-        <h1 className=" text-center text-2xl font-extrabold mb-8 m"> Login Your Account</h1>
-        <h4 className=" mb-20">Kindly click on one of the categories below and provide all valid information as required.</h4>
-       <div className=" flex flex-wrap justify-center gap-14">
-         <Link to="./logDistributor" className=" py-16 px-10 shadow-md">Manufacturer </Link>
-          <Link to="./logDistributor" className=" py-16 px-10 shadow-md">Distributor</Link>
-           <Link to="./logDistributor" className="py-16 px-16 shadow-md">Store</Link>
-       </div>
+    <div className="flex h-screen overflow-hidden">
+      <div className="w-full h-full">
+        <div className="relative h-full flex">
+          <img
+            src={bgImage}
+            alt=""
+            className="w-full absolute z-20 object-cover"
+          />
+          <div className="lg:w-[50%] w-0 flex justify-center items-center h-full relative z-40">
+            <img src={logi} alt="" className="top-0 z-40 contrast-200 w-44" />
+          </div>
+
+          <div className="lg:w-[50%] w-full bg-white p-12 rounded-l-[10px] flex flex-col items-center  h-full relative z-40">
+            <h3 className="py-5 font-[800] text-[30px]">Create Account</h3>
+            <p className="text-center md:text-[22px] md:w-[497px]">
+              Kindly click on one of the categories below and provide all valid
+              information as required.
+            </p>
+            <div className=" flex md:flex-row flex-col justify-center md:gap-14 gap-12 lg:py-24 py-8 w-full">
+              <Link to="./logDistributor" className="py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white">
+                Manufacturer{" "}
+              </Link>
+              <Link to="./logDistributor" className=" py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white">
+                Distributor
+              </Link>
+              <Link to="./logDistributor" className="py-16 px-16 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white">
+                Store
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }

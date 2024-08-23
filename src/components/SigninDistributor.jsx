@@ -1,95 +1,117 @@
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
-import logi from '../assets/images/image 2.png';
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import logi from "../assets/images/image 2.png";
+import { useNavigate } from "react-router-dom";
+import bgImage from "../assets/images/login-img.jpg";
+import { validationSchema } from "../Helper/Schema";
+import { useLoginUserMutation } from "../Helper/Apis/UseMutate";
 
 export default function SignInManufactur() {
-  const validationSchema = Yup.object({
-    fullName: Yup.string().required('Full Name is required'),
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    phoneNumber: Yup.string().required('Phone number is required'),
-    birthDate: Yup.date().required('Birth date is required'),
-    country: Yup.string().required('Country name is required'),
-    password: Yup.string().required('Password is required'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Confirm Password is required'),
-  });
-
-  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
-    try {
-      const response = await axios.post('https://meds-scan-backend.onrender.com/api/auth/register', values);
-      console.log(response.data);
-      // Handle successful registration (e.g., redirect to login page)
-    } catch (error) {
-      if (error.response && error.response.data) {
-        setErrors({ api: error.response.data.message });
-      } else {
-        setErrors({ api: 'An error occurred. Please try again.' });
-      }
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const [loginUser] = useLoginUserMutation();
 
   return (
-    <div className="flex sm:mx-10 lg:mx-40">
-      <div className="login-image h-[800px] w-1/2 flex justify-center items-center">
-        <img src={logi} alt="" className="contrast-200 w-44" />
-      </div>
+    <div className="flex h-screen overflow-hidden">
+      <div className="w-full h-full">
+        <div className="relative h-full flex">
+          <img
+            src={bgImage}
+            alt=""
+            className="w-full absolute z-20 object-cover"
+          />
+          <div className="lg:w-[100%] w-0 flex justify-center items-center h-full relative z-40">
+            <img src={logi} alt="" className="top-0 z-40 contrast-200 w-44" />
+          </div>
 
-      <div className='w-1/2 ml-10'>
-        <h2 className='text-2xl font-extrabold'>Create an Account</h2>
-        <p className=' mt-6 text-2xl'>You are creating an account </p>
+          <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded-l-[10px] items-center flex flex-col h-full relative z-40">
+            <h3 className="font-[800] text-[30px]">Welcome Back!!</h3>
+            <p className="md:text-[16px] text-center">
+              You are logging in as a Distributor
+            </p>
+            {/* Form */}
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              validationSchema={validationSchema}
+              onSubmit={async (values, { setSubmitting }) => {
+                try {
+                  await loginUser(values).unwrap();
+                  alert("Login Successfully");
+                } catch (error) {
+                  alert("Failed to  Login User");
+                } finally {
+                  setSubmitting(false);
+                }
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form className="py-10 flex flex-col gap-[70px] w-[100%]">
+                  <div className="h-[60px] w-[100%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                    <div className="p-2 absolute -top-5 left-3 bg-white text-[14px]">
+                      Email Address
+                    </div>
+                    <Field
+                      name="email"
+                      type="email"
+                      className="w-full bg-transparent h-full px-6 outline-none border-none"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                    />
+                  </div>
 
-        <Formik
-          initialValues={{
-            fullName: '',
-            email: '',
-            phoneNumber: '',
-            birthDate: '',
-            country: '',
-            password: '',
-            confirmPassword: '',
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting, errors }) => (
-            <Form>
-              <div className='flex text-[#1E1E1EB2] gap-4 flex-col'>
-                <Field className='text-xl p-2 border-b-4' placeholder="Full Name" type="text" name="fullName" />
-                <ErrorMessage name="fullName" component="div" />
+                  <div className="h-[60px] w-[100%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                    <div className="p-2 absolute -top-5 left-3 bg-white text-[14px]">
+                      Password
+                    </div>
+                    <Field
+                      name="password"
+                      type="password"
+                      className="w-full bg-transparent h-full px-6 outline-none border-none"
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                    />
+                  </div>
 
-                <Field className='text-xl p-2 border-b-4' type="email" placeholder="Your Email Here" name="email" />
-                <ErrorMessage name="email" component="div" />
-
-                <Field className='text-xl p-2 border-b-4' type="number" placeholder='+234' name="phoneNumber" />
-                <ErrorMessage name="phoneNumber" component="div" />
-
-                <Field className='text-xl p-2 border-b-4' type="month" placeholder="Birth Date" name="birthDate" />
-                <ErrorMessage name="birthDate" component="div" />
-
-                <Field className='text-xl p-2 border-b-4' type="text" name="country" placeholder="Country Name" />
-                <ErrorMessage name="country" component="div" />
-
-                <Field className='text-xl p-2 border-b-4' type="password" name="password" placeholder="password" />
-                <ErrorMessage name="password" component="div" />
-
-                <Field className='text-xl p-2 border-b-4' type="password" name="confirmPassword" placeholder="confirm password" />
-                <ErrorMessage name="confirmPassword" component="div" />
-
-                {errors.api && <div className="error">{errors.api}</div>}
-
-                <div className='flex gap-4 mt-8'>
-                  <input className='h-8 w-8' type="checkbox" name="" id="" />
-                  <p className=' text-xl'>I agree to the <a href="" target='blank' className=' text-[#0084fc]'>Terms of service</a> and <a href="" className=' text-[#0084fc]'>Privacy Policy</a></p>
-                </div>
-                <button className='p-8 bg-[#0084fc] rounded-md' type="submit" disabled={isSubmitting}>Create Account</button>
-              </div>
-            </Form>
-          )}
-        </Formik>
+                  <div className="flex flex-col gap-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-4 text-[14px] items-center">
+                        <Field
+                          type="checkbox"
+                          name="rememberMe"
+                          className="border-[1px] border-[#494949] w-[20px] h-[20px]"
+                        />
+                        <p>Remember me</p>
+                      </div>
+                      <span className="text-[#0084FC] cursor-pointer">
+                        Forget Password
+                      </span>
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] bg-[#0084FC]"
+                    >
+                      {isSubmitting ? "Signing in..." : "Sign In"}
+                    </button>
+                    <div className="flex justify-center text-[14px] items-center">
+                      <p>
+                        Don’t have an account?{" "}
+                        <span className="text-[#0084FC] cursor-pointer">
+                          Register
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </div>
       </div>
     </div>
   );
