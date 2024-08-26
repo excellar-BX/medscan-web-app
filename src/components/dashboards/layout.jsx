@@ -114,7 +114,7 @@ const Layout = () => {
             </Badge>
           </IconButton>
           <IconButton color="#E0DEDEB2">
-            <Avatar alt="Profile Picture" src="/dashboards/static/images/avatar/1.jpg" />
+            <Avatar alt="Profile Picture" src="/dashboard/static/images/avatar/1.jpg" />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -165,7 +165,7 @@ const Layout = () => {
             key="Dashboard"
             onClick={() => handleMenuItemClick("Dashboard")}
             component={Link} // Use Link as the component for navigation
-            to="/dashboards"
+            to="/dashboard"
             sx={{
               color: activeItem === "Dashboard" ? "#0084FC" : "#ffffff",
             }}>
@@ -182,7 +182,7 @@ const Layout = () => {
             button
             key="All Product"
             component={Link}
-            to="/dashboards/all-products"
+            to="/dashboard/all-products"
             onClick={() => handleMenuItemClick("All Product")}
             sx={{
               color: activeItem === "All Product" ? "#0084FC" : "#ffffff",
@@ -200,7 +200,7 @@ const Layout = () => {
             button
             key="Add New Product"
             component={Link}
-            to="/dashboards/add-products"
+            to="/dashboard/add-products"
             onClick={() => handleMenuItemClick("Add New Product")}
             sx={{
               color: activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
@@ -219,7 +219,7 @@ const Layout = () => {
             button
             key="Track Product"
             component={Link}
-            to="/dashboards/track-product"
+            to="/dashboard/track-product"
             onClick={() => handleMenuItemClick("Track Product")}
             sx={{
               color: activeItem === "Track Product" ? "#0084FC" : "#ffffff",
@@ -237,7 +237,7 @@ const Layout = () => {
             button
             key="Message"
             component={Link}
-            to="/dashboards/message"
+            to="/dashboard/message"
             onClick={() => handleMenuItemClick("Message")}
             sx={{
               color: activeItem === "Message" ? "#0084FC" : "#ffffff",
@@ -255,7 +255,7 @@ const Layout = () => {
             button
             key="Profile"
             component={Link}
-            to="/dashboards/profile"
+            to="/dashboard/profile"
             onClick={() => handleMenuItemClick("Profile")}
             sx={{
               color: activeItem === "Profile" ? "#0084FC" : "#ffffff",
@@ -273,7 +273,7 @@ const Layout = () => {
             button
             key="Team Members"
             component={Link}
-            to="/dashboards/team-members"
+            to="/dashboard/team-members"
             onClick={() => handleMenuItemClick("Team Members")}
             sx={{
               color: activeItem === "Team Members" ? "#0084FC" : "#ffffff",
@@ -291,7 +291,7 @@ const Layout = () => {
             button
             key="Support"
             component={Link}
-            to="/dashboards/support"
+            to="/dashboard/support"
             onClick={() => handleMenuItemClick("Support")}
             sx={{
               color: activeItem === "Support" ? "#0084FC" : "#ffffff",
@@ -326,7 +326,7 @@ const Layout = () => {
             button
             key="Export Data"
             component={Link}
-            to="/dashboards/export-data"
+            to="/dashboard/export-data"
             onClick={() => handleMenuItemClick("Export Data")}
             sx={{
               color: activeItem === "Export Data" ? "#0084FC" : "#ffffff",
@@ -344,7 +344,7 @@ const Layout = () => {
             button
             key="Logout"
             component={Link}
-            to="/dashboards/logout"
+            to="/dashboard/logout"
             onClick={() => handleMenuItemClick("Logout")}
             sx={{
               color: activeItem === "Logout" ? "#0084FC" : "#ffffff",

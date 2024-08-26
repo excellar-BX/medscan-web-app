@@ -74,22 +74,22 @@ function App() {
         <Route path="/signup" element={<SignOption />} />
         <Route path="signup/LogDistributor" element={<LogDistributor />} />
         <Route
-          path="/dashboard"
+          path="/dashboards"
           element={<ProtectedRoute component={Dashboard} />}
         />
         <Route
-          path="/dashboards"
+          path="/dashboard"
           element={<ProtectedRoute component={Layout} />}>
           <Route path="" element={<Dashboards />} />
-          <Route path="/dashboards/all-products" element={<AllProduct />} />
-          <Route path="/dashboards/add-products" element={<AddNewPro />} />
-          <Route path="/dashboards/team-members" element={<TeamMember />} />
-          <Route path="/dashboards/profile" element={<Profile />} />
-          <Route path="/dashboards/logout" element={<AllProduct />} />
-          <Route path="/dashboards/export-data" element={<AllProduct />} />
-          <Route path="/dashboards/support" element={<AllProduct />} />
-          <Route path="/dashboards/message" element={<Message />} />
-          <Route path="/dashboards/track-product" element={<Dashboards />} />
+          <Route path="/dashboard/all-products" element={<AllProduct />} />
+          <Route path="/dashboard/add-products" element={<AddNewPro />} />
+          <Route path="/dashboard/team-members" element={<TeamMember />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
+          <Route path="/dashboard/logout" element={<AllProduct />} />
+          <Route path="/dashboard/export-data" element={<AllProduct />} />
+          <Route path="/dashboard/support" element={<AllProduct />} />
+          <Route path="/dashboard/message" element={<Message />} />
+          <Route path="/dashboard/track-product" element={<Dashboards />} />
           {/* Add more nested routes here if necessary */}
         </Route>
         {/* <Route
