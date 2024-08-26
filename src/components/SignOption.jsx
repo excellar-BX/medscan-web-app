@@ -24,13 +24,22 @@ export default function SignOption() {
               information as required.
             </p>
             <div className=" flex md:flex-row flex-col justify-center md:gap-14 gap-12 lg:py-24 py-8 w-full">
-              <Link to="./logDistributor" className="py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white">
+              <Link
+                to="./manufacturer"
+                className="py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white"
+              >
                 Manufacturer{" "}
               </Link>
-              <Link to="./logDistributor" className=" py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white">
+              <Link
+                to="./distributor"
+                className=" py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white"
+              >
                 Distributor
               </Link>
-              <Link to="./logDistributor" className="py-16 px-16 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white">
+              <Link
+                to="./store"
+                className="py-16 px-16 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white"
+              >
                 Store
               </Link>
             </div>

@@ -6,12 +6,38 @@ import { useNavigate } from "react-router-dom";
 import bgImage from "../assets/images/login-img.jpg";
 import { validationSchema } from "../Helper/Schema";
 import { useLoginUserMutation } from "../Helper/Apis/UseMutate";
+import { useEffect, useState } from "react";
+import { BiCheckCircle } from "react-icons/bi";
+import { CgDanger } from "react-icons/cg";
 
 export default function SignInManufactur() {
+  const navigate = useNavigate();
   const [loginUser] = useLoginUserMutation();
+  const [message, setMessage] = useState({
+    success: "",
+    error: "",
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMessage({});
+    }, 7000);
+  }, [message.error, message.success]);
 
   return (
     <div className="flex h-screen overflow-hidden">
+      {message.error && (
+        <div className="fixed animate-slideIn top-0 font-[600] gap-6 z-50 border-b-[5px] border-[#ff3a3a] flex items-center rounded-b-[5px] w-full p-4 text-white min-h-[80px] bg-[#ff7c7c]">
+          <CgDanger size={30} />
+          <p>{message.error}</p>
+        </div>
+      )}
+      {message.success && (
+        <div className="fixed animate-slideIn top-0 font-[600] gap-6 z-50 border-b-[5px] border-[#1f8d5a] flex items-center rounded-b-[5px] w-full p-4 text-white min-h-[80px] bg-[#24ca4e]">
+          <BiCheckCircle size={30} />
+          <p>{message.success}</p>
+        </div>
+      )}
       <div className="w-full h-full">
         <div className="relative h-full flex">
           <img
@@ -34,10 +60,20 @@ export default function SignInManufactur() {
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  await loginUser(values).unwrap();
-                  alert("Login Successfully");
+                  await loginUser(values)
+                    .unwrap()
+                    .then((data) => {
+                      setMessage({
+                        success: "Login Successfully",
+                        error: "",
+                      });
+                      localStorage.setItem("token", data?.token);
+                      setTimeout(() => {
+                        navigate("/dashboard");
+                      }, 3000);
+                    });
                 } catch (error) {
-                  alert("Failed to  Login User");
+                  setMessage({ success: "", error: error?.data?.message });
                 } finally {
                   setSubmitting(false);
                 }
