@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import Navlink from "./components/Navlink";
 import Welcomepage from "./components/Welcomepage";
-import LogOption from "./components/LogOption";
 import SigninDistributor from "./components/SigninDistributor";
 import SignOption from "./components/SignOption";
 import LogDistributor from "./components/LogDistributor";
@@ -15,6 +14,8 @@ import Message from "./components/Message";
 import TeamMember from "./components/TeamMember";
 import Profile from "./components/Profile";
 import ManufacturerForm from "./components/ManufacturerForm";
+import Layout from "./components/dashboards/layout";
+import Dashboards from "./components/dashboards/dashboard";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -65,23 +66,37 @@ function App() {
               isAuthenticated={isAuthenticated}
               userProfile={userProfile}
             />
-          }
-        >
+          }>
           <Route path="" element={<Welcomepage />} />
         </Route>
 
-
-        <Route
-          path="login"
-          element={<SigninDistributor />}
-        />
+        <Route path="login" element={<SigninDistributor />} />
         <Route path="/signup" element={<SignOption />} />
-        <Route path="signup/:type" element={<LogDistributor />} />
+        <Route path="signup/LogDistributor" element={<LogDistributor />} />
         <Route
           path="/dashboard"
           element={<ProtectedRoute component={Dashboard} />}
         />
         <Route
+          path="/dashboards"
+          element={<ProtectedRoute component={Layout} />}>
+          <Route path="" element={<Dashboards />} />
+          <Route path="/dashboards/all-products" element={<AllProduct />} />
+          <Route path="/dashboards/add-products" element={<AddNewPro />} />
+          <Route path="/dashboards/team-members" element={<TeamMember />} />
+          <Route path="/dashboards/profile" element={<Profile />} />
+          <Route path="/dashboards/logout" element={<AllProduct />} />
+          <Route path="/dashboards/export-data" element={<AllProduct />} />
+          <Route path="/dashboards/support" element={<AllProduct />} />
+          <Route path="/dashboards/message" element={<Message />} />
+          <Route path="/dashboards/track-product" element={<Dashboards />} />
+          {/* Add more nested routes here if necessary */}
+        </Route>
+        {/* <Route
+          path="/dashboards"
+          element={<ProtectedRoute component={Dashboard} />}
+        /> */}
+        {/* <Route
           path="/addNewPro"
           element={<ProtectedRoute component={AddNewPro} />}
         />
@@ -104,7 +119,7 @@ function App() {
         <Route
           path="/profile"
           element={<ProtectedRoute component={Profile} />}
-        />
+        /> */}
         <Route
           path="/addStock"
           element={<ProtectedRoute component={ManufacturerForm} />}

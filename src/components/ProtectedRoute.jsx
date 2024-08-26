@@ -1,10 +1,11 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+/* eslint-disable react/prop-types */
+
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
-  return token ? <Component {...rest} /> : <Navigate to="/option" />;
+  return token ? <Navigate to="/option" /> : <Component {...rest} />;
 };
 
 export default ProtectedRoute;
