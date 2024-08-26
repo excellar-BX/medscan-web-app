@@ -38,47 +38,6 @@ export default function Navlink({ isAuthenticated, userProfile }) {
             />
           </div>
 
-          {/* Search Input */}
-          {isAuthenticated && (
-            <div className="hidden md:flex flex-grow mx-4">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full p-2 rounded bg-gray-700 text-white focus:outline-none"
-              />
-            </div>
-          )}
-
-          {/* Links (hidden on mobile) */}
-          <ul className="hidden lg:flex space-x-6 text-xl font-semibold">
-            {!isAuthenticated ? (
-              navlink.map((link, index) => (
-                <li key={index}>
-                  <Link to={link.path} className="hover:text-blue-300">
-                    {link.name}
-                  </Link>
-                </li>
-              ))
-            ) : (
-              <div className="flex items-center space-x-4">
-                <FaBell
-                  size={24}
-                  className="cursor-pointer hover:text-blue-300"
-                />
-                <div className="flex items-center space-x-2">
-                  <FaUserCircle size={30} />
-                  <div className="text-xl font-semibold">
-                    <span>{userProfile?.name}</span>
-                    <br />
-                    <span className="text-sm text-gray-400">
-                      {userProfile?.email}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </ul>
-
           {/* Auth Links (hidden on mobile) */}
           <div className="hidden lg:flex ml-4">
             {!isAuthenticated ? (
@@ -97,16 +56,24 @@ export default function Navlink({ isAuthenticated, userProfile }) {
                 </Link>
               </>
             ) : (
-              <button
-                onClick={() => {
-                  localStorage.removeItem("token"); // Remove the JWT token
-                  localStorage.removeItem("userId"); // Remove the user ID (if stored)
-                  window.location.href = "/signup"; // Redirect to the login page or any other page
-                }}
-                className="py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Logout
-              </button>
+              <>
+                <Link
+                  to="/dashboard"
+                  className="mr-2 py-2 px-4 ml-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("token"); // Remove the JWT token
+                    localStorage.removeItem("userId"); // Remove the user ID (if stored)
+                    window.location.href = "/signup"; // Redirect to the login page or any other page
+                  }}
+                  className="py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  Logout
+                </button>
+              </>
             )}
           </div>
         </div>
@@ -137,7 +104,7 @@ export default function Navlink({ isAuthenticated, userProfile }) {
                   </Link>
                 </li>
               ))}
-              {!isAuthenticated && (
+              {!isAuthenticated ? (
                 <>
                   <div className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] bg-[#0084FC]">
                     <li>
@@ -151,17 +118,35 @@ export default function Navlink({ isAuthenticated, userProfile }) {
                     </li>
                   </div>
                   <div className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] border border-[#0084FC]">
-                  <li>
-                    <Link
-                      to="/signup"
-                      onClick={toggleMenu}
-                      className="text-blue-500"
-                    >
-                      Sign up
-                    </Link>
-                  </li>
+                    <li>
+                      <Link
+                        to="/signup"
+                        onClick={toggleMenu}
+                        className="text-blue-500"
+                      >
+                        Sign up
+                      </Link>
+                    </li>
                   </div>
-                  
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/dashboard"
+                    className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] bg-[#0084FC]"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("token"); // Remove the JWT token
+                      localStorage.removeItem("userId"); // Remove the user ID (if stored)
+                      window.location.href = "/signup"; // Redirect to the login page or any other page
+                    }}
+                    className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] bg-red-500 w-full"
+                  >
+                    Logout
+                  </button>
                 </>
               )}
             </ul>

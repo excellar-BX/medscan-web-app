@@ -72,7 +72,7 @@ function App() {
 
         <Route path="login" element={<SigninDistributor />} />
         <Route path="/signup" element={<SignOption />} />
-        <Route path="signup/LogDistributor" element={<LogDistributor />} />
+        <Route path="signup/:type" element={<LogDistributor />} />
         <Route
           path="/dashboards"
           element={<ProtectedRoute component={Dashboard} />}
