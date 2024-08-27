@@ -91,7 +91,7 @@ const Layout = () => {
 
   return (
     <div style={{ display: "flex" }}>
-      {/* <CssBaseline /> */}
+      <CssBaseline />
       {width > 750 && (
         <AppBar
           position="fixed"
@@ -101,7 +101,8 @@ const Layout = () => {
             paddingTop: 24,
             paddingBottom: 24,
             backgroundColor: "#fff",
-          }}>
+          }}
+      >
           <Toolbar>
             <div className=" flex-1">
               <Search>
@@ -145,7 +146,8 @@ const Layout = () => {
             backgroundColor: "#333333",
             paddingLeft: 2,
           },
-        }}>
+        }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -153,7 +155,8 @@ const Layout = () => {
             justifyContent: "center",
             padding: "16px",
             paddingTop: "20px",
-          }}>
+          }}
+        >
           <img
             src="https://s3-alpha-sig.figma.com/img/696c/5298/0fe1bb5f5101ecb5966f1be43f16825d?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Itny~-4iBRn-LlVeWYN5BYgSRjlShW6oTYnecMQpCIGuuRNoUHp27oKR2eyKOyeTbAOw015EJ6OOXomwOqKT3drPu4TIAWCLpDxbywPFDo3XMIex-m21r8GPr4EIVU2heLZimR6M4SJ57oL1clCAyLCToCylQb9az4l3zqI8D7R8csluQYbzFYU6~PHE7VpHUVCCnk0U2JvQmQ9YX32rrtr39JtKVziOlzbDmaatNwANuKlpMYc64AQ-XWR0OElS3482uwDo~wJBcIAd6eY2co-yFfWGaFdW7zLG6YhPXckTsoBO-DqTUeIhr85T~pCrHalgQuquw~-y3epdtYJPPQ__"
             alt="Logo"
@@ -166,12 +169,14 @@ const Layout = () => {
             alignItems: "center",
             justifyContent: "flex-start",
             padding: "16px",
-          }}>
+          }}
+        >
           <Typography
             variant="h6"
             noWrap
             component="div"
-            className=" text-white font-bold">
+            className=" text-white font-bold"
+          >
             Home
           </Typography>
         </Box>
@@ -184,7 +189,8 @@ const Layout = () => {
             to="/dashboard"
             sx={{
               color: activeItem === "Dashboard" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <DashboardIcon
                 style={{
@@ -202,7 +208,8 @@ const Layout = () => {
             onClick={() => handleMenuItemClick("All Product")}
             sx={{
               color: activeItem === "All Product" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <AllOutIcon
                 style={{
@@ -220,7 +227,8 @@ const Layout = () => {
             onClick={() => handleMenuItemClick("Add New Product")}
             sx={{
               color: activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <AddCircleOutlineIcon
                 style={{
@@ -239,7 +247,8 @@ const Layout = () => {
             onClick={() => handleMenuItemClick("Track Product")}
             sx={{
               color: activeItem === "Track Product" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <TrackChangesIcon
                 style={{
@@ -257,7 +266,8 @@ const Layout = () => {
             onClick={() => handleMenuItemClick("Message")}
             sx={{
               color: activeItem === "Message" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <QuestionAnswerIcon
                 style={{
@@ -275,7 +285,8 @@ const Layout = () => {
             onClick={() => handleMenuItemClick("Profile")}
             sx={{
               color: activeItem === "Profile" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <PersonIcon
                 style={{
@@ -293,7 +304,8 @@ const Layout = () => {
             onClick={() => handleMenuItemClick("Team Members")}
             sx={{
               color: activeItem === "Team Members" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <GroupIcon
                 style={{
@@ -311,7 +323,8 @@ const Layout = () => {
             onClick={() => handleMenuItemClick("Support")}
             sx={{
               color: activeItem === "Support" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <SupportAgentIcon
                 style={{
@@ -328,12 +341,14 @@ const Layout = () => {
             alignItems: "center",
             justifyContent: "flex-start",
             padding: "16px",
-          }}>
+          }}
+        >
           <Typography
             variant="h6"
             noWrap
             component="div"
-            className=" text-white font-bold">
+            className=" text-white font-bold"
+          >
             Quick Actions
           </Typography>
         </Box>
@@ -346,7 +361,8 @@ const Layout = () => {
             onClick={() => handleMenuItemClick("Export Data")}
             sx={{
               color: activeItem === "Export Data" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <ExitToAppIcon
                 style={{
@@ -361,10 +377,15 @@ const Layout = () => {
             key="Logout"
             component={Link}
             to="/dashboard/logout"
-            onClick={() => handleMenuItemClick("Logout")}
+            onClick={() => {
+              localStorage.removeItem("token"); // Remove the JWT token
+              localStorage.removeItem("userId"); // Remove the user ID (if stored)
+              window.location.href = "/"; // Redirect to the login page or any other page
+            }}
             sx={{
               color: activeItem === "Logout" ? "#0084FC" : "#ffffff",
-            }}>
+            }}
+          >
             <ListItemIcon>
               <LogoutIcon
                 style={{
