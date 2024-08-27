@@ -1,35 +1,35 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 
 export default function AddNewPro() {
   const navigate = useNavigate(); // Initialize useNavigate for navigation
 
   // Set up state for each input field
   const [formData, setFormData] = useState({
-    manufacturerName: '',
-    productName: '',
-    productCategory: '',
-    productDescription: '',
-    issn: '',
-    manufacturedDate: '',
-    expiryDate: '',
-    batchNumber: '',
-    nafdacRegistration: '',
-    quantityPerPackage: '',
-    howManyPackage: '',
-    productsPerPackage: '',
-    currentHumidity: '',
-    currentTemperature: '',
-    productComponent: '',
+    manufacturerName: "",
+    productName: "",
+    productCategory: "",
+    productDescription: "",
+    issn: "",
+    manufacturedDate: "",
+    expiryDate: "",
+    batchNumber: "",
+    nafdacRegistration: "",
+    quantityPerPackage: "",
+    howManyPackage: "",
+    productsPerPackage: "",
+    currentHumidity: "",
+    currentTemperature: "",
+    productComponent: "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem("userId");
     if (!userId) {
-      console.error('User ID is missing from localStorage');
+      console.error("User ID is missing from localStorage");
       return;
     }
 
@@ -55,42 +55,47 @@ export default function AddNewPro() {
         currentHumidity: formData.currentHumidity,
         currentTemperature: formData.currentTemperature,
         productComponent: formData.productComponent,
-      }
+      },
     };
 
     try {
-      const response = await axios.post('https://meds-scan-backend.vercel.app/api/products/create', productData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      const response = await axios.post(
+        "https://meds-scan-backend.vercel.app/api/products/create",
+        productData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      });
+      );
 
       if (response.status === 201) {
-        console.log('Product added successfully');
-        setFormData({ // Clear all input fields
-          manufacturerName: '',
-          productName: '',
-          productCategory: '',
-          productDescription: '',
-          issn: '',
-          manufacturedDate: '',
-          expiryDate: '',
-          batchNumber: '',
-          nafdacRegistration: '',
-          quantityPerPackage: '',
-          howManyPackage: '',
-          productsPerPackage: '',
-          currentHumidity: '',
-          currentTemperature: '',
-          productComponent: '',
+        console.log("Product added successfully");
+        setFormData({
+          // Clear all input fields
+          manufacturerName: "",
+          productName: "",
+          productCategory: "",
+          productDescription: "",
+          issn: "",
+          manufacturedDate: "",
+          expiryDate: "",
+          batchNumber: "",
+          nafdacRegistration: "",
+          quantityPerPackage: "",
+          howManyPackage: "",
+          productsPerPackage: "",
+          currentHumidity: "",
+          currentTemperature: "",
+          productComponent: "",
         });
-        navigate('/dashboard'); // Navigate to /dashboard
+        navigate("/dashboard"); // Navigate to /dashboard
       } else {
-        console.error('Failed to add product');
+        console.error("Failed to add product");
       }
     } catch (error) {
-      console.error('Error:', error.response?.data?.message || error.message);
+      console.error("Error:", error.response?.data?.message || error.message);
     }
   };
 
@@ -104,25 +109,208 @@ export default function AddNewPro() {
   };
 
   return (
-    <div className="text-2xl mx-20">
-      <h1 className="mt-8 text-4xl font-extrabold">Register New Product To Blockchain</h1>
-      <form className="flex flex-col mt-10" onSubmit={handleSubmit}>
-        <input className="border-b-2 p-4" name="manufacturerName" type="text" placeholder="Manufacturer Name" value={formData.manufacturerName} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="productName" type="text" placeholder="Product Name" value={formData.productName} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="productCategory" type="text" placeholder="Product Category" value={formData.productCategory} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="productDescription" type="text" placeholder="Product Description" value={formData.productDescription} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="issn" type="text" placeholder="ISSN" value={formData.issn} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="manufacturedDate" type="date" placeholder="Manufactured Date" value={formData.manufacturedDate} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="expiryDate" type="date" placeholder="Expiry Date" value={formData.expiryDate} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="batchNumber" type="text" placeholder="Batch Number" value={formData.batchNumber} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="nafdacRegistration" type="text" placeholder="NAFDAC Registration" value={formData.nafdacRegistration} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="quantityPerPackage" type="text" placeholder="Quantity Per Package" value={formData.quantityPerPackage} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="howManyPackage" type="text" placeholder="How many Package" value={formData.howManyPackage} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="productsPerPackage" type="text" placeholder="How many Products Per Package" value={formData.productsPerPackage} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="currentHumidity" type="text" placeholder="Current Humidity" value={formData.currentHumidity} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="currentTemperature" type="text" placeholder="Current Temperature" value={formData.currentTemperature} onChange={handleInputChange} required />
-        <input className="border-b-2 p-4" name="productComponent" type="text" placeholder="Product Component" value={formData.productComponent} onChange={handleInputChange} required />
-        <button className='bg-[#3b82f6] w-[300px] my-14 text-white text-center py-6 px-6 rounded-xl'>Submit</button>
+    <div className="text-2xl md:mx-20">
+      <h1 className="md:mt-16 mt-4 text-2xl font-bold">
+        Register New Product To Blockchain
+      </h1>
+      <form className="flex flex-col mt-4" onSubmit={handleSubmit}>
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base"> Name : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="manufacturerName"
+            type="text"
+            placeholder="Manufacturer Name"
+            value={formData.manufacturerName}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Product Name : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="productName"
+            type="text"
+            placeholder="Product Name"
+            value={formData.productName}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Product Category : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="productCategory"
+            type="text"
+            placeholder="Product Category"
+            value={formData.productCategory}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Product Description : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="productDescription"
+            type="text"
+            placeholder="Product Description"
+            value={formData.productDescription}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">ISSN : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="issn"
+            type="text"
+            placeholder="ISSN"
+            value={formData.issn}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base"> Manufactured Date : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="manufacturedDate"
+            type="date"
+            placeholder="Manufactured Date"
+            value={formData.manufacturedDate}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Expiry Date : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="expiryDate"
+            type="date"
+            placeholder="Expiry Date"
+            value={formData.expiryDate}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Batch Number : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="batchNumber"
+            type="text"
+            placeholder="Batch Number"
+            value={formData.batchNumber}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Nafdac Registration Number : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="nafdacRegistration"
+            type="text"
+            placeholder="NAFDAC Registration"
+            value={formData.nafdacRegistration}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Quantity : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="quantityPerPackage"
+            type="text"
+            placeholder="Quantity Per Package"
+            value={formData.quantityPerPackage}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">How Many : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="howManyPackage"
+            type="text"
+            placeholder="How many Package"
+            value={formData.howManyPackage}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">How many Products Per Package : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="productsPerPackage"
+            type="text"
+            placeholder="How many Products Per Package"
+            value={formData.productsPerPackage}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Current Humidity : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="currentHumidity"
+            type="text"
+            placeholder="Current Humidity"
+            value={formData.currentHumidity}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Current Temperature : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="currentTemperature"
+            type="text"
+            placeholder="Current Temperature"
+            value={formData.currentTemperature}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Product Component : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="productComponent"
+            type="text"
+            placeholder="Product Component"
+            value={formData.productComponent}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+        <button className="bg-[#3b82f6] w-[300px] my-4 text-white text-center py-2 px-6 rounded-xl">
+          Submit
+        </button>
       </form>
     </div>
   );

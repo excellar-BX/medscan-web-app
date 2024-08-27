@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
-  ComposedChart,
   PieChart,
   Pie,
   Bar,
@@ -15,18 +14,9 @@ import {
   LineChart,
   Line,
 } from "recharts";
-import { Grid, Paper, Typography } from "@mui/material";
-// import {
-//   LineChart,
-//   Line,
-//   CartesianGrid,
-//   XAxis,
-//   YAxis,
-//   Tooltip,
-//   ResponsiveContainer,
-// } from "recharts";
-// import { Pie } from "react-chartjs-2";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import flow from "../../assets/images/flow.png";
+import details from "../../assets/images/details.png";
+import recent from "../../assets/images/recent.png";
 
 const data = [
   { name: "Jan", uv: 400, pnmv: 2400, amt: 2400 },
@@ -143,13 +133,13 @@ const Dashboards = () => {
       <div className=" text-[#0084FC] font-bold text-xl leading-7 text-center mb-4">
         Overall Product Analysis
       </div>
-      {/* {error && (
+      {error && (
         <div className="bg-red-100 text-red-700 p-4 rounded mb-4">{error}</div>
-      )} */}
+      )}
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <LineChart width={600} height={300} data={data}>
+        <div className="bg-white p-6 rounded-lg shadow overflow-hidden">
+          <LineChart width={400} height={300} data={data}>
             <XAxis dataKey="name" />
             <YAxis />
             <CartesianGrid stroke="#eee" />
@@ -158,8 +148,8 @@ const Dashboards = () => {
           </LineChart>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow">
-          <PieChart width={600} height={250}>
+        <div className="bg-white p-6 rounded-lg shadow overflow-hidden">
+          <PieChart width={400} height={250}>
             <Pie
               data={pieData}
               dataKey="value"
@@ -172,8 +162,8 @@ const Dashboards = () => {
           </PieChart>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow">
-          <BarChart width={600} height={250} data={data}>
+        <div className="bg-white p-6 rounded-lg shadow overflow-hidden">
+          <BarChart width={400} height={250} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
@@ -182,6 +172,18 @@ const Dashboards = () => {
             <Bar dataKey="pnmv" fill="#8884d8" />
           </BarChart>
         </div>
+      </section>
+
+      <section className="bg-[#d9d9d932] p-4 rounded my-5 relative w-full">
+        <img src={flow} alt="bf" className="w-full  object-cover" />
+      </section>
+
+      <section className="bg-[#d9d9d932] p-4 rounded my-5 relative w-full">
+        <img src={recent} alt="bf" className="w-full  object-cover" />
+      </section>
+
+      <section className="bg-[#d9d9d932] p-4 rounded my-5 relative w-full">
+        <img src={details} alt="bf" className="w-full  object-cover" />
       </section>
     </main>
   );

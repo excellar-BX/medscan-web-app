@@ -1,5 +1,5 @@
 // src/components/Layout.jsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import {
   Drawer,
@@ -17,6 +17,7 @@ import {
   Avatar,
   styled,
   InputBase,
+  Button,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -30,10 +31,11 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import MenuIcon from "@mui/icons-material/Menu";
 // import { Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
-const drawerWidth = 300;
+const drawerWidth = 270;
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -76,53 +78,64 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Layout = () => {
   const [activeItem, setActiveItem] = useState("Dashboard"); // Default active item
+  const [small, setSmall] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
 
   const handleMenuItemClick = (item) => {
     setActiveItem(item);
   };
 
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, [width,activeItem,small]);
+
   return (
     <div style={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        style={{
-          width: `calc(100% - ${drawerWidth}px)`,
-          marginLeft: drawerWidth,
-          paddingTop: 24,
-          paddingBottom: 24,
-          backgroundColor: "#fff", // Optional: Background color for AppBar
-        }}
+      {width > 750 && (
+        <AppBar
+          position="fixed"
+          style={{
+            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
+            paddingTop: 24,
+            paddingBottom: 24,
+            backgroundColor: "#fff",
+          }}
       >
-        <Toolbar>
-          <div className=" flex-1">
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon color="#E0DEDEB2" className=" text-[#E0DEDEB2]" />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                color="#E0DEDEB2"
-                className=" text-[#E0DEDEB2]"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-          </div>
+          <Toolbar>
+            <div className=" flex-1">
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon color="#E0DEDEB2" className=" text-[#E0DEDEB2]" />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  color="#E0DEDEB2"
+                  className=" text-[#E0DEDEB2]"
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </Search>
+            </div>
 
-          <IconButton color="#E0DEDEB2">
-            <Badge badgeContent={4} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color="#E0DEDEB2">
-            <Avatar
-              alt="Profile Picture"
-              src="/dashboard/static/images/avatar/1.jpg"
-            />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+            <IconButton color="#E0DEDEB2">
+              <Badge badgeContent={4} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton color="#E0DEDEB2">
+              <Avatar
+                alt="Profile Picture"
+                src="/dashboard/static/images/avatar/1.jpg"
+              />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      )}
       <Drawer
+        className={
+          small ? " flex absolute" : " hidden md:flex absolute md:relative"
+        }
         variant="permanent"
         sx={{
           width: drawerWidth,
@@ -131,7 +144,7 @@ const Layout = () => {
             width: drawerWidth,
             boxSizing: "border-box",
             backgroundColor: "#333333",
-            paddingLeft: 6,
+            paddingLeft: 2,
           },
         }}
       >
@@ -384,15 +397,14 @@ const Layout = () => {
           </ListItem>
         </List>
       </Drawer>
-      <main
-        style={{
-          flexGrow: 1,
-          backgroundColor: "#f4f4f4",
-          padding: "20px",
-          marginTop: "64px",
-        }}
-      >
+      <main className=" bg-[#f4f4f4] px-5 pb-5 pt-0 md:pt-[70px] flex-grow">
+        <MenuIcon
+          className=" text-orange-900 absolute top-0 left-0 mx-5 my-5 text-2xl z-50"
+          onClick={() => setSmall(true)}
+        />
+        {/* <button onClick={() => setSmall(false)}> */}
         <Outlet />
+        {/* </button> */}
       </main>
     </div>
   );
