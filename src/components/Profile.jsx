@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import logi from '../assets/images/login-img.jpg';
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -85,8 +86,11 @@ export default function Profile() {
   }
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Profile</h1>
+    <div className="p-4 mt-20 bg-white shadow-md rounded-lg">
+      <h1 className="text-[26px] font-medium leading-8 uppercase mb-4">
+        Profile
+      </h1>
+      <img src={logi} className=' w-52 h-52 object-cover rounded-full my-10'/>
       {editMode ? (
         <div>
           <div className="mb-4">
@@ -131,41 +135,53 @@ export default function Profile() {
           </div>
           <button
             onClick={handleSave}
-            className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-          >
+            className="bg-blue-500 text-white px-4 py-2 rounded mr-2">
             Save
           </button>
           <button
             onClick={() => setEditMode(false)}
-            className="bg-gray-500 text-white px-4 py-2 rounded"
-          >
+            className="bg-gray-500 text-white px-4 py-2 rounded">
             Cancel
           </button>
         </div>
       ) : (
         <div>
-          <div className="mb-4">
-            <strong>Name:</strong> {user.fullName}
+          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
+            <div className="text-[16px] font-medium mb-1">Company Name:</div>
+            {editedUser.fullName}
           </div>
-          <div className="mb-4">
-            <strong>Email:</strong> {user.email}
+          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
+            <div className="text-[16px] font-medium mb-1">Address:</div>
+            {user.address}
           </div>
-          <div className="mb-4">
-            <strong>Country:</strong> {user.country}
+          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
+            <div className="text-[16px] font-medium mb-1">
+              Officail Email Address:
+            </div>
+            {user.email}
           </div>
-          <div className="mb-4">
-            <strong>Role:</strong> {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
+            <div className="text-[16px] font-medium mb-1">
+              Official Phone Number:
+            </div>
+            {user.phoneNumber}
+          </div>
+          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
+            <div className="text-[16px] font-medium mb-1">Website :</div>
+            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+          </div>
+          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
+            <div className="text-[16px] font-medium mb-1">Number of Products Manufactured :</div>
+            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
           </div>
           <button
             onClick={handleEdit}
-            className="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
-          >
+            className="bg-yellow-500 text-white px-4 py-2 rounded mr-2">
             Edit
           </button>
           <button
             onClick={handleDelete}
-            className="bg-red-500 text-white px-4 py-2 rounded"
-          >
+            className="bg-red-500 text-white px-4 py-2 rounded">
             Delete
           </button>
         </div>
