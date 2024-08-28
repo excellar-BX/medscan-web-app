@@ -7,9 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://meds-scan-backend.onrender.com/", // Replace with your backend server URL
+        target: "https://meds-scan-backend.onrender.com",
         changeOrigin: true,
-        secure: false,
+        secure: true, // Set to true if your backend uses HTTPS
       },
     },
   },
