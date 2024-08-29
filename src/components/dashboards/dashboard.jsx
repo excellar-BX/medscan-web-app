@@ -125,7 +125,7 @@ const Dashboards = () => {
   }, []);
 
   return (
-    <main className="flex-1 px-8 py-10 bg-gray-100 overflow-y-auto">
+    <main className="flex-1 px-8  bg-gray-100 overflow-y-auto">
       <header className="mb-4">
         <h1 className="text-2xl font-bold">Manufacturer Dashboard</h1>
         <p className="text-sm text-gray-600">15th of August, 2024</p>

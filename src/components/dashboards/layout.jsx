@@ -87,7 +87,7 @@ const Layout = () => {
 
   useEffect(() => {
     setWidth(window.innerWidth);
-  }, [width,activeItem,small]);
+  }, [width, activeItem, small]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -102,12 +102,12 @@ const Layout = () => {
             paddingBottom: 24,
             backgroundColor: "#fff",
           }}
-      >
+        >
           <Toolbar>
             <div className=" flex-1">
               <Search>
                 <SearchIconWrapper>
-                  <SearchIcon color="#E0DEDEB2" className=" text-[#E0DEDEB2]" />
+                  <SearchIcon color="#E0DEDEB2" className="text-[#E0DEDEB2]" />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Search…"
@@ -118,17 +118,19 @@ const Layout = () => {
               </Search>
             </div>
 
-            <IconButton color="#E0DEDEB2">
-              <Badge badgeContent={4} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton color="#E0DEDEB2">
-              <Avatar
-                alt="Profile Picture"
-                src="/dashboard/static/images/avatar/1.jpg"
-              />
-            </IconButton>
+            <div className="flex gap-4">
+              <IconButton color="#E0DEDEB2">
+                <Badge badgeContent={4} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton color="#E0DEDEB2">
+                <Avatar
+                  alt="Profile Picture"
+                  src="/dashboard/static/images/avatar/1.jpg"
+                />
+              </IconButton>
+            </div>
           </Toolbar>
         </AppBar>
       )}
@@ -162,23 +164,6 @@ const Layout = () => {
             alt="Logo"
             style={{ maxWidth: "100px", height: "100px" }}
           />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            padding: "16px",
-          }}
-        >
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            className=" text-white font-bold"
-          >
-            Home
-          </Typography>
         </Box>
         <List>
           <ListItem
@@ -397,11 +382,12 @@ const Layout = () => {
           </ListItem>
         </List>
       </Drawer>
-      <main className=" bg-[#f4f4f4] px-5 pb-5 pt-0 md:pt-[70px] flex-grow">
+      <main className=" bg-[#f4f4f4] min-h-screen px-5 flex-grow">
         <MenuIcon
           className=" text-orange-900 absolute top-0 left-0 mx-5 my-5 text-2xl z-50"
           onClick={() => setSmall(true)}
         />
+        <div className="h-[150px]"></div>
         {/* <button onClick={() => setSmall(false)}> */}
         <Outlet />
         {/* </button> */}

@@ -24,7 +24,7 @@ export default function Navlink({ isAuthenticated, userProfile }) {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <img src={logo} alt="nav-logo" className="h-10" />
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-2xl font-[500]">
               <Link to="/">MedScan </Link>{" "}
             </h1>
           </div>

@@ -1,191 +1,247 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import logi from '../assets/images/login-img.jpg';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import logi from "../assets/images/login-img.jpg";
+import { useGetUserQuery } from "../Helper/Apis/UseFetch";
+import { ErrorMessage, Field, Form } from "formik";
+import { BiPencil } from "react-icons/bi";
 
 export default function Profile() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [editMode, setEditMode] = useState(false);
-  const [editedUser, setEditedUser] = useState({});
+  const { data, isLoading } = useGetUserQuery();
 
-  useEffect(() => {
-    // Fetch user profile data
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem('token'); // Get the token from localStorage
-        const response = await axios.get('https://meds-scan-backend.onrender.com/api/auth/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(response.data);
-        setEditedUser(response.data); // Initialize editedUser with the fetched data
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [tabs, setTabs] = useState(1);
 
-    fetchProfile();
-  }, []);
-
-  const handleEdit = () => {
-    setEditMode(true);
-  };
-
-  const handleChange = (e) => {
-    setEditedUser({
-      ...editedUser,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSave = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.put('http://localhost:5000/api/auth/profile', editedUser, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUser(response.data);
-      setEditMode(false);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete('https://meds-scan-backend.vercel.app/api/auth/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // Handle successful delete, e.g., redirect to login or home page
-      localStorage.removeItem('token');
-      window.location.href = '/login';
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!user) {
-    return <div>No user data found</div>;
-  }
+  console.log(data);
 
   return (
-    <div className="p-4 mt-20 bg-white shadow-md rounded-lg">
-      <h1 className="text-[26px] font-medium leading-8 uppercase mb-4">
-        Profile
-      </h1>
-      <img src={logi} className=' w-52 h-52 object-cover rounded-full my-10'/>
-      {editMode ? (
-        <div>
-          <div className="mb-4">
-            <label className="block">Name:</label>
-            <input
-              type="text"
-              name="fullName"
-              value={editedUser.fullName}
-              onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-            />
+    <div className="p-6">
+      <div className="w-full bg-white">
+        <div className="h-[80px] text-[18px] flex gap-12 items-center px-6 w-full bg-[#5b81eb15]">
+          <div
+            className={`border-b-[2px] ${
+              tabs == 1 && "border-blue-400"
+            }  cursor-pointer py-3`}
+            onClick={() => setTabs(1)}
+          >
+            <p>Basic Information</p>
           </div>
-          <div className="mb-4">
-            <label className="block">Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={editedUser.email}
-              onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-            />
+
+          <div
+            className={`border-b-[2px] ${
+              tabs == 2 && "border-blue-400"
+            }  cursor-pointer py-3`}
+            onClick={() => setTabs(2)}
+          >
+            <p>Business Information</p>
           </div>
-          <div className="mb-4">
-            <label className="block">Country:</label>
-            <input
-              type="text"
-              name="country"
-              value={editedUser.country}
-              onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block">Role:</label>
-            <input
-              type="text"
-              name="role"
-              value={editedUser.role}
-              onChange={handleChange}
-              className="border border-gray-300 p-2 rounded"
-            />
-          </div>
-          <button
-            onClick={handleSave}
-            className="bg-blue-500 text-white px-4 py-2 rounded mr-2">
-            Save
-          </button>
-          <button
-            onClick={() => setEditMode(false)}
-            className="bg-gray-500 text-white px-4 py-2 rounded">
-            Cancel
-          </button>
         </div>
-      ) : (
-        <div>
-          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
-            <div className="text-[16px] font-medium mb-1">Company Name:</div>
-            {editedUser.fullName}
-          </div>
-          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
-            <div className="text-[16px] font-medium mb-1">Address:</div>
-            {user.address}
-          </div>
-          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
-            <div className="text-[16px] font-medium mb-1">
-              Officail Email Address:
-            </div>
-            {user.email}
-          </div>
-          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
-            <div className="text-[16px] font-medium mb-1">
-              Official Phone Number:
-            </div>
-            {user.phoneNumber}
-          </div>
-          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
-            <div className="text-[16px] font-medium mb-1">Website :</div>
-            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
-          </div>
-          <div className="mb-4 border-b px-2 py-2 gap-1 border-b-gray-300 flex-col">
-            <div className="text-[16px] font-medium mb-1">Number of Products Manufactured :</div>
-            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
-          </div>
-          <button
-            onClick={handleEdit}
-            className="bg-yellow-500 text-white px-4 py-2 rounded mr-2">
-            Edit
-          </button>
-          <button
-            onClick={handleDelete}
-            className="bg-red-500 text-white px-4 py-2 rounded">
-            Delete
-          </button>
+
+        <div className="min-h-[300px] p-12">
+          {tabs == 1 && (
+            <>
+              <div className="flex justify-between h-full">
+                <div className="bg-gray-100 rounded-[20px] shadow-sm p-6 h-[400px] font-[500] flex flex-col gap-6 w-[20%]">
+                  <div
+                    className={`text-blue-800 bg-[#9ebdff79] p-4 rounded-[50px]`}
+                  >
+                    <p>Profile</p>
+                  </div>
+
+                  <div className={`p-4 rounded-[50px]`}>
+                    <p>Security Information</p>
+                  </div>
+                </div>
+                <div className="w-[70%]">
+                  <div className="w-[100px] h-[100px] rounded-full relative bg-gray-400">
+                    <div className="absolute w-[30px] flex justify-center items-center h-[30px] bg-[#0084FC] rounded-full">
+                      <BiPencil color="white" />
+                    </div>
+                  </div>
+                  <div className="py-6 flex flex-row flex-wrap gap-[100px] w-full">
+                    <div className="h-[60px] w-[40%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                      <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
+                        Full Name
+                      </div>
+                      <div
+                        type="text"
+                        name="fullName"
+                        className="w-full bg-transparent h-full px-6 outline-none border-none"
+                      />
+                      <div>
+                        <div
+                          name="fullName"
+                          component="div"
+                          className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="h-[60px] w-[40%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                      <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
+                        Phone Number
+                      </div>
+                      <div
+                        type="text"
+                        name="fullName"
+                        className="w-full bg-transparent h-full px-6 outline-none border-none"
+                      />
+                      <div>
+                        <div
+                          name="fullName"
+                          component="div"
+                          className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="h-[60px] w-[40%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                      <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
+                        Email Address
+                      </div>
+                      <div
+                        type="text"
+                        name="fullName"
+                        className="w-full bg-transparent h-full px-6 outline-none border-none"
+                      />
+                      <div>
+                        <div
+                          name="fullName"
+                          component="div"
+                          className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="h-[60px] w-[40%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                      <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
+                        Role
+                      </div>
+                      <div
+                        type="text"
+                        name="fullName"
+                        className="w-full bg-transparent h-full px-6 outline-none border-none"
+                      />
+                      <div>
+                        <div
+                          name="fullName"
+                          component="div"
+                          className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex py-6">
+                    <div className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] bg-[#0084FC]">
+                      <span>Save Changes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {tabs == 2 && (
+            <>
+              <div className="flex justify-between h-full">
+                <div className="bg-gray-100 rounded-[20px] shadow-sm p-6 h-[400px] font-[500] flex flex-col gap-6 w-[20%]">
+                  <div
+                    className={`text-blue-800 bg-[#9ebdff79] p-4 rounded-[50px]`}
+                  >
+                    <p>Regulatory Compliance</p>
+                  </div>
+
+                  <div className={`p-4 rounded-[50px]`}>
+                    <p>Contact Information</p>
+                  </div>
+
+                  <div className={`p-4 rounded-[50px]`}>
+                    <p>Business Information</p>
+                  </div>
+                </div>
+                <div className="w-[70%]">
+                  <div className="py-6 flex flex-row flex-wrap gap-[100px] w-full">
+                    <div className="h-[60px] w-[40%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                      <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
+                        Full Name
+                      </div>
+                      <div
+                        type="text"
+                        name="fullName"
+                        className="w-full bg-transparent h-full px-6 outline-none border-none"
+                      />
+                      <div>
+                        <div
+                          name="fullName"
+                          component="div"
+                          className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="h-[60px] w-[40%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                      <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
+                        Phone Number
+                      </div>
+                      <div
+                        type="text"
+                        name="fullName"
+                        className="w-full bg-transparent h-full px-6 outline-none border-none"
+                      />
+                      <div>
+                        <div
+                          name="fullName"
+                          component="div"
+                          className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="h-[60px] w-[40%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                      <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
+                        Email Address
+                      </div>
+                      <div
+                        type="text"
+                        name="fullName"
+                        className="w-full bg-transparent h-full px-6 outline-none border-none"
+                      />
+                      <div>
+                        <div
+                          name="fullName"
+                          component="div"
+                          className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="h-[60px] w-[40%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
+                      <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
+                        Role
+                      </div>
+                      <div
+                        type="text"
+                        name="fullName"
+                        className="w-full bg-transparent h-full px-6 outline-none border-none"
+                      />
+                      <div>
+                        <div
+                          name="fullName"
+                          component="div"
+                          className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex py-6">
+                    <div className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] bg-[#0084FC]">
+                      <span>Save Changes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
