@@ -55,9 +55,32 @@ const Dashboards = () => {
   const [userId, setUserId] = useState("");
   const [manufacturerId, setManufacturerId] = useState("");
   const [error, setError] = useState("");
+  const [currentDate, setCurrentDate] = useState('');
 
   const {data} = useGetUserQuery();
   const navigate = useNavigate()
+
+
+  useEffect(() => {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'long' }); 
+    const year = date.getFullYear();
+    
+    // Function to get the ordinal suffix for the day
+    const getOrdinalSuffix = (day) => {
+      if (day > 3 && day < 21) return 'th';
+      switch (day % 10) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+      }
+    };
+
+    const formattedDate = `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
+    setCurrentDate(formattedDate);
+  }, []);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -141,7 +164,7 @@ const Dashboards = () => {
       )}
       <header className="mb-4">
         <h1 className="text-2xl font-bold">Manufacturer Dashboard</h1>
-        <p className="text-sm text-gray-600">15th of August, 2024</p>
+        <p className="text-sm text-gray-600">{currentDate}</p>
       </header>
       <div className=" text-[#0084FC] font-bold text-xl leading-7 text-center mb-4">
         Overall Product Analysis

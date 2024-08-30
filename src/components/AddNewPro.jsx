@@ -14,9 +14,7 @@ export default function AddNewPro() {
     // issn: "",
     manufacturedDate: "",
     expiryDate: "",
-    batchNumber: "",
     nafdacRegistration: "",
-    quantityPerPackage: "",
     howManyPackage: "",
     productsPerPackage: "",
     currentHumidity: "",
@@ -47,11 +45,9 @@ export default function AddNewPro() {
         manufacturerName: formData.manufacturerName,
         manufacturedDate: formData.manufacturedDate,
         expiryDate: formData.expiryDate,
-        batchNumber: formData.batchNumber,
         nafdacRegistration: formData.nafdacRegistration,
       },
       packageInformation: {
-        quantityPerPackage: formData.quantityPerPackage,
         howManyPackage: formData.howManyPackage,
         productsPerPackage: formData.productsPerPackage,
         currentHumidity: formData.currentHumidity,
@@ -82,9 +78,7 @@ export default function AddNewPro() {
           // issn: "",
           manufacturedDate: "",
           expiryDate: "",
-          batchNumber: "",
           nafdacRegistration: "",
-          quantityPerPackage: "",
           howManyPackage: "",
           productsPerPackage: "",
           currentHumidity: "",
@@ -159,17 +153,44 @@ export default function AddNewPro() {
 
         {/* Product Category */}
         <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Product Category : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="productCategory"
-            type="text"
-            placeholder="Product Category"
-            value={formData.productCategory}
-            onChange={handleInputChange}
-            required
-          />
+          <div className="text-base">Product Category:</div>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="productCategory"
+              value="Pharmaceuticals/ Drugs"
+              checked={formData.productCategory === 'Pharmaceuticals/ Drugs'}
+              onChange={handleInputChange}
+              className="text-sm"
+            />
+            Pharmaceuticals/ Drugs
+          </label>
+
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="productCategory"
+              value="Foods & Beverages"
+              checked={formData.productCategory === 'Foods & Beverages'}
+              onChange={handleInputChange}
+              className="text-sm"
+            />
+            Foods & Beverages
+          </label>
+
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="productCategory"
+              value="Cosmetics"
+              checked={formData.productCategory === 'Cosmetics'}
+              onChange={handleInputChange}
+              className="text-sm"
+            />
+            Cosmetics
+          </label>
         </section>
+
 
         {/* Product Description */}
         <section className="py-2 text-base flex-col flex justify-center gap-2">
@@ -227,20 +248,6 @@ export default function AddNewPro() {
           />
         </section>
 
-        {/* Batch Number */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Batch Number : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="batchNumber"
-            type="text"
-            placeholder="Batch Number"
-            value={formData.batchNumber}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
-
         {/* Nafdac Registration Number */}
         <section className="py-2 text-base flex-col flex justify-center gap-2">
           <div className="text-base">Nafdac Registration Number : </div>
@@ -250,20 +257,6 @@ export default function AddNewPro() {
             type="text"
             placeholder="NAFDAC Registration"
             value={formData.nafdacRegistration}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
-
-        {/* Quantity Per Package */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Quantity : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="quantityPerPackage"
-            type="text"
-            placeholder="Quantity Per Package"
-            value={formData.quantityPerPackage}
             onChange={handleInputChange}
             required
           />
@@ -283,14 +276,14 @@ export default function AddNewPro() {
           />
         </section>
 
-        {/* Products Per Package */}
+        {/* Units Per Package */}
         <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Products Per Package : </div>
+          <div className="text-base">Units Per Package : </div>
           <input
             className="px-3 py-2 text-sm rounded-xl"
             name="productsPerPackage"
             type="text"
-            placeholder="Products Per Package"
+            placeholder="Units Per Package"
             value={formData.productsPerPackage}
             onChange={handleInputChange}
             required
@@ -299,12 +292,12 @@ export default function AddNewPro() {
 
         {/* Current Humidity */}
         <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Humidity : </div>
+          <div className="text-base">Humidity in Celcius : </div>
           <input
             className="px-3 py-2 text-sm rounded-xl"
             name="currentHumidity"
             type="text"
-            placeholder="Current Humidity"
+            placeholder="Current Humidity in Celcius"
             value={formData.currentHumidity}
             onChange={handleInputChange}
             required
@@ -313,26 +306,26 @@ export default function AddNewPro() {
 
         {/* Current Temperature */}
         <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Temperature : </div>
+          <div className="text-base">Temperature in Celcius : </div>
           <input
             className="px-3 py-2 text-sm rounded-xl"
             name="currentTemperature"
             type="text"
-            placeholder="Current Temperature"
+            placeholder="Current Temperature in Celcius"
             value={formData.currentTemperature}
             onChange={handleInputChange}
             required
           />
         </section>
 
-        {/* Product Component */}
+        {/* Product Components */}
         <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Product Component : </div>
+          <div className="text-base">Product Components : </div>
           <input
             className="px-3 py-2 text-sm rounded-xl"
             name="productComponent"
             type="text"
-            placeholder="Product Component"
+            placeholder="Product Components"
             value={formData.productComponent}
             onChange={handleInputChange}
             required
