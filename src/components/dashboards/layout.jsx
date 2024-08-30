@@ -34,6 +34,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 // import { Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useGetUserQuery } from "../../Helper/Apis/UseFetch";
 
 const drawerWidth = 270;
 
@@ -81,13 +82,15 @@ const Layout = () => {
   const [small, setSmall] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
 
+  const { data } = useGetUserQuery();
+
   const handleMenuItemClick = (item) => {
     setActiveItem(item);
   };
 
   useEffect(() => {
     setWidth(window.innerWidth);
-  }, [width,activeItem,small]);
+  }, [width, activeItem, small]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -102,12 +105,12 @@ const Layout = () => {
             paddingBottom: 24,
             backgroundColor: "#fff",
           }}
-      >
+        >
           <Toolbar>
             <div className=" flex-1">
               <Search>
                 <SearchIconWrapper>
-                  <SearchIcon color="#E0DEDEB2" className=" text-[#E0DEDEB2]" />
+                  <SearchIcon color="#E0DEDEB2" className="text-[#E0DEDEB2]" />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Search…"
@@ -118,17 +121,19 @@ const Layout = () => {
               </Search>
             </div>
 
-            <IconButton color="#E0DEDEB2">
-              <Badge badgeContent={4} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton color="#E0DEDEB2">
-              <Avatar
-                alt="Profile Picture"
-                src="/dashboard/static/images/avatar/1.jpg"
-              />
-            </IconButton>
+            <div className="flex gap-4">
+              <IconButton color="#E0DEDEB2">
+                <Badge badgeContent={4} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton color="#E0DEDEB2">
+                <Avatar
+                  alt="Profile Picture"
+                  src="/dashboard/static/images/avatar/1.jpg"
+                />
+              </IconButton>
+            </div>
           </Toolbar>
         </AppBar>
       )}
@@ -163,23 +168,6 @@ const Layout = () => {
             style={{ maxWidth: "100px", height: "100px" }}
           />
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            padding: "16px",
-          }}
-        >
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            className=" text-white font-bold"
-          >
-            Home
-          </Typography>
-        </Box>
         <List>
           <ListItem
             button
@@ -202,83 +190,6 @@ const Layout = () => {
           </ListItem>
           <ListItem
             button
-            key="All Product"
-            component={Link}
-            to="/dashboard/all-products"
-            onClick={() => handleMenuItemClick("All Product")}
-            sx={{
-              color: activeItem === "All Product" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <AllOutIcon
-                style={{
-                  color: activeItem === "All Product" ? "#0084FC" : "#ffffff",
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="All Product" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
-            key="Add New Product"
-            component={Link}
-            to="/dashboard/add-products"
-            onClick={() => handleMenuItemClick("Add New Product")}
-            sx={{
-              color: activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <AddCircleOutlineIcon
-                style={{
-                  color:
-                    activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Add New Product" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
-            key="Track Product"
-            component={Link}
-            to="/dashboard/track-product"
-            onClick={() => handleMenuItemClick("Track Product")}
-            sx={{
-              color: activeItem === "Track Product" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <TrackChangesIcon
-                style={{
-                  color: activeItem === "Track Product" ? "#0084FC" : "#ffffff",
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Track Product" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
-            key="Message"
-            component={Link}
-            to="/dashboard/message"
-            onClick={() => handleMenuItemClick("Message")}
-            sx={{
-              color: activeItem === "Message" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <QuestionAnswerIcon
-                style={{
-                  color: activeItem === "Message" ? "#0084FC" : "#ffffff",
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Message" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
             key="Profile"
             component={Link}
             to="/dashboard/profile"
@@ -296,44 +207,132 @@ const Layout = () => {
             </ListItemIcon>
             <ListItemText primary="Profile" className="font-bold" />
           </ListItem>
-          <ListItem
-            button
-            key="Team Members"
-            component={Link}
-            to="/dashboard/team-members"
-            onClick={() => handleMenuItemClick("Team Members")}
-            sx={{
-              color: activeItem === "Team Members" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <GroupIcon
-                style={{
+          {data?.is_kyc_verified && (
+            <>
+              <ListItem
+                button
+                key="All Product"
+                component={Link}
+                to="/dashboard/all-products"
+                onClick={() => handleMenuItemClick("All Product")}
+                sx={{
+                  color: activeItem === "All Product" ? "#0084FC" : "#ffffff",
+                }}
+              >
+                <ListItemIcon>
+                  <AllOutIcon
+                    style={{
+                      color:
+                        activeItem === "All Product" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="All Product" className="font-bold" />
+              </ListItem>
+              <ListItem
+                button
+                key="Add New Product"
+                component={Link}
+                to="/dashboard/add-products"
+                onClick={() => handleMenuItemClick("Add New Product")}
+                sx={{
+                  color:
+                    activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
+                }}
+              >
+                <ListItemIcon>
+                  <AddCircleOutlineIcon
+                    style={{
+                      color:
+                        activeItem === "Add New Product"
+                          ? "#0084FC"
+                          : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Add New Product" className="font-bold" />
+              </ListItem>
+              <ListItem
+                button
+                key="Track Product"
+                component={Link}
+                to="/dashboard/track-product"
+                onClick={() => handleMenuItemClick("Track Product")}
+                sx={{
+                  color: activeItem === "Track Product" ? "#0084FC" : "#ffffff",
+                }}
+              >
+                <ListItemIcon>
+                  <TrackChangesIcon
+                    style={{
+                      color:
+                        activeItem === "Track Product" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Track Product" className="font-bold" />
+              </ListItem>
+              <ListItem
+                button
+                key="Message"
+                component={Link}
+                to="/dashboard/message"
+                onClick={() => handleMenuItemClick("Message")}
+                sx={{
+                  color: activeItem === "Message" ? "#0084FC" : "#ffffff",
+                }}
+              >
+                <ListItemIcon>
+                  <QuestionAnswerIcon
+                    style={{
+                      color: activeItem === "Message" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Message" className="font-bold" />
+              </ListItem>
+
+              <ListItem
+                button
+                key="Team Members"
+                component={Link}
+                to="/dashboard/team-members"
+                onClick={() => handleMenuItemClick("Team Members")}
+                sx={{
                   color: activeItem === "Team Members" ? "#0084FC" : "#ffffff",
                 }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Team Members" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
-            key="Support"
-            component={Link}
-            to="/dashboard/support"
-            onClick={() => handleMenuItemClick("Support")}
-            sx={{
-              color: activeItem === "Support" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <SupportAgentIcon
-                style={{
+              >
+                <ListItemIcon>
+                  <GroupIcon
+                    style={{
+                      color:
+                        activeItem === "Team Members" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Team Members" className="font-bold" />
+              </ListItem>
+              <ListItem
+                button
+                key="Support"
+                component={Link}
+                to="/dashboard/support"
+                onClick={() => handleMenuItemClick("Support")}
+                sx={{
                   color: activeItem === "Support" ? "#0084FC" : "#ffffff",
                 }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Support" className="font-bold" />
-          </ListItem>
+              >
+                <ListItemIcon>
+                  <SupportAgentIcon
+                    style={{
+                      color: activeItem === "Support" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Support" className="font-bold" />
+              </ListItem>
+            </>
+          )}
         </List>
         <Box
           sx={{
@@ -397,11 +396,12 @@ const Layout = () => {
           </ListItem>
         </List>
       </Drawer>
-      <main className=" bg-[#f4f4f4] px-5 pb-5 pt-0 md:pt-[70px] flex-grow">
+      <main className=" bg-[#f4f4f4] min-h-screen px-5 flex-grow">
         <MenuIcon
           className=" text-orange-900 absolute top-0 left-0 mx-5 my-5 text-2xl z-50"
           onClick={() => setSmall(true)}
         />
+        <div className="h-[150px]"></div>
         {/* <button onClick={() => setSmall(false)}> */}
         <Outlet />
         {/* </button> */}

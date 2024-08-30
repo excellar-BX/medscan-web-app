@@ -15,16 +15,16 @@ export default function OurService() {
         <div className="sm:flex-col max-w-[1440px] mx-auto py-12 flex-wrap md:justify-center gap-6 flex md:flex-row items-center">
           <div className="shadow-md p-10 w-[409px] rounded-[10px] h-[445px] bg-white">
             <img src={group1} alt="" />
-            <h3 className="py-5 font-bold">Blockchain Technology</h3>
-            <p className="text-lg">
+            <h3 className="py-5 font-[600] text-[20px]">Blockchain Technology</h3>
+            <p className="text-lg font-[400]">
               MedScan utilizes blockchain technology to create an immutable,
               tamper-proof record of every transaction in the supply chain.
             </p>
           </div>
           <div className="shadow-md p-10 w-[409px] rounded-[10px]  h-[445px] bg-white">
             <img src={group2} alt="" />
-            <h3 className="py-5 font-bold">Real-Time Monitoring</h3>
-            <p className="text-lg">
+            <h3 className="py-5 font-[600] text-[20px]">Real-Time Monitoring</h3>
+            <p className="text-lg font-[400]">
               Our platform provides real-time monitoring, smart contract
               automation and end-to-end traceability, making it easier to detect
               and eliminate counterfeit products.
@@ -32,7 +32,7 @@ export default function OurService() {
           </div>
           <div className="shadow-md p-10 w-[409px] rounded-[10px]  h-[445px] bg-white">
             <img src={group3} alt="" />
-            <h3 className="py-5 font-bold">Permission Network</h3>
+            <h3 className="py-5 font-[600] text-[20px]">Permission Network</h3>
             <p className="text-lg">
               Grant access only to authorized personnel.
             </p>
@@ -84,7 +84,7 @@ export default function OurService() {
         <div className="sm:flex-col max-w-[1440px] mx-auto py-12 flex-wrap md:justify-center gap-6 flex md:flex-row items-center">
           <div className="shadow-md p-10 w-[409px] rounded-[10px] h-[445px] bg-white">
             <img src={group1} alt="" />
-            <h3 className="py-5 font-bold">Partnerships</h3>
+            <h3 className="py-5 font-[600] text-[20px]">Partnerships</h3>
             <p className="text-lg">
               Designed specifically for the Nigerian market, addressing local
               challenges and opportunities.
@@ -92,7 +92,7 @@ export default function OurService() {
           </div>
           <div className="shadow-md p-10 w-[409px] rounded-[10px]  h-[445px] bg-white">
             <img src={group2} alt="" />
-            <h3 className="py-5 font-bold">Real-Time Monitoring</h3>
+            <h3 className="py-5 font-[600] text-[20px]">Real-Time Monitoring</h3>
             <p className="text-lg">
               Collaborating with key stakeholders, including local manufacturers
               and regulatory bodies to drive industry-wide change.
@@ -100,7 +100,7 @@ export default function OurService() {
           </div>
           <div className="shadow-md p-10 w-[409px] rounded-[10px]  h-[445px] bg-white">
             <img src={group3} alt="" />
-            <h3 className="py-5 font-bold">Innovation</h3>
+            <h3 className="py-5 font-[600] text-[20px]">Innovation</h3>
             <p className="text-lg">
               Continuously improving our technology to stay ahead of counterfeit
               threats and ensure the highest standards of product safety.

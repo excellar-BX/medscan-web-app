@@ -15,10 +15,10 @@ export default function Welcomepage() {
             <img src={bgImage} className="h-full w-full object-cover" />
           </div>
           <div className=" text-white text-center mx-auto md:max-w-[1440px] relative z-40 h-full flex justify-center items-center flex-col">
-            <h2 className="md:text-[28px] text-[20px] font-[600] py-5">
+            <h2 className="md:text-[28px] text-[20px] font-[500] py-5">
               SAFE PRODUCTS, SECURE FUTURE
             </h2>
-            <p className="md:leading-[35px] leading-[18px] lg:w-[1178px] w-[90%] text-center lg:text-[22px] text-[16px] font-[600]">
+            <p className="md:leading-[35px] leading-[18px] lg:w-[1178px] w-[90%] text-center lg:text-[22px] text-[16px] font-[400]">
               Forefront of transforming the supply chain landscape in Nigeria,
               focusing on the critical sectors of drugs, food and beverages.
               Leveraging advanced blockchain technology, we ensure the
@@ -42,12 +42,12 @@ export default function Welcomepage() {
           </div>
           <div className="md:max-w-[1440px] w-full mx-auto">
             <div className=" text-white text-start md:w-[705px] relative z-30">
-              <h2 className="lg:text-[20px] md:text-[16px] text-[14px] font-[600] py-5">
+              <h2 className="lg:text-[20px] md:text-[16px] text-[14px] font-[400] py-5">
                 At MedScan,we believe in the power of technology to create safer
                 and more transparent supply chains. Join us in our mission to
                 protect consumers and promote genuine products in Nigeria.
               </h2>
-              <p className="font-[600] lg:text-[20px] md:text-[16px] text-[14px]">
+              <p className="font-[400] lg:text-[20px] md:text-[16px] text-[14px]">
                 Download the MedScan App available on Android and iOS devices.
               </p>
               <div className="flex items-center gap-6 py-6">
