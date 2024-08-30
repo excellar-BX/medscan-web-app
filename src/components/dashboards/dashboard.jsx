@@ -17,6 +17,8 @@ import {
 import flow from "../../assets/images/flow.png";
 import details from "../../assets/images/details.png";
 import recent from "../../assets/images/recent.png";
+import { useGetUserQuery } from "../../Helper/Apis/UseFetch";
+import { useNavigate } from "react-router-dom";
 
 const data = [
   { name: "Jan", uv: 400, pnmv: 2400, amt: 2400 },
@@ -53,6 +55,9 @@ const Dashboards = () => {
   const [userId, setUserId] = useState("");
   const [manufacturerId, setManufacturerId] = useState("");
   const [error, setError] = useState("");
+
+  const {data} = useGetUserQuery();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -126,6 +131,14 @@ const Dashboards = () => {
 
   return (
     <main className="flex-1 px-8  bg-gray-100 overflow-y-auto">
+      {!data?.is_kyc_verified && (
+        <div className="bg-red-100 text-red-700 p-4 rounded mb-4 flex justify-between items-center px-6">
+          <p><b>Welcome!!</b> , Verify your kyc to get access to features</p>
+          <div className="bg-white rounded-[8px] font-[500] hover:text-white hover:bg-red-300 cursor-pointer text-red-700 p-2 px-8" onClick={() => navigate('profile')}>
+            Verify
+          </div>
+        </div>
+      )}
       <header className="mb-4">
         <h1 className="text-2xl font-bold">Manufacturer Dashboard</h1>
         <p className="text-sm text-gray-600">15th of August, 2024</p>
@@ -133,9 +146,7 @@ const Dashboards = () => {
       <div className=" text-[#0084FC] font-bold text-xl leading-7 text-center mb-4">
         Overall Product Analysis
       </div>
-      {error && (
-        <div className="bg-red-100 text-red-700 p-4 rounded mb-4">{error}</div>
-      )}
+      
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow overflow-hidden">

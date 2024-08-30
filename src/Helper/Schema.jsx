@@ -18,3 +18,11 @@ export const validationSchema = Yup.object().shape({
     .required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
+
+
+export const ProfileSchema = Yup.object().shape({
+  fullName: Yup.string().required("Full Name is required"),
+  phone: Yup.string().required("Phone Number is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  role: Yup.string().required("Role is required"),
+});

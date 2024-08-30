@@ -34,6 +34,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 // import { Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useGetUserQuery } from "../../Helper/Apis/UseFetch";
 
 const drawerWidth = 270;
 
@@ -80,6 +81,8 @@ const Layout = () => {
   const [activeItem, setActiveItem] = useState("Dashboard"); // Default active item
   const [small, setSmall] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
+
+  const { data } = useGetUserQuery();
 
   const handleMenuItemClick = (item) => {
     setActiveItem(item);
@@ -187,83 +190,6 @@ const Layout = () => {
           </ListItem>
           <ListItem
             button
-            key="All Product"
-            component={Link}
-            to="/dashboard/all-products"
-            onClick={() => handleMenuItemClick("All Product")}
-            sx={{
-              color: activeItem === "All Product" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <AllOutIcon
-                style={{
-                  color: activeItem === "All Product" ? "#0084FC" : "#ffffff",
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="All Product" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
-            key="Add New Product"
-            component={Link}
-            to="/dashboard/add-products"
-            onClick={() => handleMenuItemClick("Add New Product")}
-            sx={{
-              color: activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <AddCircleOutlineIcon
-                style={{
-                  color:
-                    activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Add New Product" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
-            key="Track Product"
-            component={Link}
-            to="/dashboard/track-product"
-            onClick={() => handleMenuItemClick("Track Product")}
-            sx={{
-              color: activeItem === "Track Product" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <TrackChangesIcon
-                style={{
-                  color: activeItem === "Track Product" ? "#0084FC" : "#ffffff",
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Track Product" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
-            key="Message"
-            component={Link}
-            to="/dashboard/message"
-            onClick={() => handleMenuItemClick("Message")}
-            sx={{
-              color: activeItem === "Message" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <QuestionAnswerIcon
-                style={{
-                  color: activeItem === "Message" ? "#0084FC" : "#ffffff",
-                }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Message" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
             key="Profile"
             component={Link}
             to="/dashboard/profile"
@@ -281,44 +207,132 @@ const Layout = () => {
             </ListItemIcon>
             <ListItemText primary="Profile" className="font-bold" />
           </ListItem>
-          <ListItem
-            button
-            key="Team Members"
-            component={Link}
-            to="/dashboard/team-members"
-            onClick={() => handleMenuItemClick("Team Members")}
-            sx={{
-              color: activeItem === "Team Members" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <GroupIcon
-                style={{
+          {data?.is_kyc_verified && (
+            <>
+              <ListItem
+                button
+                key="All Product"
+                component={Link}
+                to="/dashboard/all-products"
+                onClick={() => handleMenuItemClick("All Product")}
+                sx={{
+                  color: activeItem === "All Product" ? "#0084FC" : "#ffffff",
+                }}
+              >
+                <ListItemIcon>
+                  <AllOutIcon
+                    style={{
+                      color:
+                        activeItem === "All Product" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="All Product" className="font-bold" />
+              </ListItem>
+              <ListItem
+                button
+                key="Add New Product"
+                component={Link}
+                to="/dashboard/add-products"
+                onClick={() => handleMenuItemClick("Add New Product")}
+                sx={{
+                  color:
+                    activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
+                }}
+              >
+                <ListItemIcon>
+                  <AddCircleOutlineIcon
+                    style={{
+                      color:
+                        activeItem === "Add New Product"
+                          ? "#0084FC"
+                          : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Add New Product" className="font-bold" />
+              </ListItem>
+              <ListItem
+                button
+                key="Track Product"
+                component={Link}
+                to="/dashboard/track-product"
+                onClick={() => handleMenuItemClick("Track Product")}
+                sx={{
+                  color: activeItem === "Track Product" ? "#0084FC" : "#ffffff",
+                }}
+              >
+                <ListItemIcon>
+                  <TrackChangesIcon
+                    style={{
+                      color:
+                        activeItem === "Track Product" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Track Product" className="font-bold" />
+              </ListItem>
+              <ListItem
+                button
+                key="Message"
+                component={Link}
+                to="/dashboard/message"
+                onClick={() => handleMenuItemClick("Message")}
+                sx={{
+                  color: activeItem === "Message" ? "#0084FC" : "#ffffff",
+                }}
+              >
+                <ListItemIcon>
+                  <QuestionAnswerIcon
+                    style={{
+                      color: activeItem === "Message" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Message" className="font-bold" />
+              </ListItem>
+
+              <ListItem
+                button
+                key="Team Members"
+                component={Link}
+                to="/dashboard/team-members"
+                onClick={() => handleMenuItemClick("Team Members")}
+                sx={{
                   color: activeItem === "Team Members" ? "#0084FC" : "#ffffff",
                 }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Team Members" className="font-bold" />
-          </ListItem>
-          <ListItem
-            button
-            key="Support"
-            component={Link}
-            to="/dashboard/support"
-            onClick={() => handleMenuItemClick("Support")}
-            sx={{
-              color: activeItem === "Support" ? "#0084FC" : "#ffffff",
-            }}
-          >
-            <ListItemIcon>
-              <SupportAgentIcon
-                style={{
+              >
+                <ListItemIcon>
+                  <GroupIcon
+                    style={{
+                      color:
+                        activeItem === "Team Members" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Team Members" className="font-bold" />
+              </ListItem>
+              <ListItem
+                button
+                key="Support"
+                component={Link}
+                to="/dashboard/support"
+                onClick={() => handleMenuItemClick("Support")}
+                sx={{
                   color: activeItem === "Support" ? "#0084FC" : "#ffffff",
                 }}
-              />
-            </ListItemIcon>
-            <ListItemText primary="Support" className="font-bold" />
-          </ListItem>
+              >
+                <ListItemIcon>
+                  <SupportAgentIcon
+                    style={{
+                      color: activeItem === "Support" ? "#0084FC" : "#ffffff",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Support" className="font-bold" />
+              </ListItem>
+            </>
+          )}
         </List>
         <Box
           sx={{
