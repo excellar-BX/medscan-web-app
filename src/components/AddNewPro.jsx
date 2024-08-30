@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { saveAs } from 'file-saver';
+import { useGetUserQuery } from "../Helper/Apis/UseFetch";
 
 export default function AddNewPro() {
   const navigate = useNavigate();
@@ -23,18 +24,12 @@ export default function AddNewPro() {
   });
 
   const [pdfUrl, setPdfUrl] = useState("");
+  const {data} = useGetUserQuery()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      console.error("User ID is missing from localStorage");
-      return;
-    }
-
     const productData = {
-      userId: userId,
+      userId: data?._id,
       productInformation: {
         productName: formData.productName,
         productCategory: formData.productCategory,
