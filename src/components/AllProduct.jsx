@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 
-
 export default function AllProduct() {
   const [products, setProducts] = useState([]);
 
@@ -34,7 +33,12 @@ export default function AllProduct() {
 
   return (
     <div className="md:mx-20 mx-5 md:mt-10 mb-5 mt-5">
+      <div className="flex items-center justify-between mb-5">
       <h1 className="text-2xl font-bold md:mb-5">All Products</h1>
+      <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+          + Add New Product
+        </button>
+      </div>
       {products.length === 0 ? (
         <p className="text-center text-gray-500">No products added yet</p>
       ) : (
