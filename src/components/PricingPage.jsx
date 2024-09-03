@@ -27,7 +27,7 @@ const PricingPage = () => {
             </div>
           <Link to="/signup">
             <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-transparent hover:border hover:text-white hover:border-blue-600 transition">
-                Get Started Free
+                Get Started
             </button>
           </Link>
         </div>
@@ -46,7 +46,7 @@ const PricingPage = () => {
             </div>
           <Link to="/signup">
             <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-transparent hover:border hover:text-white hover:border-blue-600 transition">
-                Get Started Free
+                Get Started
             </button>
           </Link>
         </div>
@@ -69,7 +69,7 @@ const PricingPage = () => {
             </div>
           <Link to="/signup">
             <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-transparent hover:border hover:text-white hover:border-blue-600  transition">
-                Get Started Free
+                Get Started
             </button>
           </Link>
         </div>
@@ -96,7 +96,7 @@ const PricingPage = () => {
             </div>
           <Link to="/signup">
             <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-transparent hover:border hover:text-white hover:border-blue-600 transition">
-                Get Started Free
+                Get Started
             </button>
           </Link>
         </div>
@@ -123,7 +123,7 @@ const PricingPage = () => {
             </div>
           <Link to="/signup">
              <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-transparent hover:border hover:text-white hover:border-blue-600  transition">
-                Get Started Free
+                Get Started
             </button>
           </Link>
         </div>
