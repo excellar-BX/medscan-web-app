@@ -1,5 +1,8 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { jwtDecode } from 'jwt-decode';
+
 
 
 export default function AllProduct() {
@@ -7,27 +10,54 @@ export default function AllProduct() {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      try {
-        const userId = localStorage.getItem("userId"); // Retrieve userId from localStorage
-        const response = await axios.get(
-          `https://meds-scan-backend.onrender.com/api/products?userId=${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the token in the headers
-            },
+      let userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+  
+      // console.log("Retrieved userId:", userId);
+      // console.log("Retrieved token:", token);
+  
+      // Decode the token and set userId if not already set
+      if (!userId && token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          userId = decodedToken.userId;
+          if (userId) {
+            localStorage.setItem("userId", userId);
+          } else {
+            console.error("User ID is missing from the token");
+            return;
           }
-        );
-
-        if (response.status === 200) {
-          setProducts(response.data);
+        } catch (error) {
+          console.error("Error decoding token:", error);
+          return;
+        }
+      }
+  
+      if (!userId || !token) {
+        console.error("User ID or token is missing");
+        return;
+      }
+  
+      try {
+        const response = await fetch(`https://medscan-backend.vercel.app/api/products?userId=${userId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
         } else {
           console.error("Failed to fetch products");
         }
       } catch (error) {
-        console.error("Error:", error.response?.data?.message || error.message);
+        console.error("Error:", error.message);
       }
     };
-
+  
     fetchProducts();
   }, []);
 
@@ -35,9 +65,11 @@ export default function AllProduct() {
     <div className="md:mx-20 mx-5 md:mt-10 mb-5 mt-5">
       <div className="flex items-center justify-between mb-5">
       <h1 className="text-2xl font-bold md:mb-5">All Products</h1>
-      <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-          + Add New Product
-        </button>
+      <Link to="/dashboard/add-products">
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+            + Add New Product
+          </button>
+        </Link>
       </div>
       {products.length === 0 ? (
         <p className="text-center text-gray-500">No products added yet</p>
