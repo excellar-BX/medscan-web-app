@@ -2,6 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { saveAs } from 'file-saver';
+import { jwtDecode } from 'jwt-decode';
+
+
 
 export default function AddNewPro() {
   const navigate = useNavigate();
@@ -26,74 +29,92 @@ export default function AddNewPro() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      console.error("User ID is missing from localStorage");
+  
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Token is missing from localStorage");
       return;
     }
-
-    const productData = {
-      userId: userId,
-      productInformation: {
-        productName: formData.productName,
-        productCategory: formData.productCategory,
-        productDescription: formData.productDescription,
-        issn: formData.issn,
-      },
-      manufacturerInformation: {
-        manufacturerName: formData.manufacturerName,
-        manufacturedDate: formData.manufacturedDate,
-        expiryDate: formData.expiryDate,
-        nafdacRegistration: formData.nafdacRegistration,
-      },
-      packageInformation: {
-        howManyPackage: formData.howManyPackage,
-        productsPerPackage: formData.productsPerPackage,
-        currentHumidity: formData.currentHumidity,
-        currentTemperature: formData.currentTemperature,
-        productComponent: formData.productComponent,
-      },
-    };
-
+  
+    // Decode the token to get the userId
     try {
-      const response = await axios.post(
-        "https://meds-scan-backend.vercel.app/api/products/create",
-        productData,
-        {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.userId;
+  
+      if (!userId) {
+        console.error("User ID is missing from token");
+        return;
+      }
+  
+      console.log("Token from localStorage:", token);
+      console.log("UserId:", userId);
+  
+      // Ensure all required fields are included
+      const productData = {
+        manufacturerInformation: {
+          manufacturerName: formData.manufacturerName,
+          nafdacRegistration: formData.nafdacRegistration,
+          manufacturedDate: formData.manufacturedDate,
+          expiryDate: formData.expiryDate,
+        },
+        productInformation: {
+          productName: formData.productName,
+          productCategory: formData.productCategory,
+          productDescription: formData.productDescription,
+          // issn: formData.issn,
+        },
+        packageInformation: {
+          howManyPackage: formData.howManyPackage,
+          productsPerPackage: formData.productsPerPackage,
+          currentHumidity: formData.currentHumidity,
+          currentTemperature: formData.currentTemperature,
+          productComponent: formData.productComponent,
+        },
+        userId: userId,
+      };
+  
+      console.log("productData:", productData);
+  
+      try {
+        const response = await fetch("https://medscan-backend.vercel.app/api/products/create", {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
-        }
-      );
-
-      if (response.status === 201) {
-        console.log("Product added successfully");
-        setFormData({
-          manufacturerName: "",
-          productName: "",
-          productCategory: "",
-          productDescription: "",
-          // issn: "",
-          manufacturedDate: "",
-          expiryDate: "",
-          nafdacRegistration: "",
-          howManyPackage: "",
-          productsPerPackage: "",
-          currentHumidity: "",
-          currentTemperature: "",
-          productComponent: "",
+          body: JSON.stringify(productData),
         });
-        setPdfUrl(response.data.pdfPath);
-      } else {
-        console.error("Failed to add product");
+  
+        if (response.status === 201) {
+          const data = await response.json()
+          console.log("Product added successfully");
+          setFormData({
+            manufacturerName: "",
+            productName: "",
+            productCategory: "",
+            productDescription: "",
+            // issn: "",
+            manufacturedDate: "",
+            expiryDate: "",
+            nafdacRegistration: "",
+            howManyPackage: "",
+            productsPerPackage: "",
+            currentHumidity: "",
+            currentTemperature: "",
+            productComponent: "",
+          });
+          setPdfUrl(response.data.pdfPath);
+        } else {
+          console.error("Failed to add product");
+        }
+      } catch (error) {
+        console.error("Error:", error.response?.data?.message || error.message);
       }
     } catch (error) {
-      console.error("Error:", error.response?.data?.message || error.message);
+      console.error("Error decoding token:", error);
     }
   };
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({

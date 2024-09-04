@@ -6,6 +6,7 @@ import bgImage from "../assets/images/Rectangle 2hero-img.png";
 import bgImage2 from "../assets/images/Rectangle 18footer-img-1.png";
 import google from "../assets/images/google.png";
 import apple from "../assets/images/apple.png";
+import PricingPage from "./PricingPage";
 export default function Welcomepage() {
   return (
     <>
@@ -35,6 +36,9 @@ export default function Welcomepage() {
       </div>
       <OurService />
 
+      {/* Pricing Plan */}
+      <PricingPage/>
+      {/*  */}
       <div className="w-full md:h-[421px]">
         <div className="relative h-full w-full md:p-16 p-6">
           <div className="absolute top-0 right-0 bg-black w-full z-30 h-full">
