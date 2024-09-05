@@ -107,67 +107,7 @@ const Dashboards = () => {
         console.log(token);
         
         
-        try {
-          const [salesTrendRes, marketShareRes, topProductsRes] = await Promise.all([
-            axios.get(
-              "https://meds-scan-end.render.com/api/dashboard/sales-trend",
-              { headers }
-            ),
-            axios.get(
-              "https://meds-scan-end.render.com/api/dashboard/market-share",
-              { headers }
-            ),
-            axios.get(
-              "https://meds-scan-end.render.com/api/dashboard/top-products",
-              { headers }
-            ),
-        // const headers = { Authorization: `Bearer ${token}` };
-
-        // const [salesTrendRes, marketShareRes, topProductsRes] =
-        //   await Promise.all([
-        //     axios.get(
-        //       "https://medscan-backend.vercel.app/api/dashboard/sales-trend",
-        //       { headers }
-        //     ),
-        //     axios.get(
-        //       "https://medscan-backend.vercel.app/api/dashboard/market-share",
-        //       { headers }
-        //     ),
-        //     axios.get(
-        //       "https://medscan-backend.vercel.app/api/dashboard/top-products",
-        //       { headers }
-        //     ),
-        //   ]);
-
-        const headers = { Authorization: `Bearer ${token}` };
-
-        const [salesTrendRes, marketShareRes, topProductsRes] =
-          await Promise.all([
-            fetch("https://medscan-backend.vercel.app/api/dashboard/sales-trend", { headers })
-              .then((res) => res.json()),
-            fetch("https://medscan-backend.vercel.app/api/dashboard/market-share", { headers })
-              .then((res) => res.json()),
-            fetch("https://medscan-backend.vercel.app/api/dashboard/top-products", { headers })
-              .then((res) => res.json()),
-          ]);
-
-
-        const headers = { Authorization: `Bearer ${token}` };
-
-        const [salesTrendRes, marketShareRes, topProductsRes] =
-          await Promise.all([
-            fetch("https://medscan-backend.vercel.app/api/dashboard/sales-trend", { headers })
-              .then((res) => res.json()),
-            fetch("https://medscan-backend.vercel.app/api/dashboard/market-share", { headers })
-              .then((res) => res.json()),
-            fetch("https://medscan-backend.vercel.app/api/dashboard/top-products", { headers })
-              .then((res) => res.json()),
-          ]);
         
-          console.log(salesTrendRes.data, marketShareRes.data, topProductsRes.data);
-        } catch (error) {
-          console.error("Error fetching data:", error.response?.status, error.response?.data);
-        }
         
         console.log("Sales Trend Response:", salesTrendRes.data);
         console.log("Market Share Response:", marketShareRes.data);
