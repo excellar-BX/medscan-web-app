@@ -207,7 +207,7 @@ const Layout = () => {
             </ListItemIcon>
             <ListItemText primary="Profile" className="font-bold" />
           </ListItem>
-          {data?.is_kyc_verified && (
+          {data && (
             <>
               <ListItem
                 button

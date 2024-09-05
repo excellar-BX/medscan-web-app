@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
 
-
-
 export default function AllProduct() {
   const [products, setProducts] = useState([]);
 

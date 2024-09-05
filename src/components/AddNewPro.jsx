@@ -3,11 +3,16 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { saveAs } from 'file-saver';
 import { jwtDecode } from 'jwt-decode';
+import { useGetUserQuery } from "../Helper/Apis/UseFetch";
+
+
 
 
 
 export default function AddNewPro() {
   const navigate = useNavigate();
+
+  const { data } = useGetUserQuery();
 
   const [formData, setFormData] = useState({
     manufacturerName: "",
@@ -86,7 +91,12 @@ export default function AddNewPro() {
         });
   
         if (response.status === 201) {
-          const data = await response.json()
+          // const data = await response.json()
+          const data = await response.json();
+            console.log("Response data:", data);
+          console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+          console.log("Response from backend:",data);
+          console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
           console.log("Product added successfully");
           setFormData({
             manufacturerName: "",
@@ -103,7 +113,16 @@ export default function AddNewPro() {
             currentTemperature: "",
             productComponent: "",
           });
-          setPdfUrl(response.data.pdfPath);
+           // Extract pdfUrl from the response
+            // Log the entire response object
+          console.log("Full response:", response);
+
+          if (data && data.pdfUrl) {
+            // Download the PDF
+            downloadPdf(data.pdfUrl);
+          } else {
+            console.error("PDF URL is not available");
+          }
         } else {
           console.error("Failed to add product");
         }
@@ -123,18 +142,37 @@ export default function AddNewPro() {
     }));
   };
 
-  const handleDownloadAndNavigate = async () => {
-    if (pdfUrl) {
-      try {
-        const response = await axios.get(`https://meds-scan-backend.vercel.app/${pdfUrl}`, {
-          responseType: 'blob',
-        });
-        const blob = new Blob([response.data], { type: 'application/pdf' });
-        saveAs(blob, 'product_codes.pdf');
-        navigate('/dashboard');
-      } catch (error) {
-        console.error('Error downloading the PDF:', error);
-      }
+  // const handleDownloadAndNavigate = async () => {
+  //   if (pdfUrl) {
+  //     try {
+  //       const response = await axios.get(`https://meds-scan-backend.vercel.app/${pdfUrl}`, {
+  //         responseType: 'blob',
+  //       });
+  //       const blob = new Blob([response.data], { type: 'application/pdf' });
+  //       saveAs(blob, 'product_codes.pdf');
+  //       navigate('/dashboard');
+  //     } catch (error) {
+  //       console.error('Error downloading the PDF:', error);
+  //     }
+  //   }
+  // };
+  // Function to handle downloading the PDF
+  const downloadPdf = async (url) => {
+    try {
+      const response = await axios.get(url, {
+        responseType: "blob", // Ensures the response is treated as a file
+      });
+  
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = "product_codes.pdf"; // You can customize the filename
+      link.click();
+  
+      // Clean up the URL object
+      window.URL.revokeObjectURL(link.href);
+    } catch (error) {
+      console.error("Error downloading the PDF:", error);
     }
   };
 
@@ -353,13 +391,19 @@ export default function AddNewPro() {
           />
         </section>
 
-        {/* Submit Button */}
-        <button
-          className="bg-blue-700 w-[300px]  py-2 px-4 text-sm text-white rounded-xl mt-4"
-          type="submit"
-        >
-          Register
-        </button>
+          {/* Submit button */}
+        {data?. is_kyc_verified ?(
+          <button
+            className="bg-blue-700 w-[300px] py-2 px-4 text-sm text-white rounded-xl mt-4"
+            type="submit"
+          >
+            Register
+          </button>
+        ) : (
+          <p className="text-red-500 mt-4">
+            Verify your KYC to register a product 
+          </p>
+        )}
       </form>
 
       {/* Download Button */}
