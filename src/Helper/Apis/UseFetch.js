@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { BiLogIn } from "react-icons/bi";
 
 export const fetch = createApi({
   reducerPath: "fetch",
@@ -8,7 +9,8 @@ export const fetch = createApi({
     prepareHeaders: (headers) => {
       // Get the token from local storage (or wherever you store it)
       const token = localStorage.getItem("token");
-
+        console.log(token);
+        
       // If a token is found, add it to the Authorization header
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -27,10 +29,11 @@ export const fetch = createApi({
     getKyc: builder.query({
       query: () => ({
         url: "/kyc/verification",
-        method: "GET",
+        method: "POST",
       }),
     }),
   }),
 });
+
 
 export const { useGetUserQuery , useGetKycQuery } = fetch;

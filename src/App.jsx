@@ -16,6 +16,9 @@ import Profile from "./components/Profile";
 import ManufacturerForm from "./components/ManufacturerForm";
 import Layout from "./components/dashboards/layout";
 import Dashboards from "./components/dashboards/dashboard";
+import State from "./components/country";
+import CountryState from "./components/country";
+import PhoneNumberInput from "./components/phoneNumber";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -70,9 +73,11 @@ function App() {
           <Route path="" element={<Welcomepage />} />
         </Route>
 
-        <Route path="login" element={<SigninDistributor />} />
+        <Route path="/login" element={<SigninDistributor />} />
         <Route path="/signup" element={<SignOption />} />
         <Route path="signup/:type" element={<LogDistributor />} />
+        <Route path='/country' element={<CountryState />} />
+        <Route path='/number' element={<PhoneNumberInput />} />
         <Route
           path="/dashboards"
           element={<ProtectedRoute component={Dashboard} />}

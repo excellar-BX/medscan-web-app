@@ -91,24 +91,34 @@ const Dashboards = () => {
           return;
         }
 
-        const headers = { Authorization: `Bearer ${token}` };
-
-        const [salesTrendRes, marketShareRes, topProductsRes] =
-          await Promise.all([
+        const headers = {
+          Authorization: `Bearer ${your_token}`,
+          'Content-Type': 'application/json',
+        };
+        console.log(token);
+        
+        
+        try {
+          const [salesTrendRes, marketShareRes, topProductsRes] = await Promise.all([
             axios.get(
-              "https://meds-scan-backend.onrender.com/api/dashboard/sales-trend",
+              "https://meds-scan-end.render.com/api/dashboard/sales-trend",
               { headers }
             ),
             axios.get(
-              "https://meds-scan-backend.onrender.com/api/dashboard/market-share",
+              "https://meds-scan-end.render.com/api/dashboard/market-share",
               { headers }
             ),
             axios.get(
-              "https://meds-scan-backend.onrender.com/api/dashboard/top-products",
+              "https://meds-scan-end.render.com/api/dashboard/top-products",
               { headers }
             ),
           ]);
-
+        
+          console.log(salesTrendRes.data, marketShareRes.data, topProductsRes.data);
+        } catch (error) {
+          console.error("Error fetching data:", error.response?.status, error.response?.data);
+        }
+        
         console.log("Sales Trend Response:", salesTrendRes.data);
         console.log("Market Share Response:", marketShareRes.data);
         console.log("Top Products Response:", topProductsRes.data);

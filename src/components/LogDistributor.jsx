@@ -8,20 +8,59 @@ import { useCreateUserMutation } from "../Helper/Apis/UseMutate";
 import { useEffect, useState } from "react";
 import { CgDanger } from "react-icons/cg";
 import { BiCheckCircle } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import State from "./country";
+import CountryState from "./country";
+import PhoneNumberInput from "./phoneNumber";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+
+import * as Yup from "yup";
+
+const LocalSignupSchema = Yup.object().shape({
+  fullName: Yup.string().required("Full Name is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  companyName:  Yup.string().required("company Name is required"),
+  phone: Yup.string().required("Phone number is required"), 
+  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm password is required"),
+});
+
 
 export default function LogDistributor() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [createUser] = useCreateUserMutation();
-  const [message, setMessage] = useState({
-    success: "",
-    error: "",
-  });
+  const [message, setMessage] = useState({ success: "", error: "" });
   const { type } = useParams();
 
+  const [countryValue, setCountryValue] = useState("");
+  const [stateValue, setStateValue] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(""); 
+
+  const handleCountryChange = (event) => {
+    setCountryValue(event.target.value);
+    setStateValue(""); 
+  };
+
+  const handleStateChange = (event) => {
+    setStateValue(event.target.value);
+  };
+
+  const handlePhoneNumberChange = (value) => {
+    setPhoneNumber(value); 
+  };
+  
+
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+
   useEffect(() => {
-    setTimeout(() => {
-      setMessage({});
-    }, 8000);
+    const timer = setTimeout(() => setMessage({}), 8000);
+    return () => clearTimeout(timer);
   }, [message.error, message.success]);
 
   return (
@@ -40,43 +79,28 @@ export default function LogDistributor() {
       )}
       <div className="w-full h-full">
         <div className="relative h-full flex">
-          <img
-            src={bgImage}
-            alt=""
-            className="w-full absolute z-20 object-cover"
-          />
-          <div className="lg:w-[100%] w-0 flex justify-center items-center h-full relative z-40">
-            <img src={logi} alt="" className="top-0 z-40 contrast-200 w-44" />
+        <div
+  className="w-[800px] h-[full] bg-cover bg-center"
+  style={{ backgroundImage: "url('http://localhost:5173/src/assets/images/login-img.jpg')" }}
+>
+            <img src={logi} alt="login" className="w-full h-full" />
           </div>
 
-          <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded-l-[10px] items-center flex flex-col  h-full relative z-40">
+          <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded items-center flex flex-col h-full relative z-40">
             <h3 className="font-[800] text-[30px]">Create Account</h3>
-            <p className="md:text-[16px] text-center">
+            <p className="md:text-[16px] text-center mb-5">
               You are creating an account as a {type}
             </p>
 
             <Formik
-              initialValues={{
-                fullName: "",
-                email: "",
-                phone: "",
-                password: "",
-                agreeToTerms: false,
-                role: type,
-              }}
-              validationSchema={SignupSchema}
+              initialValues={{ fullName: "", email: "", phone: "", password: "", confirmPassword: "" }}
+              validationSchema={LocalSignupSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  await createUser(values)
-                    .unwrap()
-                    .then((data) => {
-                      setMessage({
-                        success: "Account created successfully",
-                        error: "",
-                      });
-                      localStorage.setItem("token", data?.token);
-                      navigate('/login')
-                    });
+                  const data = await createUser(values).unwrap();
+                  setMessage({ success: "Account created successfully", error: "" });
+                  localStorage.setItem("token", data?.token);
+                  navigate("/login");
                 } catch (error) {
                   setMessage({ success: "", error: error?.data?.message });
                 } finally {
@@ -85,161 +109,71 @@ export default function LogDistributor() {
               }}
             >
               {({ isSubmitting }) => (
-                <Form className="py-10 flex flex-col gap-[60px] w-[100%]">
-                  <div className="h-[60px] w-[100%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
-                    <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
-                      Full Name
-                    </div>
-                    <Field
-                      type="text"
-                      name="fullName"
-                      className="w-full bg-transparent h-full px-6 outline-none border-none"
-                    />
-                    <div>
-                      <ErrorMessage
-                        name="fullName"
-                        component="div"
-                        className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
-                      />
-                    </div>
+                <Form className="space-y-4">
+                  {/* Full Name */}
+                  <div className="relative border border-gray-300 rounded-lg">
+                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Full Name</label>
+                    <Field name="fullName" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
+                    <ErrorMessage name="fullName" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  <div className="h-[60px] w-[100%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
-                    <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
-                      Email Address
-                    </div>
-                    <Field
-                      type="email"
-                      name="email"
-                      className="w-full bg-transparent h-full px-6 outline-none border-none"
-                    />
-                    <div>
-                      <ErrorMessage
-                        name="email"
-                        component="div"
-                        className="text-red-500 text-sm border-l-4  border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
-                      />
-                    </div>
+                  {/* Email */}
+                  <div className="relative border border-gray-300 rounded-lg">
+                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Email</label>
+                    <Field type="email" name="email" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
+                    <ErrorMessage name="email" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  <div>
-                    <div className="h-[60px] w-[100%] flex relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
-                      <div className="bg-gray-100 w-[20%] rounded-l-[8px] h-full flex justify-center items-center">
-                        <span className="font-[500]">+234</span>
-                      </div>
-                      <Field
-                        type="text"
-                        name="phone"
-                        placeholder="Enter your phone Number"
-                        className="w-[80%] h-full px-4 outline-none border-none"
-                        inputMode="numeric"
-                        maxLength={10}
-                      />
+                  {/* Phone Number */}
+                  <div className="relative border border-gray-300 rounded-lg">
+        <Field name="phone" component={PhoneNumberInput} />
+        <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
+      </div>
+                    {/* Full Name */}
+                    <div className="relative border border-gray-300 rounded-lg">
+                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Company Name</label>
+                    <Field name="companyName" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
+                    <ErrorMessage name="companyName" component="div" className="text-red-500 text-xs" />
+                  </div>
+                  {/* Password */}
+                  <div className="relative border border-gray-300 rounded-lg">
+                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Password</label>
+                    <Field type={showPassword ? "text" : "password"} name="password" className="w-full px-4 py-2" />
+                    <div className="absolute right-2 top-1/2 cursor-pointer" onClick={togglePasswordVisibility}>
+                      {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
                     </div>
-                    <div>
-                      <ErrorMessage
-                        name="phone"
-                        component="div"
-                        className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
-                      />
-                    </div>
+                    <ErrorMessage name="password" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  <div className="h-[60px] w-[100%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
-                    <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
-                      Company Name
+                  {/* Confirm Password */}
+                  <div className="relative border border-gray-300 rounded-lg">
+                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Confirm Password</label>
+                    <Field type={showConfirmPassword ? "text" : "password"} name="confirmPassword" className="w-full px-4 py-2" />
+                    <div className="absolute right-2 top-1/2 cursor-pointer" onClick={toggleConfirmPasswordVisibility}>
+                      {showConfirmPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
                     </div>
-                    <Field
-                      type="text"
-                      name="companyName"
-                      className="w-full bg-transparent h-full px-6 outline-none border-none"
-                    />
-                    <div>
-                      <ErrorMessage
-                        name="companyName"
-                        component="div"
-                        className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
-                      />
-                    </div>
+                    <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  <div className="h-[60px] w-[100%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
-                    <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
-                      Password
-                    </div>
-                    <Field
-                      type="password"
-                      name="password"
-                      className="w-full bg-transparent h-full px-6 outline-none border-none"
-                    />
-                    <div>
-                      <ErrorMessage
-                        name="password"
-                        component="div"
-                        className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
-                      />
-                    </div>
+                  {/* Country and State */}
+                  <CountryState countryValue={countryValue} stateValue={stateValue} handleCountryChange={handleCountryChange} handleStateChange={handleStateChange} />
+
+                  {/* Agree to Terms */}
+                  <div className="flex items-center space-x-2">
+                    <Field type="checkbox" name="agreeToTerms" className="w-4 h-4" />
+                    <label htmlFor="agreeToTerms" className="text-sm">I agree to the terms and conditions</label>
+                    <ErrorMessage name="agreeToTerms" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  <div className="h-[60px] w-[100%] relative border-[0.6px] border-[#f1f1f1] rounded-[8px]">
-                    <div className="p-2 absolute font-[500] -top-5 left-3 bg-white text-[14px]">
-                      Confirm Password
-                    </div>
-                    <Field
-                      type="password"
-                      name="confirmPassword"
-                      className="w-full bg-transparent h-full px-6 outline-none border-none"
-                    />
-                    <div>
-                      <ErrorMessage
-                        name="confirmPassword"
-                        component="div"
-                        className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-6">
-                    <div className="flex gap-4 font-[500] text-[14px] items-center">
-                      <Field
-                        type="checkbox"
-                        name="agreeToTerms"
-                        className="border-[1px] border-[#494949] w-[20px] h-[20px]"
-                      />
-                      <p>
-                        I agree to the{" "}
-                        <span className="text-[#0084FC]">Terms of Service</span>{" "}
-                        and{" "}
-                        <span className="text-[#0084FC]">Privacy Policy</span>
-                      </p>
-                    </div>
-
-                    <div>
-                      <ErrorMessage
-                        name="agreeToTerms"
-                        component="div"
-                        className="text-red-500 text-sm border-l-4 mt-3 border-[#e93b3b] px-4 bg-red-100 h-[30px] rounded flex justify-between items-center"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="px-6 h-[55px] text-white flex justify-center font-[500] items-center rounded-[5px] bg-[#0084FC]"
-                    >
-                      {isSubmitting ? "Submitting..." : "Create Account"}
-                    </button>
-                    <div className="flex justify-center text-[14px] font-[500] items-center">
-                      <p>
-                        Already have an account?{" "}
-                        <span className="text-[#0084FC]">Log in</span>
-                      </p>
-                    </div>
-                  </div>
+                  {/* Submit */}
+                  <button type="submit" disabled={isSubmitting} className="w-full bg-red-500 text-white py-2 rounded-lg">
+                    {isSubmitting ? "Submitting..." : "Submit"}
+                  </button>
                 </Form>
               )}
             </Formik>
           </div>
+
         </div>
       </div>
     </div>
