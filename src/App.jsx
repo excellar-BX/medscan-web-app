@@ -54,10 +54,10 @@ function App() {
       setUserProfile(data);
     } catch (error) {
       console.error("Error fetching user profile:", error);
-      // localStorage.removeItem("token"); // Remove token from local storage
+      localStorage.removeItem("token"); // Remove token from local storage
       setIsAuthenticated(false); // Set authentication state to false
       setUserProfile(null); // Clear user profile
-      // window.location.href = "/option"; // Redirect to login page
+      window.location.href = "/option"; // Redirect to login page
     }
   };
 
