@@ -16,6 +16,8 @@ import Profile from "./components/Profile";
 import ManufacturerForm from "./components/ManufacturerForm";
 import Layout from "./components/dashboards/layout";
 import Dashboards from "./components/dashboards/dashboard";
+import ContactUs from "./components/ContactUs";
+import AboutUs from "./components/AboutUs";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -68,6 +70,8 @@ function App() {
             />
           }>
           <Route path="" element={<Welcomepage />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/about-us" element={<AboutUs />} />
         </Route>
 
         <Route path="login" element={<SigninDistributor />} />
