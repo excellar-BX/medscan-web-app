@@ -175,6 +175,7 @@ export default function AddNewPro() {
       console.error("Error downloading the PDF:", error);
     }
   };
+  
 
   return (
     <div className="text-2xl md:mx-20">
