@@ -81,7 +81,7 @@ export default function AddNewPro() {
       console.log("productData:", productData);
   
       try {
-        const response = await fetch("https://medscan-backend.vercel.app/api/products/create", {
+        const response = await fetch("http://localhost:5000/api/products/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -166,7 +166,7 @@ export default function AddNewPro() {
       const blob = new Blob([response.data], { type: "application/pdf" });
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
-      link.download = "product_codes.pdf"; // You can customize the filename
+      link.download = "product_codes.pdf";
       link.click();
   
       // Clean up the URL object
@@ -392,18 +392,18 @@ export default function AddNewPro() {
         </section>
 
           {/* Submit button */}
-        {data?. is_kyc_verified ?(
+        {/* {data?( */}
           <button
             className="bg-blue-700 w-[300px] py-2 px-4 text-sm text-white rounded-xl mt-4"
             type="submit"
           >
             Register
           </button>
-        ) : (
+        {/* ) : (
           <p className="text-red-500 mt-4">
             Verify your KYC to register a product 
           </p>
-        )}
+        )} */}
       </form>
 
       {/* Download Button */}
