@@ -79,9 +79,9 @@ export default function AddNewPro() {
       };
   
       console.log("productData:", productData);
-  
+      // http://localhost:5000/api/products/create
       try {
-        const response = await fetch("http://localhost:5000/api/products/create", {
+        const response = await fetch("https://medscan-backend.vercel.app/api/products/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
