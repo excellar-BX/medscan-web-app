@@ -16,9 +16,14 @@ import Profile from "./components/Profile";
 import ManufacturerForm from "./components/ManufacturerForm";
 import Layout from "./components/dashboards/layout";
 import Dashboards from "./components/dashboards/dashboard";
+<<<<<<< HEAD
 import State from "./components/country";
 import CountryState from "./components/country";
 import PhoneNumberInput from "./components/phoneNumber";
+=======
+import ContactUs from "./components/ContactUs";
+import AboutUs from "./components/AboutUs";
+>>>>>>> 42977be9b9d9b115486133657403c9b199867c9f
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -52,10 +57,10 @@ function App() {
       setUserProfile(data);
     } catch (error) {
       console.error("Error fetching user profile:", error);
-      localStorage.removeItem("token"); // Remove token from local storage
+      // localStorage.removeItem("token"); // Remove token from local storage
       setIsAuthenticated(false); // Set authentication state to false
       setUserProfile(null); // Clear user profile
-      window.location.href = "/option"; // Redirect to login page
+      // window.location.href = "/option"; // Redirect to login page
     }
   };
 
@@ -71,6 +76,8 @@ function App() {
             />
           }>
           <Route path="" element={<Welcomepage />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/about-us" element={<AboutUs />} />
         </Route>
 
         <Route path="/login" element={<SigninDistributor />} />

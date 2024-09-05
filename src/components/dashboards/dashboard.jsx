@@ -25,28 +25,37 @@ const data = [
   { name: "Feb", uv: 300, pnmv: 1398, amt: 2210 },
   { name: "Mar", uv: 200, pnmv: 9800, amt: 2290 },
   { name: "Apr", uv: 278, pnmv: 3908, amt: 2000 },
+  { name: "May", uv: 250, pnmv: 3908, amt: 2000 },
+  { name: "Jun", uv: 278, pnmv: 3908, amt: 2000 },
 ];
 
-const pieData = {
-  labels: ["Red", "Blue", "Yellow"],
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [12, 19, 3],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
+// const pieData = {
+//   labels: ["Red", "Blue", "Yellow"],
+//   datasets: [
+//     {
+//       label: "# of Votes",
+//       data: [12, 19, 3],
+//       backgroundColor: [
+//         "rgba(255, 99, 132, 0.2)",
+//         "rgba(54, 162, 235, 0.2)",
+//         "rgba(255, 206, 86, 0.2)",
+//       ],
+//       borderColor: [
+//         "rgba(255, 99, 132, 1)",
+//         "rgba(54, 162, 235, 1)",
+//         "rgba(255, 206, 86, 1)",
+//       ],
+//       borderWidth: 1,
+//     },
+//   ],
+// };
+
+const pieData = [
+  { name: "Red", value: 12 },
+  { name: "Blue", value: 19 },
+  { name: "Yellow", value: 3 },
+];
+
 
 const Dashboards = () => {
   const [salesTrend, setSalesTrend] = useState([]);
@@ -57,7 +66,7 @@ const Dashboards = () => {
   const [error, setError] = useState("");
   const [currentDate, setCurrentDate] = useState('');
 
-  const {data} = useGetUserQuery();
+  const {data:userData} = useGetUserQuery();
   const navigate = useNavigate()
 
 
@@ -91,6 +100,7 @@ const Dashboards = () => {
           return;
         }
 
+<<<<<<< HEAD
         const headers = {
           Authorization: `Bearer ${your_token}`,
           'Content-Type': 'application/json',
@@ -112,6 +122,36 @@ const Dashboards = () => {
               "https://meds-scan-end.render.com/api/dashboard/top-products",
               { headers }
             ),
+=======
+        // const headers = { Authorization: `Bearer ${token}` };
+
+        // const [salesTrendRes, marketShareRes, topProductsRes] =
+        //   await Promise.all([
+        //     axios.get(
+        //       "https://medscan-backend.vercel.app/api/dashboard/sales-trend",
+        //       { headers }
+        //     ),
+        //     axios.get(
+        //       "https://medscan-backend.vercel.app/api/dashboard/market-share",
+        //       { headers }
+        //     ),
+        //     axios.get(
+        //       "https://medscan-backend.vercel.app/api/dashboard/top-products",
+        //       { headers }
+        //     ),
+        //   ]);
+
+        const headers = { Authorization: `Bearer ${token}` };
+
+        const [salesTrendRes, marketShareRes, topProductsRes] =
+          await Promise.all([
+            fetch("https://medscan-backend.vercel.app/api/dashboard/sales-trend", { headers })
+              .then((res) => res.json()),
+            fetch("https://medscan-backend.vercel.app/api/dashboard/market-share", { headers })
+              .then((res) => res.json()),
+            fetch("https://medscan-backend.vercel.app/api/dashboard/top-products", { headers })
+              .then((res) => res.json()),
+>>>>>>> 42977be9b9d9b115486133657403c9b199867c9f
           ]);
         
           console.log(salesTrendRes.data, marketShareRes.data, topProductsRes.data);
@@ -183,17 +223,23 @@ const Dashboards = () => {
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow overflow-hidden">
-          <LineChart width={400} height={300} data={data}>
+          {/* <LineChart width={400} height={300} data={data}>
             <XAxis dataKey="name" />
             <YAxis />
             <CartesianGrid stroke="#eee" />
             <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-            {/* <Line type="monotone" dataKey="pv" stroke="#82ca9d" /> */}
-          </LineChart>
+          </LineChart> */}
+           <LineChart width={400} height={300} data={data}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+              <Tooltip />
+              <Line type="monotone" dataKey="uv" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow overflow-hidden">
-          <PieChart width={400} height={250}>
+          {/* <PieChart width={400} height={250}>
             <Pie
               data={pieData}
               dataKey="value"
@@ -203,18 +249,39 @@ const Dashboards = () => {
               outerRadius={50}
               fill="#8884d8"
             />
+          </PieChart> */}
+          <PieChart width={400} height={250}>
+            <Pie
+              data={pieData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={50}
+              fill="#8884d8"
+              label
+            />
+            <Tooltip />
           </PieChart>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow overflow-hidden">
-          <BarChart width={400} height={250} data={data}>
+          {/* <BarChart width={400} height={250} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend />
             <Bar dataKey="pnmv" fill="#8884d8" />
-          </BarChart>
+          </BarChart> */}
+           <BarChart width={400} height={300} data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="pnmv" fill="#8884d8" />
+            </BarChart>
         </div>
       </section>
 

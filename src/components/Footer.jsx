@@ -4,7 +4,7 @@ import logo from '../assets/images/image 2.png';
 
 export default function Footer() {
   return (
-    <div className='bg-[#000000CC] text-white   lg:pt-20'>
+    <div className='bg-[#000000CC] text-white   lg:pt-10 lg:px-10'>
       <div className='md:max-w-[1440px] lg:px-0 p-8 mx-auto flex flex-wrap justify-between gap-8'>
         {/* Logo and Title */}
         <div className='flex flex-col items-center md:items-start md:w-fit w-full'>

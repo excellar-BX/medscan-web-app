@@ -29,6 +29,20 @@ export default function Navlink({ isAuthenticated, userProfile }) {
             </h1>
           </div>
 
+          <div className="lg:flex gap-5 items-center max-sm:hidden sm:hidden max-md:hidden md:hidden">
+            <div className="flex items-center space-x-4">
+              <h1 className="text-2xl font-[500] hover:underline hover:decoration-blue-500">
+                <Link to="/about-us">About</Link>{" "}
+              </h1>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <h1 className="text-2xl font-[500] hover:underline hover:decoration-blue-500">
+                <Link to="/contact-us">Contact Us </Link>{" "}
+              </h1>
+            </div>
+          </div>
+
           {/* Hamburger Menu Icon for Mobile/Tablet */}
           <div className="lg:hidden flex items-center">
             <FaBars
@@ -93,7 +107,7 @@ export default function Navlink({ isAuthenticated, userProfile }) {
               {navlink.map((link, index) => (
                 <li
                   key={index}
-                  className="flex justify-between items-center w-full"
+                  className="flex justify-between items-center w-full hover:underline hover:decoration-blue-500"
                 >
                   <Link
                     to={link.path}

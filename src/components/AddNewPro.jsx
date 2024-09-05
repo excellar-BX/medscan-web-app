@@ -2,9 +2,17 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { saveAs } from 'file-saver';
+import { jwtDecode } from 'jwt-decode';
+import { useGetUserQuery } from "../Helper/Apis/UseFetch";
+
+
+
+
 
 export default function AddNewPro() {
   const navigate = useNavigate();
+
+  const { data } = useGetUserQuery();
 
   const [formData, setFormData] = useState({
     manufacturerName: "",
@@ -26,74 +34,106 @@ export default function AddNewPro() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      console.error("User ID is missing from localStorage");
+  
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Token is missing from localStorage");
       return;
     }
-
-    const productData = {
-      userId: userId,
-      productInformation: {
-        productName: formData.productName,
-        productCategory: formData.productCategory,
-        productDescription: formData.productDescription,
-        issn: formData.issn,
-      },
-      manufacturerInformation: {
-        manufacturerName: formData.manufacturerName,
-        manufacturedDate: formData.manufacturedDate,
-        expiryDate: formData.expiryDate,
-        nafdacRegistration: formData.nafdacRegistration,
-      },
-      packageInformation: {
-        howManyPackage: formData.howManyPackage,
-        productsPerPackage: formData.productsPerPackage,
-        currentHumidity: formData.currentHumidity,
-        currentTemperature: formData.currentTemperature,
-        productComponent: formData.productComponent,
-      },
-    };
-
+  
+    // Decode the token to get the userId
     try {
-      const response = await axios.post(
-        "https://meds-scan-backend.vercel.app/api/products/create",
-        productData,
-        {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.userId;
+  
+      if (!userId) {
+        console.error("User ID is missing from token");
+        return;
+      }
+  
+      console.log("Token from localStorage:", token);
+      console.log("UserId:", userId);
+  
+      // Ensure all required fields are included
+      const productData = {
+        manufacturerInformation: {
+          manufacturerName: formData.manufacturerName,
+          nafdacRegistration: formData.nafdacRegistration,
+          manufacturedDate: formData.manufacturedDate,
+          expiryDate: formData.expiryDate,
+        },
+        productInformation: {
+          productName: formData.productName,
+          productCategory: formData.productCategory,
+          productDescription: formData.productDescription,
+          // issn: formData.issn,
+        },
+        packageInformation: {
+          howManyPackage: formData.howManyPackage,
+          productsPerPackage: formData.productsPerPackage,
+          currentHumidity: formData.currentHumidity,
+          currentTemperature: formData.currentTemperature,
+          productComponent: formData.productComponent,
+        },
+        userId: userId,
+      };
+  
+      console.log("productData:", productData);
+  
+      try {
+        const response = await fetch("http://localhost:5000/api/products/create", {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
-        }
-      );
-
-      if (response.status === 201) {
-        console.log("Product added successfully");
-        setFormData({
-          manufacturerName: "",
-          productName: "",
-          productCategory: "",
-          productDescription: "",
-          // issn: "",
-          manufacturedDate: "",
-          expiryDate: "",
-          nafdacRegistration: "",
-          howManyPackage: "",
-          productsPerPackage: "",
-          currentHumidity: "",
-          currentTemperature: "",
-          productComponent: "",
+          body: JSON.stringify(productData),
         });
-        setPdfUrl(response.data.pdfPath);
-      } else {
-        console.error("Failed to add product");
+  
+        if (response.status === 201) {
+          // const data = await response.json()
+          const data = await response.json();
+            console.log("Response data:", data);
+          console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+          console.log("Response from backend:",data);
+          console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+          console.log("Product added successfully");
+          setFormData({
+            manufacturerName: "",
+            productName: "",
+            productCategory: "",
+            productDescription: "",
+            // issn: "",
+            manufacturedDate: "",
+            expiryDate: "",
+            nafdacRegistration: "",
+            howManyPackage: "",
+            productsPerPackage: "",
+            currentHumidity: "",
+            currentTemperature: "",
+            productComponent: "",
+          });
+           // Extract pdfUrl from the response
+            // Log the entire response object
+          console.log("Full response:", response);
+
+          if (data && data.pdfUrl) {
+            // Download the PDF
+            downloadPdf(data.pdfUrl);
+          } else {
+            console.error("PDF URL is not available");
+          }
+        } else {
+          console.error("Failed to add product");
+        }
+      } catch (error) {
+        console.error("Error:", error.response?.data?.message || error.message);
       }
     } catch (error) {
-      console.error("Error:", error.response?.data?.message || error.message);
+      console.error("Error decoding token:", error);
     }
   };
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -102,18 +142,37 @@ export default function AddNewPro() {
     }));
   };
 
-  const handleDownloadAndNavigate = async () => {
-    if (pdfUrl) {
-      try {
-        const response = await axios.get(`https://meds-scan-backend.vercel.app/${pdfUrl}`, {
-          responseType: 'blob',
-        });
-        const blob = new Blob([response.data], { type: 'application/pdf' });
-        saveAs(blob, 'product_codes.pdf');
-        navigate('/dashboard');
-      } catch (error) {
-        console.error('Error downloading the PDF:', error);
-      }
+  // const handleDownloadAndNavigate = async () => {
+  //   if (pdfUrl) {
+  //     try {
+  //       const response = await axios.get(`https://meds-scan-backend.vercel.app/${pdfUrl}`, {
+  //         responseType: 'blob',
+  //       });
+  //       const blob = new Blob([response.data], { type: 'application/pdf' });
+  //       saveAs(blob, 'product_codes.pdf');
+  //       navigate('/dashboard');
+  //     } catch (error) {
+  //       console.error('Error downloading the PDF:', error);
+  //     }
+  //   }
+  // };
+  // Function to handle downloading the PDF
+  const downloadPdf = async (url) => {
+    try {
+      const response = await axios.get(url, {
+        responseType: "blob", // Ensures the response is treated as a file
+      });
+  
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = "product_codes.pdf";
+      link.click();
+  
+      // Clean up the URL object
+      window.URL.revokeObjectURL(link.href);
+    } catch (error) {
+      console.error("Error downloading the PDF:", error);
     }
   };
 
@@ -332,13 +391,19 @@ export default function AddNewPro() {
           />
         </section>
 
-        {/* Submit Button */}
-        <button
-          className="bg-blue-700 w-[300px]  py-2 px-4 text-sm text-white rounded-xl mt-4"
-          type="submit"
-        >
-          Register
-        </button>
+          {/* Submit button */}
+        {/* {data?( */}
+          <button
+            className="bg-blue-700 w-[300px] py-2 px-4 text-sm text-white rounded-xl mt-4"
+            type="submit"
+          >
+            Register
+          </button>
+        {/* ) : (
+          <p className="text-red-500 mt-4">
+            Verify your KYC to register a product 
+          </p>
+        )} */}
       </form>
 
       {/* Download Button */}
