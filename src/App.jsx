@@ -16,14 +16,11 @@ import Profile from "./components/Profile";
 import ManufacturerForm from "./components/ManufacturerForm";
 import Layout from "./components/dashboards/layout";
 import Dashboards from "./components/dashboards/dashboard";
-<<<<<<< HEAD
 import State from "./components/country";
 import CountryState from "./components/country";
 import PhoneNumberInput from "./components/phoneNumber";
-=======
 import ContactUs from "./components/ContactUs";
 import AboutUs from "./components/AboutUs";
->>>>>>> 42977be9b9d9b115486133657403c9b199867c9f
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

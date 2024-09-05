@@ -100,7 +100,6 @@ const Dashboards = () => {
           return;
         }
 
-<<<<<<< HEAD
         const headers = {
           Authorization: `Bearer ${your_token}`,
           'Content-Type': 'application/json',
@@ -122,7 +121,6 @@ const Dashboards = () => {
               "https://meds-scan-end.render.com/api/dashboard/top-products",
               { headers }
             ),
-=======
         // const headers = { Authorization: `Bearer ${token}` };
 
         // const [salesTrendRes, marketShareRes, topProductsRes] =
@@ -151,7 +149,19 @@ const Dashboards = () => {
               .then((res) => res.json()),
             fetch("https://medscan-backend.vercel.app/api/dashboard/top-products", { headers })
               .then((res) => res.json()),
->>>>>>> 42977be9b9d9b115486133657403c9b199867c9f
+          ]);
+
+
+        const headers = { Authorization: `Bearer ${token}` };
+
+        const [salesTrendRes, marketShareRes, topProductsRes] =
+          await Promise.all([
+            fetch("https://medscan-backend.vercel.app/api/dashboard/sales-trend", { headers })
+              .then((res) => res.json()),
+            fetch("https://medscan-backend.vercel.app/api/dashboard/market-share", { headers })
+              .then((res) => res.json()),
+            fetch("https://medscan-backend.vercel.app/api/dashboard/top-products", { headers })
+              .then((res) => res.json()),
           ]);
         
           console.log(salesTrendRes.data, marketShareRes.data, topProductsRes.data);
