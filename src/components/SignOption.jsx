@@ -34,7 +34,7 @@ export default function SignOption() {
             </p>
             <div className="flex md:flex-row flex-col justify-center md:gap-14 gap-12 lg:py-24 py-8 w-full">
               <button
-                onClick={() => handleRoleSelection("Manufacturers")}
+                onClick={() => handleRoleSelection("Manufacturer")}
                 className="py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white"
               >
                 Manufacturer
@@ -43,7 +43,7 @@ export default function SignOption() {
                 onClick={() => handleRoleSelection("Distributors")}
                 className="py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white"
               >
-                Distributor
+                Distributors
               </button>
               <button
                 onClick={() => handleRoleSelection("Stores")}

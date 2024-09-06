@@ -22,6 +22,8 @@ import PhoneNumberInput from "./components/phoneNumber";
 import ContactUs from "./components/ContactUs";
 import AboutUs from "./components/AboutUs";
 import { AuthProvider } from "./Helper/AuthContext";
+import LogOption from "./components/LogOption";
+import SignInManufactur from "./components/SigninDistributor";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -80,10 +82,12 @@ function App() {
         </Route>
 
         <Route path="/login" element={<SigninDistributor />} />
+         <Route path="/login/:type" element={<SignInManufactur/>} />
         <Route path="/signup" element={<SignOption />} />
         <Route path="signup/:type" element={<LogDistributor />} />
         <Route path='/country' element={<CountryState />} />
         <Route path='/number' element={<PhoneNumberInput />} />
+         <Route path='logoption' element={<LogOption />} />
         <Route
           path="/dashboards"
           element={<ProtectedRoute component={Dashboard} />}

@@ -1,60 +1,86 @@
-// import { Link } from "react-router-dom";
-//  import logi from '../assets/images/image 2.png'
-//  import '../App.css'
 
-// export default function LogOption() {
-//   return (
-//     <div className=" flex">
-//      <div className="login-image h-[700px] w-1/2 flex justify-center items-center">
-//   <img src={logi} alt="" className="contrast-200 w-44" />
-// </div>
-//       <div className="w-1/2 bg-[#FFFFFF] rounded-2xl text-center ">
-//         <h1 className=" text-center text-2xl font-extrabold mb-8 m">Create an Account</h1>
-//         <h4 className=" mb-20">Kindly click on one of the categories below and provide all valid information as required.</h4>
-//        <div className=" flex flex-wrap justify-center gap-14">
-//          <Link to="./signinDistributor" className=" py-16 px-10 shadow-md">Manufacturer </Link>
-//           <Link to="./signinDistributor" className=" py-16 px-10 shadow-md">Distributor</Link>
-//            <Link to="./signinDistributor" className="py-16 px-16 shadow-md">Store</Link>
-//        </div>
-//       </div>
-//     </div>
-//   )
-// }
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
- import logi from '../assets/images/image 2.png'
+import { useState } from "react";
+import logi from "../assets/images/image 2.png";
+import "../App.css";
+import { useNavigate } from "react-router-dom";
 
-
-const LogOption = () => {
+export default function LogOption() {
+  const [selectedRole, setSelectedRole] = useState(null);
   const navigate = useNavigate();
 
-  const handleRoleSelect = (role) => {
-    navigate(`/signup/${role}`);
+  const handleRoleSelection = (role) => {
+    setSelectedRole(role);
+    navigate(`/login/${role}`); // Navigate to the login path for the selected role
   };
 
   return (
-    <div className="flex">
-      <div className="login-image h-[700px] w-1/2 flex justify-center items-center">
-        <img src={logi} alt="" className="contrast-200 w-44" />
-      </div>
-      <div>
-        <h1 className="text-center text-2xl font-extrabold mb-8">Create An Account</h1>
-        <h4 className=" mb-20">Kindly click on one of the categories below and provide all valid information as required.</h4>
-        <div className="flex flex-wrap justify-center gap-14">
-          {['manufacturer', 'distributor', 'store'].map((role) => (
-            <button
-              key={role}
-              onClick={() => handleRoleSelect(role)}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              {role.charAt(0).toUpperCase() + role.slice(1)}
-            </button>
-          ))}
+    <div className="flex h-screen overflow-hidden">
+      <div className="w-full h-full">
+        <div className="relative h-full flex">
+          <img
+            src={logi}
+            alt=""
+            className="w-full absolute z-20 object-cover"
+          />
+          <div className="lg:w-[50%] w-0 flex justify-center items-center h-full relative z-40">
+            <img src={logi} alt="" className="top-0 z-40 contrast-200 w-44" />
+          </div>
+
+          <div className="lg:w-[50%] w-full bg-white p-12 rounded-l-[10px] flex flex-col items-center h-full relative z-40">
+            <h1 className="py-5 font-[800] text-[30px]">Log In</h1>
+            <p className="text-center md:text-[22px] md:w-[497px]">
+              Kindly click on one of the categories below to log in.
+            </p>
+            <div className="flex md:flex-row flex-col justify-center md:gap-14 gap-12 lg:py-24 py-8 w-full">
+              <button
+                onClick={() => handleRoleSelection("Manufacturer")}
+                className="py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white"
+              >
+                Manufacturer
+              </button>
+              <button
+                onClick={() => handleRoleSelection("Distributors")}
+                className="py-16 px-10 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white"
+              >
+                Distributors
+              </button>
+              <button
+                onClick={() => handleRoleSelection("Stores")}
+                className="py-16 px-16 font-[500] shadow-md rounded-[10px] hover:bg-[#0084FC] cursor-pointer hover:text-white"
+              >
+                Store
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default LogOption;
 
+
+
+
+// // import { Link } from "react-router-dom";
+// //  import logi from '../assets/images/image 2.png'
+// //  import '../App.css'
+
+// // export default function LogOption() {
+// //   return (
+// //     <div className=" flex">
+// //      <div className="login-image h-[700px] w-1/2 flex justify-center items-center">
+// //   <img src={logi} alt="" className="contrast-200 w-44" />
+// // </div>
+// //       <div className="w-1/2 bg-[#FFFFFF] rounded-2xl text-center ">
+// //         <h1 className=" text-center text-2xl font-extrabold mb-8 m">Create an Account</h1>
+// //         <h4 className=" mb-20">Kindly click on one of the categories below and provide all valid information as required.</h4>
+// //        <div className=" flex flex-wrap justify-center gap-14">
+// //          <Link to="./signinDistributor" className=" py-16 px-10 shadow-md">Manufacturer </Link>
+// //           <Link to="./signinDistributor" className=" py-16 px-10 shadow-md">Distributor</Link>
+// //            <Link to="./signinDistributor" className="py-16 px-16 shadow-md">Store</Link>
+// //        </div>
+// //       </div>
+// //     </div>
+// //   )
+// // }

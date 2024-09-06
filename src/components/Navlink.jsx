@@ -63,7 +63,7 @@ export default function Navlink({ isAuthenticated, userProfile }) {
                   Sign up
                 </Link>
                 <Link
-                  to="/login"
+                  to="/logoption"
                   className="py-2 px-4 ml-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
                   Sign in

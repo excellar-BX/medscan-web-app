@@ -44,14 +44,12 @@ export default function LogDistributor() {
           <div
             className="w-[800px] h-[full] bg-cover bg-center"
             style={{ backgroundImage: "url('http://localhost:5173/src/assets/images/login-img.jpg')" }}
-          >
-            {/* <img src={require("../assets/images/image 2.png")} alt="login" className="w-full h-full" /> */}
-          </div>
+          ></div>
 
           <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded items-center flex flex-col h-full relative z-40">
             <h3 className="font-[800] text-[30px]">Create Account</h3>
             <p className="md:text-[16px] text-center mb-5">
-              You are creating an account as a {type ? type : 'distributor'}
+              You are creating an account as a {type ? type : 'Distributors'}
             </p>
 
             <Formik
@@ -66,12 +64,11 @@ export default function LogDistributor() {
               validationSchema={LocalSignupSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  const data = await createUser({ ...values, role: type }).unwrap();
+                  const data = await createUser({ ...values, role: type || 'Distributors' }).unwrap();
                   setMessage({ success: 'Account created successfully', error: '' });
                   localStorage.setItem('token', data.token);
                   navigate('/login');
                 } catch (error) {
-                  // Safely access error.message
                   const errorMessage = error.data ? error.data.message : 'An unknown error occurred';
                   setMessage({ success: '', error: errorMessage });
                 } finally {
@@ -81,7 +78,6 @@ export default function LogDistributor() {
             >
               {({ isSubmitting }) => (
                 <Form className="space-y-4 w-full">
-                  {/* Full Name */}
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Full Name
@@ -90,43 +86,20 @@ export default function LogDistributor() {
                       name="fullName"
                       className="w-full px-4 py-2 bg-transparent border-none outline-none"
                     />
-                    <ErrorMessage
-                      name="fullName"
-                      component="div"
-                      className="text-red-500 text-xs"
-                    />
+                    <ErrorMessage name="fullName" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  {/* Email */}
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Email
                     </label>
-                    <Field
-                      type="email"
-                      name="email"
-                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="text-red-500 text-xs"
-                    />
+                    <Field type="email" name="email" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
+                    <ErrorMessage name="email" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  {/* Phone Number */}
-                  <Field name="phone">
-                    {({ field, form }) => (
-                      <PhoneNumberInput field={field} form={form} />
-                    )}
-                  </Field>
-                  <ErrorMessage
-                    name="phone"
-                    component="div"
-                    className="text-red-500 text-xs"
-                  />
+                  <Field name="phone">{({ field, form }) => <PhoneNumberInput field={field} form={form} />}</Field>
+                  <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
 
-                  {/* Password */}
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Password
@@ -136,14 +109,9 @@ export default function LogDistributor() {
                       name="password"
                       className="w-full px-4 py-2 bg-transparent border-none outline-none"
                     />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="text-red-500 text-xs"
-                    />
+                    <ErrorMessage name="password" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  {/* Confirm Password */}
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Confirm Password
@@ -153,32 +121,18 @@ export default function LogDistributor() {
                       name="confirmPassword"
                       className="w-full px-4 py-2 bg-transparent border-none outline-none"
                     />
-                    <ErrorMessage
-                      name="confirmPassword"
-                      component="div"
-                      className="text-red-500 text-xs"
-                    />
+                    <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  {/* Agree to Terms */}
                   <div className="flex items-center space-x-2">
                     <Field type="checkbox" name="agreeToTerms" className="w-4 h-4" />
                     <label htmlFor="agreeToTerms" className="text-sm">
                       I agree to the terms and conditions
                     </label>
-                    <ErrorMessage
-                      name="agreeToTerms"
-                      component="div"
-                      className="text-red-500 text-xs"
-                    />
+                    <ErrorMessage name="agreeToTerms" component="div" className="text-red-500 text-xs" />
                   </div>
 
-                  {/* Submit */}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-red-500 text-white py-2 rounded-lg"
-                  >
+                  <button type="submit" disabled={isSubmitting} className="w-full bg-red-500 text-white py-2 rounded-lg">
                     {isSubmitting ? 'Submitting...' : 'Create Account'}
                   </button>
                 </Form>
