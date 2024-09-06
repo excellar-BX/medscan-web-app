@@ -19,6 +19,7 @@ import details from "../../assets/images/details.png";
 import recent from "../../assets/images/recent.png";
 import { useGetUserQuery } from "../../Helper/Apis/UseFetch";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Helper/AuthContext";
 
 const data = [
   { name: "Jan", uv: 400, pnmv: 2400, amt: 2400 },
@@ -58,6 +59,7 @@ const pieData = [
 
 
 const Dashboards = () => {
+  const { userRole } = useAuth();
   const [salesTrend, setSalesTrend] = useState([]);
   const [marketShare, setMarketShare] = useState([]);
   const [topProducts, setTopProducts] = useState([]);
@@ -163,7 +165,7 @@ const Dashboards = () => {
         </div>
       )}
       <header className="mb-4">
-        <h1 className="text-2xl font-bold">Manufacturer Dashboard</h1>
+        <h1 className="text-2xl font-bold">{userRole} Dashboard</h1>
         <p className="text-sm text-gray-600">{currentDate}</p>
       </header>
       <div className=" text-[#0084FC] font-bold text-xl leading-7 text-center mb-4">
