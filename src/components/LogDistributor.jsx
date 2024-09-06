@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { SignupSchema } from '../Helper/Schema';
-import CountryState from './country';
 import PhoneNumberInput from './phoneNumber';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import logi from "../assets/images/image 2.png";
@@ -11,6 +10,7 @@ import { CgDanger } from 'react-icons/cg';
 import { BiCheckCircle } from 'react-icons/bi';
 import { useCreateUserMutation } from '../Helper/Apis/UseMutate';
 import { useAuth } from '../Helper/AuthContext';
+import { countriesStates } from './country';
 
 const LogDistributor = () => {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ const LogDistributor = () => {
 
   const [countryValue, setCountryValue] = useState("");
   const [stateValue, setStateValue] = useState("");
+  const [states, setStates] = useState([]);
   const [phoneNumber, setPhoneNumber] = useState(""); 
 
   const [showPassword, setShowPassword] = useState(false);
@@ -34,9 +35,13 @@ const LogDistributor = () => {
     return () => clearTimeout(timer);
   }, [message.error, message.success]);
 
+  useEffect(() => {
+    setStates(countriesStates[countryValue] || []);
+    setStateValue(""); // Reset state when country changes
+  }, [countryValue]);
+
   const handleCountryChange = (event) => {
     setCountryValue(event.target.value);
-    setStateValue(""); 
   };
 
   const handleStateChange = (event) => {
@@ -78,9 +83,9 @@ const LogDistributor = () => {
               validationSchema={SignupSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  const data = await createUser({ ...values, role }).unwrap();
+                  const data = await createUser({ ...values, role, country: countryValue, state: stateValue }).unwrap();
                   setMessage({ success: "Account created successfully", error: "" });
-                  setRole(role)
+                  setRole(role);
                   localStorage.setItem("token", data?.token);
                   navigate("/login");
                 } catch (error) {
@@ -108,14 +113,34 @@ const LogDistributor = () => {
                     <Field name="phone" component={PhoneNumberInput} value={phoneNumber} onChange={handlePhoneNumberChange} />
                     <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
                   </div>
+                  
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Company Name</label>
                     <Field name="companyName" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
                     <ErrorMessage name="companyName" component="div" className="text-red-500 text-xs" />
                   </div>
-                   {/* Country and State */}
-                   <CountryState countryValue={countryValue} stateValue={stateValue} handleCountryChange={handleCountryChange} handleStateChange={handleStateChange} />
-                  {/*  */}
+
+                  <div className="relative border border-gray-300 rounded-lg">
+                    <label className="absolute top-0 left-2 bg-black text-gray-500 text-sm px-1 -translate-y-1/2">Country</label>
+                    <Field as="select" name="country" value={countryValue} onChange={handleCountryChange} className="w-full px-4 py-2 bg-transparent border-none outline-none">
+                      <option value="">Select Country</option>
+                      {Object.keys(countriesStates).map(country => (
+                        <option key={country} value={country}>{country}</option>
+                      ))}
+                    </Field>
+                    <ErrorMessage name="country" component="div" className="text-red-500 text-xs" />
+                  </div>
+
+                  <div className="relative border border-gray-300 rounded-lg">
+                    <label className="absolute top-0 left-2 bg-black text-gray-500 text-sm px-1 -translate-y-1/2">State</label>
+                    <Field as="select" name="state" value={stateValue} onChange={handleStateChange} className="w-full px-4 py-2 bg-transparent border-none outline-none" disabled={!countryValue}>
+                      <option value="">Select State</option>
+                      {states.map(state => (
+                        <option key={state} value={state}>{state}</option>
+                      ))}
+                    </Field>
+                    <ErrorMessage name="state" component="div" className="text-red-500 text-xs" />
+                  </div>
 
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Password</label>

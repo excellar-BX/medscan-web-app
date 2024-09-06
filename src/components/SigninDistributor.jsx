@@ -2,16 +2,19 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import logi from "../assets/images/image 2.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import bgImage from "../assets/images/login-img.jpg";
 import { validationSchema } from "../Helper/Schema";
 import { useLoginUserMutation } from "../Helper/Apis/UseMutate";
 import { useEffect, useState } from "react";
 import { BiCheckCircle } from "react-icons/bi";
 import { CgDanger } from "react-icons/cg";
+import { useAuth } from "../Helper/AuthContext";
 
 export default function SignInManufactur() {
   const navigate = useNavigate();
+  const { role } = useParams();
+  const { setRole } = useAuth();
   const [loginUser] = useLoginUserMutation();
   const [message, setMessage] = useState({
     success: "",
@@ -52,7 +55,7 @@ export default function SignInManufactur() {
           <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded-l-[10px] items-center flex flex-col h-full relative z-40">
             <h3 className="font-[800] text-[30px]">Welcome Back!!</h3>
             <p className="md:text-[16px] text-center">
-              You are logging in as a Distributor
+              You are logging in as a {role}
             </p>
             {/* Form */}
             <Formik
@@ -60,20 +63,12 @@ export default function SignInManufactur() {
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  await loginUser(values)
-                    .unwrap()
-                    .then((data) => {
-                      setMessage({
-                        success: "Login Successfully",
-                        error: "",
-                      });
-                      localStorage.setItem("token", data?.token);
-                      setTimeout(() => {
-                        navigate("/dashboard");
-                      }, 3000);
-                    });
+                  const data = await loginUser({ ...values, role }).unwrap();
+                  setMessage({ success: "Login Successfully", error: "" });
+                  localStorage.setItem("token", data?.token);
+                  navigate("/dashboard");
                 } catch (error) {
-                  setMessage({ success: "", error: error?.data?.message });
+                  setMessage({ success: "", error: error?.data?.message || "An error occurred" });
                 } finally {
                   setSubmitting(false);
                 }
