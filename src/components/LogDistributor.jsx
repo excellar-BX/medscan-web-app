@@ -1,35 +1,31 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useEffect, useState } from "react";
-import * as Yup from "yup";
-import { useCreateUserMutation } from "../Helper/Apis/UseMutate";
-import PhoneNumberInput from "./phoneNumber";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useNavigate, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import { useCreateUserMutation } from '../Helper/Apis/UseMutate';
+import PhoneNumberInput from './phoneNumber';
 
 const LocalSignupSchema = Yup.object().shape({
-  fullName: Yup.string().required("Full Name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  phone: Yup.string().required("Phone number is required"),
-  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  fullName: Yup.string().required('Full Name is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  phone: Yup.string().required('Phone number is required'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required("Confirm password is required"),
-  agreeToTerms: Yup.bool().oneOf([true], "You must accept the terms and conditions"),
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Confirm password is required'),
+  agreeToTerms: Yup.bool().oneOf([true], 'You must accept the terms and conditions'),
 });
 
 export default function LogDistributor() {
   const navigate = useNavigate();
   const [createUser] = useCreateUserMutation();
-  const [message, setMessage] = useState({ success: "", error: "" });
+  const [message, setMessage] = useState({ success: '', error: '' });
   const { type } = useParams(); // Role type from URL params
 
   useEffect(() => {
     const timer = setTimeout(() => setMessage({}), 8000);
     return () => clearTimeout(timer);
   }, [message.error, message.success]);
-
-  const handlePhoneNumberChange = (value) => {
-    setPhoneNumber(value); 
-  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -55,27 +51,29 @@ export default function LogDistributor() {
           <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded items-center flex flex-col h-full relative z-40">
             <h3 className="font-[800] text-[30px]">Create Account</h3>
             <p className="md:text-[16px] text-center mb-5">
-              You are creating an account as a {type ? type : "distributor"}
+              You are creating an account as a {type ? type : 'distributor'}
             </p>
 
             <Formik
               initialValues={{
-                fullName: "",
-                email: "",
-                phone: "",
-                password: "",
-                confirmPassword: "",
+                fullName: '',
+                email: '',
+                phone: '',
+                password: '',
+                confirmPassword: '',
                 agreeToTerms: false,
               }}
               validationSchema={LocalSignupSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
                   const data = await createUser({ ...values, role: type }).unwrap();
-                  setMessage({ success: "Account created successfully", error: "" });
-                  localStorage.setItem("token", data.token);
-                  navigate("/login");
+                  setMessage({ success: 'Account created successfully', error: '' });
+                  localStorage.setItem('token', data.token);
+                  navigate('/login');
                 } catch (error) {
-                  setMessage({ success: "", error: error.data.message });
+                  // Safely access error.message
+                  const errorMessage = error.data ? error.data.message : 'An unknown error occurred';
+                  setMessage({ success: '', error: errorMessage });
                 } finally {
                   setSubmitting(false);
                 }
@@ -99,6 +97,7 @@ export default function LogDistributor() {
                     />
                   </div>
 
+                  {/* Email */}
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Email
@@ -115,14 +114,17 @@ export default function LogDistributor() {
                     />
                   </div>
 
-                  <div className="relative border border-gray-300 rounded-lg">
-                    <PhoneNumberInput name="phone" />
-                    <ErrorMessage
-                      name="phone"
-                      component="div"
-                      className="text-red-500 text-xs"
-                    />
-                  </div>
+                  {/* Phone Number */}
+                  <Field name="phone">
+                    {({ field, form }) => (
+                      <PhoneNumberInput field={field} form={form} />
+                    )}
+                  </Field>
+                  <ErrorMessage
+                    name="phone"
+                    component="div"
+                    className="text-red-500 text-xs"
+                  />
 
                   {/* Password */}
                   <div className="relative border border-gray-300 rounded-lg">
@@ -141,6 +143,7 @@ export default function LogDistributor() {
                     />
                   </div>
 
+                  {/* Confirm Password */}
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Confirm Password
@@ -176,7 +179,7 @@ export default function LogDistributor() {
                     disabled={isSubmitting}
                     className="w-full bg-red-500 text-white py-2 rounded-lg"
                   >
-                    {isSubmitting ? "Submitting..." : "Create Account"}
+                    {isSubmitting ? 'Submitting...' : 'Create Account'}
                   </button>
                 </Form>
               )}
