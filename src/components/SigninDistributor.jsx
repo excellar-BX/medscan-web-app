@@ -22,7 +22,10 @@ export default function SignInManufactur() {
   // Set timeout to clear error/success messages
   useEffect(() => {
     const timer = setTimeout(() => {
-      setMessage({});
+      setMessage({
+        success: "",
+        error: "",
+      });
     }, 7000);
     return () => clearTimeout(timer);
   }, [message.error, message.success]);
@@ -37,6 +40,9 @@ export default function SignInManufactur() {
       setRole(storedRole || "Manufacturer"); // Set a default role if none exists
     }
   }, [type, setRole]);
+
+  // Get the role for display
+  const roleToDisplay = type || localStorage.getItem("role") || "Manufacturer";
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -78,7 +84,7 @@ export default function SignInManufactur() {
             {/* Welcome Message */}
             <h3 className="font-[800] text-[30px]">Welcome</h3>
             <p className="md:text-[16px] text-center mb-5">
-              You are signing in as a {type ? type : localStorage.getItem("role")}
+              You are signing in as a {roleToDisplay}
             </p>
 
             {/* Formik Form */}

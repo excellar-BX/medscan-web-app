@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logi from "../assets/images/image 2.png";
 import bgImage from "../assets/images/login-img.jpg";
 import "../App.css";
-import { useNavigate } from "react-router-dom";
 
 export default function SignOption() {
   const [selectedRole, setSelectedRole] = useState(null);
@@ -10,7 +10,7 @@ export default function SignOption() {
 
   const handleRoleSelection = (role) => {
     setSelectedRole(role);
-    navigate(`./${role}`); // Navigate to the selected role's path
+    navigate(`/signup/${role}`); // Navigate to the signup path for the selected role
   };
 
   return (
