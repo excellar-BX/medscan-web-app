@@ -1,62 +1,26 @@
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import logi from "../assets/images/image 2.png";
-import bgImage from "../assets/images/login-img.jpg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { SignupSchema } from "../Helper/Schema";
-import { useCreateUserMutation } from "../Helper/Apis/UseMutate";
 import { useEffect, useState } from "react";
-import { CgDanger } from "react-icons/cg";
-import { BiCheckCircle } from "react-icons/bi";
-import { Link } from "react-router-dom";
-import State from "./country";
-import CountryState from "./country";
-import PhoneNumberInput from "./phoneNumber";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-
 import * as Yup from "yup";
+import { useCreateUserMutation } from "../Helper/Apis/UseMutate";
+import PhoneNumberInput from "./phoneNumber"; // PhoneNumber component for the custom phone number field
 
 const LocalSignupSchema = Yup.object().shape({
   fullName: Yup.string().required("Full Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
-  companyName:  Yup.string().required("company Name is required"),
-  phone: Yup.string().required("Phone number is required"), 
+  phone: Yup.string().required("Phone number is required"),
   password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Confirm password is required"),
+  agreeToTerms: Yup.bool().oneOf([true], "You must accept the terms and conditions"),
 });
-
 
 export default function LogDistributor() {
   const navigate = useNavigate();
   const [createUser] = useCreateUserMutation();
   const [message, setMessage] = useState({ success: "", error: "" });
-  const { type } = useParams();
-
-  const [countryValue, setCountryValue] = useState("");
-  const [stateValue, setStateValue] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState(""); 
-
-  const handleCountryChange = (event) => {
-    setCountryValue(event.target.value);
-    setStateValue(""); 
-  };
-
-  const handleStateChange = (event) => {
-    setStateValue(event.target.value);
-  };
-
-  const handlePhoneNumberChange = (value) => {
-    setPhoneNumber(value); 
-  };
-  
-
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+  const { type } = useParams(); // Role type from URL params
 
   useEffect(() => {
     const timer = setTimeout(() => setMessage({}), 8000);
@@ -67,23 +31,21 @@ export default function LogDistributor() {
     <div className="flex h-screen overflow-hidden">
       {message.error && (
         <div className="fixed animate-slideIn top-0 font-[600] gap-6 z-50 border-b-[5px] border-[#ff3a3a] flex items-center rounded-b-[5px] w-full p-4 text-white min-h-[80px] bg-[#ff7c7c]">
-          <CgDanger size={30} />
           <p>{message.error}</p>
         </div>
       )}
       {message.success && (
         <div className="fixed animate-slideIn top-0 font-[600] gap-6 z-50 border-b-[5px] border-[#1f8d5a] flex items-center rounded-b-[5px] w-full p-4 text-white min-h-[80px] bg-[#24ca4e]">
-          <BiCheckCircle size={30} />
           <p>{message.success}</p>
         </div>
       )}
       <div className="w-full h-full">
         <div className="relative h-full flex">
-        <div
-  className="w-[800px] h-[full] bg-cover bg-center"
-  style={{ backgroundImage: "url('http://localhost:5173/src/assets/images/login-img.jpg')" }}
->
-            <img src={logi} alt="login" className="w-full h-full" />
+          <div
+            className="w-[800px] h-[full] bg-cover bg-center"
+            style={{ backgroundImage: "url('http://localhost:5173/src/assets/images/login-img.jpg')" }}
+          >
+            {/* <img src={require("../assets/images/image 2.png")} alt="login" className="w-full h-full" /> */}
           </div>
 
           <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded items-center flex flex-col h-full relative z-40">
@@ -93,87 +55,132 @@ export default function LogDistributor() {
             </p>
 
             <Formik
-              initialValues={{ fullName: "", email: "", phone: "", password: "", confirmPassword: "" }}
+              initialValues={{
+                fullName: "",
+                email: "",
+                phone: "",
+                password: "",
+                confirmPassword: "",
+                agreeToTerms: false,
+              }}
               validationSchema={LocalSignupSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  const data = await createUser(values).unwrap();
+                  const data = await createUser({ ...values, role: type }).unwrap();
                   setMessage({ success: "Account created successfully", error: "" });
-                  localStorage.setItem("token", data?.token);
+                  localStorage.setItem("token", data.token);
                   navigate("/login");
                 } catch (error) {
-                  setMessage({ success: "", error: error?.data?.message });
+                  setMessage({ success: "", error: error.data.message });
                 } finally {
                   setSubmitting(false);
                 }
               }}
             >
               {({ isSubmitting }) => (
-                <Form className="space-y-4">
+                <Form className="space-y-4 w-full">
                   {/* Full Name */}
                   <div className="relative border border-gray-300 rounded-lg">
-                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Full Name</label>
-                    <Field name="fullName" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
-                    <ErrorMessage name="fullName" component="div" className="text-red-500 text-xs" />
+                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                      Full Name
+                    </label>
+                    <Field
+                      name="fullName"
+                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
+                    />
+                    <ErrorMessage
+                      name="fullName"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
 
                   {/* Email */}
                   <div className="relative border border-gray-300 rounded-lg">
-                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Email</label>
-                    <Field type="email" name="email" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
-                    <ErrorMessage name="email" component="div" className="text-red-500 text-xs" />
+                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                      Email
+                    </label>
+                    <Field
+                      type="email"
+                      name="email"
+                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
 
                   {/* Phone Number */}
                   <div className="relative border border-gray-300 rounded-lg">
-        <Field name="phone" component={PhoneNumberInput} />
-        <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
-      </div>
-                    {/* Full Name */}
-                    <div className="relative border border-gray-300 rounded-lg">
-                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Company Name</label>
-                    <Field name="companyName" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
-                    <ErrorMessage name="companyName" component="div" className="text-red-500 text-xs" />
+                    <PhoneNumberInput name="phone" />
+                    <ErrorMessage
+                      name="phone"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
+
                   {/* Password */}
                   <div className="relative border border-gray-300 rounded-lg">
-                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Password</label>
-                    <Field type={showPassword ? "text" : "password"} name="password" className="w-full px-4 py-2" />
-                    <div className="absolute right-2 top-1/2 cursor-pointer" onClick={togglePasswordVisibility}>
-                      {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
-                    </div>
-                    <ErrorMessage name="password" component="div" className="text-red-500 text-xs" />
+                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                      Password
+                    </label>
+                    <Field
+                      type="password"
+                      name="password"
+                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
 
                   {/* Confirm Password */}
                   <div className="relative border border-gray-300 rounded-lg">
-                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">Confirm Password</label>
-                    <Field type={showConfirmPassword ? "text" : "password"} name="confirmPassword" className="w-full px-4 py-2" />
-                    <div className="absolute right-2 top-1/2 cursor-pointer" onClick={toggleConfirmPasswordVisibility}>
-                      {showConfirmPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
-                    </div>
-                    <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-xs" />
+                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                      Confirm Password
+                    </label>
+                    <Field
+                      type="password"
+                      name="confirmPassword"
+                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
+                    />
+                    <ErrorMessage
+                      name="confirmPassword"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
-
-                  {/* Country and State */}
-                  <CountryState countryValue={countryValue} stateValue={stateValue} handleCountryChange={handleCountryChange} handleStateChange={handleStateChange} />
 
                   {/* Agree to Terms */}
                   <div className="flex items-center space-x-2">
                     <Field type="checkbox" name="agreeToTerms" className="w-4 h-4" />
-                    <label htmlFor="agreeToTerms" className="text-sm">I agree to the terms and conditions</label>
-                    <ErrorMessage name="agreeToTerms" component="div" className="text-red-500 text-xs" />
+                    <label htmlFor="agreeToTerms" className="text-sm">
+                      I agree to the terms and conditions
+                    </label>
+                    <ErrorMessage
+                      name="agreeToTerms"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
 
                   {/* Submit */}
-                  <button type="submit" disabled={isSubmitting} className="w-full bg-red-500 text-white py-2 rounded-lg">
-                    {isSubmitting ? "Submitting..." : "Submit"}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-red-500 text-white py-2 rounded-lg"
+                  >
+                    {isSubmitting ? "Submitting..." : "Create Account"}
                   </button>
                 </Form>
               )}
             </Formik>
           </div>
-
         </div>
       </div>
     </div>
