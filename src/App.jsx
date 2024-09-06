@@ -81,7 +81,7 @@ function App() {
 
         <Route path="/login" element={<SigninDistributor />} />
         <Route path="/signup" element={<SignOption />} />
-        <Route path="signup/:role" element={<LogDistributor />} />
+        <Route path="signup/:type" element={<LogDistributor />} />
         <Route path='/country' element={<CountryState />} />
         <Route path='/number' element={<PhoneNumberInput />} />
         <Route

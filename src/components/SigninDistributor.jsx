@@ -13,7 +13,7 @@ import { useAuth } from "../Helper/AuthContext";
 
 export default function SignInManufactur() {
   const navigate = useNavigate();
-  const { role } = useParams();
+  const { type } = useParams();
   const { setRole } = useAuth();
   const [loginUser] = useLoginUserMutation();
   const [message, setMessage] = useState({
@@ -55,7 +55,7 @@ export default function SignInManufactur() {
           <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded-l-[10px] items-center flex flex-col h-full relative z-40">
             <h3 className="font-[800] text-[30px]">Welcome Back!!</h3>
             <p className="md:text-[16px] text-center">
-              You are logging in as a {role}
+              You are logging in as a {type}
             </p>
             {/* Form */}
             <Formik
@@ -63,7 +63,7 @@ export default function SignInManufactur() {
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  const data = await loginUser({ ...values, role }).unwrap();
+                  const data = await loginUser({ ...values, role:type }).unwrap();
                   setMessage({ success: "Login Successfully", error: "" });
                   localStorage.setItem("token", data?.token);
                   navigate("/dashboard");

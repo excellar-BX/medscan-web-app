@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useCreateUserMutation } from "../Helper/Apis/UseMutate";
-import PhoneNumberInput from "./phoneNumber"; // PhoneNumber component for the custom phone number field
+import PhoneNumberInput from "./phoneNumber";
 
 const LocalSignupSchema = Yup.object().shape({
   fullName: Yup.string().required("Full Name is required"),
@@ -18,8 +18,6 @@ const LocalSignupSchema = Yup.object().shape({
 
 export default function LogDistributor() {
   const navigate = useNavigate();
-  const { role } = useParams();
-  const { setRole } = useAuth();
   const [createUser] = useCreateUserMutation();
   const [message, setMessage] = useState({ success: "", error: "" });
   const { type } = useParams(); // Role type from URL params
@@ -28,19 +26,6 @@ export default function LogDistributor() {
     const timer = setTimeout(() => setMessage({}), 8000);
     return () => clearTimeout(timer);
   }, [message.error, message.success]);
-
-  useEffect(() => {
-    setStates(countriesStates[countryValue] || []);
-    setStateValue(""); // Reset state when country changes
-  }, [countryValue]);
-
-  const handleCountryChange = (event) => {
-    setCountryValue(event.target.value);
-  };
-
-  const handleStateChange = (event) => {
-    setStateValue(event.target.value);
-  };
 
   const handlePhoneNumberChange = (value) => {
     setPhoneNumber(value); 
@@ -70,7 +55,7 @@ export default function LogDistributor() {
           <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded items-center flex flex-col h-full relative z-40">
             <h3 className="font-[800] text-[30px]">Create Account</h3>
             <p className="md:text-[16px] text-center mb-5">
-              You are creating an account as a {role ? role : "distributor"}
+              You are creating an account as a {type ? type : "distributor"}
             </p>
 
             <Formik
@@ -201,4 +186,4 @@ export default function LogDistributor() {
       </div>
     </div>
   );
-};
+}
