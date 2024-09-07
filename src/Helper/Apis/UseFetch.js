@@ -4,36 +4,50 @@ import { BiLogIn } from "react-icons/bi";
 export const fetch = createApi({
   reducerPath: "fetch",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "http://localhost:5000/api",
-     baseUrl: "https://medscan-backend.vercel.app/api",
+    baseUrl: "https://medscan-backend.vercel.app/api", // Ensure this URL is correct
     prepareHeaders: (headers) => {
-      // Get the token from local storage (or wherever you store it)
+      // Retrieve the token from local storage
       const token = localStorage.getItem("token");
-        console.log(token);
-        
-      // If a token is found, add it to the Authorization header
+      console.log("Token retrieved:", token);
+      
+      // Set the Authorization header if the token exists
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
-
       return headers;
     },
   }),
   endpoints: (builder) => ({
     getUser: builder.query({
       query: () => ({
-        url: "/auth/user",
+        url: "/auth/profile", // Ensure this endpoint is correct on your backend
         method: "GET",
       }),
+      transformResponse: (response) => {
+        // Optionally transform the response here if needed
+        console.log("getUser response:", response);
+        return response;
+      },
+      // Error handling
+      onError: (error) => {
+        console.error("Error fetching user profile:", error);
+      },
     }),
     getKyc: builder.query({
       query: () => ({
-        url: "/kyc/verification",
-        method: "POST",
+        url: "/kyc/verification", // Verify the correct method and if body is needed
+        method: "POST", 
       }),
+      transformResponse: (response) => {
+        console.log("getKyc response:", response);
+        return response;
+      },
+      // Error handling
+      onError: (error) => {
+        console.error("Error fetching KYC verification:", error);
+      },
     }),
   }),
 });
 
-
-export const { useGetUserQuery , useGetKycQuery } = fetch;
+export const { useGetUserQuery, useGetKycQuery } = fetch;

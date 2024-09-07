@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import Navlink from "./components/Navlink";
 import Welcomepage from "./components/Welcomepage";
-import SigninDistributor from "./components/SigninDistributor";
+// import SigninDistributor from "./components/SigninDistributor";
 import SignOption from "./components/SignOption";
 import LogDistributor from "./components/LogDistributor";
 import Dashboard from "./components/Dashboard";
@@ -16,7 +16,7 @@ import Profile from "./components/Profile";
 import ManufacturerForm from "./components/ManufacturerForm";
 import Layout from "./components/dashboards/layout";
 import Dashboards from "./components/dashboards/dashboard";
-import State from "./components/country";
+// import State from "./components/country";
 import CountryState from "./components/country";
 import PhoneNumberInput from "./components/phoneNumber";
 import ContactUs from "./components/ContactUs";
@@ -39,7 +39,7 @@ function App() {
   const fetchUserProfile = async (token) => {
     try {
       const response = await fetch(
-        "https://meds-scan-backend.onrender.com/api/auth/profile",
+        "https://medscan-backend.vercel.app/api/auth/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ function App() {
       localStorage.removeItem("token"); // Remove token from local storage
       setIsAuthenticated(false); // Set authentication state to false
       setUserProfile(null); // Clear user profile
-      window.location.href = "/option"; // Redirect to login page
+      window.location.href = "/logoption"; // Redirect to login page
     }
   };
 
