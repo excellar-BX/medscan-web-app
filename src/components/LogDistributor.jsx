@@ -67,7 +67,7 @@ export default function LogDistributor() {
                   const data = await createUser({ ...values, role: type || 'Distributors' }).unwrap();
                   setMessage({ success: 'Account created successfully', error: '' });
                   localStorage.setItem('token', data.token);
-                  navigate('/login');
+                  navigate(`/login/${type || 'Distributors'}`);
                 } catch (error) {
                   const errorMessage = error.data ? error.data.message : 'An unknown error occurred';
                   setMessage({ success: '', error: errorMessage });

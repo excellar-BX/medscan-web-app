@@ -81,7 +81,7 @@ function App() {
           <Route path="/about-us" element={<AboutUs />} />
         </Route>
 
-        <Route path="/login" element={<SigninDistributor />} />
+        {/* <Route path="/login" element={<SigninDistributor />} /> */}
          <Route path="/login/:type" element={<SignInManufactur/>} />
         <Route path="/signup" element={<SignOption />} />
         <Route path="signup/:type" element={<LogDistributor />} />
