@@ -4,7 +4,7 @@ import { BiLogIn } from "react-icons/bi";
 export const fetch = createApi({
   reducerPath: "fetch",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://medscan-backend.vercel.app/api", // Ensure this URL is correct
+    baseUrl: "https://medscan-backend.vercel.app/api", 
     prepareHeaders: (headers) => {
       // Retrieve the token from local storage
       const token = localStorage.getItem("token");
@@ -20,7 +20,7 @@ export const fetch = createApi({
   endpoints: (builder) => ({
     getUser: builder.query({
       query: () => ({
-        url: "/auth/profile", // Ensure this endpoint is correct on your backend
+        url: "/auth/profile", 
         method: "GET",
       }),
       transformResponse: (response) => {
@@ -35,7 +35,7 @@ export const fetch = createApi({
     }),
     getKyc: builder.query({
       query: () => ({
-        url: "/kyc/verification", // Verify the correct method and if body is needed
+        url: "/kyc/verification", 
         method: "POST", 
       }),
       transformResponse: (response) => {
