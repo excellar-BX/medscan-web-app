@@ -207,7 +207,6 @@ const Layout = () => {
             </ListItemIcon>
             <ListItemText primary="Profile" className="font-bold" />
           </ListItem>
-          {data && (
             <>
               <ListItem
                 button
@@ -332,7 +331,6 @@ const Layout = () => {
                 <ListItemText primary="Support" className="font-bold" />
               </ListItem>
             </>
-          )}
         </List>
         <Box
           sx={{
