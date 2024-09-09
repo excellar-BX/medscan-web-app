@@ -22,8 +22,8 @@ export default function Footer() {
         {/* Resources Links */}
         <div className='flex flex-col'>
           <h2 className='text-lg font-semibold mb-4'>Resources</h2>
-          <Link to='/privacy-policy' className='mb-2 hover:text-gray-400'>Privacy Policy</Link>
-          <Link to='/terms-conditions' className='mb-2 hover:text-gray-400'>Terms & Conditions</Link>
+          <Link to='/policy' className='mb-2 hover:text-gray-400'>Privacy Policy</Link>
+          <Link to='/terms' className='mb-2 hover:text-gray-400'>Terms & Conditions</Link>
         </div>
 
         {/* Social Links */}
