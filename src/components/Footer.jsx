@@ -31,7 +31,7 @@ export default function Footer() {
           <h2 className='text-lg font-semibold mb-4'>Social Links</h2>
           <div className='flex space-y-4 flex-col'>
             <Link to='https://x.com/medscanafrica?t=iDOew9FJCh1TZfawb-Al5Q&s=09' className='hover:text-gray-400'>Twitter</Link>
-            <Link to=' https://www.linkedin.com/company/medscan-africa/' className='hover:text-gray-400'>LinkedIn</Link>
+            <Link to='https://www.linkedin.com/company/medscan-africa/' className='hover:text-gray-400'>LinkedIn</Link>
             <Link to='https://www.instagram.com/medscanafrica?igsh=Y2I3cG41OHBxODB0' className='hover:text-gray-400'>Instagram</Link>
           </div>
         </div>
