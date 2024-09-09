@@ -27,9 +27,9 @@ export default function Welcomepage() {
               consumption{" "}
             </p>
             <div className="py-6">
-              <div className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] bg-[#0084FC]">
+              <Link to="/contact-us" className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] bg-[#0084FC]">
                 <span>Contact Us</span>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

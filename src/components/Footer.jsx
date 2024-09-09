@@ -15,8 +15,8 @@ export default function Footer() {
         {/* Company Links */}
         <div className='flex flex-col'>
           <h2 className='text-lg font-semibold mb-4'>Company</h2>
-          <Link to='/about' className='mb-2 hover:text-gray-400'>About us</Link>
-          <Link to='/contact' className='mb-2 hover:text-gray-400'>Contact Us</Link>
+          <Link to='/about-us' className='mb-2 hover:text-gray-400'>About us</Link>
+          <Link to='/contact-us' className='mb-2 hover:text-gray-400'>Contact Us</Link>
         </div>
 
         {/* Resources Links */}
