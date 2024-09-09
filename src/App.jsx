@@ -24,6 +24,8 @@ import AboutUs from "./components/AboutUs";
 import { AuthProvider } from "./Helper/AuthContext";
 import LogOption from "./components/LogOption";
 import SignInManufactur from "./components/SigninDistributor";
+import Policy from "./components/policy";
+import Terms from "./components/terms";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -77,8 +79,8 @@ function App() {
             />
           }>
           <Route path="" element={<Welcomepage />} />
-          <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/about-us" element={<AboutUs />} />
+         
+       
         </Route>
 
         {/* <Route path="/login" element={<SigninDistributor />} /> */}
@@ -88,6 +90,11 @@ function App() {
         <Route path='/country' element={<CountryState />} />
         <Route path='/number' element={<PhoneNumberInput />} />
          <Route path='logoption' element={<LogOption />} />
+         <Route path="/about-us" element={<AboutUs />} />
+         <Route path="/contact-us" element={<ContactUs />} />
+         <Route path="/contact-us" element={<ContactUs />} /> 
+         <Route path="/policy" element={<Policy />} />
+         <Route path="/terms" element={<Terms />} />
         <Route
           path="/dashboards"
           element={<ProtectedRoute component={Dashboard} />}

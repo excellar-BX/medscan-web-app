@@ -6,9 +6,12 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import Header from "./header";
 
 const ContactUs = () => {
   return (
+    <div>
+      <Header/>
     <div className="w-full flex flex-col items-center justify-center bg-white ">
       <div className="w-full p-8">
         <h2 className="text-2xl font-bold text-center mb-4">
@@ -84,6 +87,7 @@ const ContactUs = () => {
       <div className="w-full  ">
         <Footer />
       </div>
+    </div>
     </div>
   );
 };
