@@ -30,7 +30,6 @@ export default function Footer() {
         <div className='flex flex-col'>
           <h2 className='text-lg font-semibold mb-4'>Social Links</h2>
           <div className='flex space-y-4 flex-col'>
-            <Link to='https://facebook.com' className='hover:text-gray-400'>Facebook</Link>
             <Link to='https://twitter.com' className='hover:text-gray-400'>Twitter</Link>
             <Link to='https://linkedin.com' className='hover:text-gray-400'>LinkedIn</Link>
             <Link to='https://instagram.com' className='hover:text-gray-400'>Instagram</Link>
