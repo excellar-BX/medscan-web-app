@@ -64,13 +64,24 @@ export default function LogDistributor() {
               validationSchema={LocalSignupSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
+                  console.log("Submitting values:", values);
                   const data = await createUser({ ...values, role: type || 'Distributors' }).unwrap();
+                  console.log("Received data:", data); // Check if the data contains the token
                   setMessage({ success: 'Account created successfully', error: '' });
-                  localStorage.setItem('token', data.token);
-                  navigate(`/login/${type || 'Distributors'}`);
+                  
+                  // Ensure token exists before setting
+                  if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    console.log("Token set in localStorage:", localStorage.getItem('token'));
+                    navigate(`/login/${type || 'Distributors'}`);
+                  } else {
+                    console.error("Token is missing from the response.");
+                    setMessage({ success: '', error: 'Failed to retrieve token' });
+                  }
                 } catch (error) {
                   const errorMessage = error.data ? error.data.message : 'An unknown error occurred';
                   setMessage({ success: '', error: errorMessage });
+                  console.error("Error during form submission:", error);
                 } finally {
                   setSubmitting(false);
                 }

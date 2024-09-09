@@ -11,9 +11,6 @@ export default function AllProduct() {
       let userId = localStorage.getItem("userId");
       const token = localStorage.getItem("token");
   
-      // console.log("Retrieved userId:", userId);
-      // console.log("Retrieved token:", token);
-  
       // Decode the token and set userId if not already set
       if (!userId && token) {
         try {

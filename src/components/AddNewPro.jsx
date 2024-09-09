@@ -51,8 +51,8 @@ export default function AddNewPro() {
         return;
       }
   
-      console.log("Token from localStorage:", token);
-      console.log("UserId:", userId);
+      // console.log("Token from localStorage:", token);
+      // console.log("UserId:", userId);
   
       // Ensure all required fields are included
       const productData = {
@@ -80,6 +80,7 @@ export default function AddNewPro() {
   
       console.log("productData:", productData);
       // http://localhost:5000/api/products/create
+      // 
       try {
         const response = await fetch("https://medscan-backend.vercel.app/api/products/create", {
           method: "POST",
@@ -91,12 +92,11 @@ export default function AddNewPro() {
         });
   
         if (response.status === 201) {
-          // const data = await response.json()
           const data = await response.json();
-            console.log("Response data:", data);
-          console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-          console.log("Response from backend:",data);
-          console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+          //   console.log("Response data:", data);
+          // console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+          // console.log("Response from backend:",data);
+          // console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
           console.log("Product added successfully");
           setFormData({
             manufacturerName: "",
@@ -115,7 +115,7 @@ export default function AddNewPro() {
           });
            // Extract pdfUrl from the response
             // Log the entire response object
-          console.log("Full response:", response);
+          // console.log("Full response:", response);
 
           if (data && data.pdfUrl) {
             // Download the PDF
@@ -157,11 +157,29 @@ export default function AddNewPro() {
   //   }
   // };
   // Function to handle downloading the PDF
+  // const downloadPdf = async (url) => {
+  //   try {
+  //     const response = await axios.get(url, {
+  //       responseType: "blob", // Ensures the response is treated as a file
+  //     });
+  
+  //     const blob = new Blob([response.data], { type: "application/pdf" });
+  //     const link = document.createElement("a");
+  //     link.href = window.URL.createObjectURL(blob);
+  //     link.download = "product_codes.pdf";
+  //     link.click();
+  
+  //     // Clean up the URL object
+  //     window.URL.revokeObjectURL(link.href);
+  //   } catch (error) {
+  //     console.error("Error downloading the PDF:", error);
+  //   }
+  // };
   const downloadPdf = async (url) => {
     try {
-      const response = await axios.get(url, {
-        responseType: "blob", // Ensures the response is treated as a file
-      });
+      // Prepend base URL if required
+      const fullUrl = url.startsWith('https') ? url : `https://meds-scan-backend.vercel.app/${url}`;
+      const response = await axios.get(fullUrl, { responseType: "blob" });
   
       const blob = new Blob([response.data], { type: "application/pdf" });
       const link = document.createElement("a");

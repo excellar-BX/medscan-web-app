@@ -4,6 +4,7 @@ export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://medscan-backend.vercel.app/api",
+    // baseUrl: "http://localhost:5000/api",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {

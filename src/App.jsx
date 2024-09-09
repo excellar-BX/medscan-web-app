@@ -40,6 +40,7 @@ function App() {
     try {
       const response = await fetch(
         "https://medscan-backend.vercel.app/api/auth/profile",
+        // "http://localhost:5000/api/auth/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,7 +61,7 @@ function App() {
       localStorage.removeItem("token"); // Remove token from local storage
       setIsAuthenticated(false); // Set authentication state to false
       setUserProfile(null); // Clear user profile
-      window.location.href = "/logoption"; // Redirect to login page
+      // window.location.href = "/logoption"; // Redirect to login page
     }
   };
 

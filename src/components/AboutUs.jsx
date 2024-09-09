@@ -17,11 +17,11 @@ const AboutUs = () => {
       </h3>
       
       {/* Mission Statement */}
-      <div className="w-full mb-8 lg:h-[60vh] bg-center bg-cover bg-no-repeat text-white"  style={{
+      <div className="w-full mb-8 lg:h-[62vh] bg-center bg-cover bg-no-repeat text-white"  style={{
           backgroundImage: `url(${bgnext})`,
         }}>
           <div className="flex flex-col">
-            <h3 className="lg:text-[26px] text-left px-10 p-10 items-center lg:w-3/4 w-[100%] max-sm:text-center mb-5">
+            <h3 className="lg:text-[26px] text-left px-10 items-center w-[100%] max-sm:text-center mb-5">
               Our mission at Medscan is to safeguard public health by ensuring the
               authenticity and safety of drugs, food, and beverages. Through cutting-edge
               blockchain technology, we aim to create a transparent supply chain where every
