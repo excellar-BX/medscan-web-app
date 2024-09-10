@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { saveAs } from 'file-saver';
 import { jwtDecode } from 'jwt-decode';
 import { useGetUserQuery } from "../Helper/Apis/UseFetch";
+import { message } from "antd";
+import PrintQrCode from '../Helper/PrintOut'
 
 
 
@@ -11,6 +13,7 @@ import { useGetUserQuery } from "../Helper/Apis/UseFetch";
 
 export default function AddNewPro() {
   const navigate = useNavigate();
+  
 
   const { data } = useGetUserQuery();
 
@@ -28,7 +31,10 @@ export default function AddNewPro() {
     currentHumidity: "",
     currentTemperature: "",
     productComponent: "",
+
   });
+
+  const [qrCodeDetails,setQrcodeDetails] = useState(null)
 
   const [pdfUrl, setPdfUrl] = useState("");
 
@@ -80,9 +86,10 @@ export default function AddNewPro() {
   
       console.log("productData:", productData);
       // http://localhost:5000/api/products/create
+      //https://medscan-backend.vercel.app/api/products/create
       // 
       try {
-        const response = await fetch("https://medscan-backend.vercel.app/api/products/create", {
+        const response = await fetch("http://localhost:5000/api/products/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -98,31 +105,39 @@ export default function AddNewPro() {
           // console.log("Response from backend:",data);
           // console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
           console.log("Product added successfully");
-          setFormData({
-            manufacturerName: "",
-            productName: "",
-            productCategory: "",
-            productDescription: "",
-            // issn: "",
-            manufacturedDate: "",
-            expiryDate: "",
-            nafdacRegistration: "",
-            howManyPackage: "",
-            productsPerPackage: "",
-            currentHumidity: "",
-            currentTemperature: "",
-            productComponent: "",
-          });
+
+          
+            message.success(data.message)
+            setFormData({
+              manufacturerName: "",
+              productName: "",
+              productCategory: "",
+              productDescription: "",
+              // issn: "",
+              manufacturedDate: "",
+              expiryDate: "",
+              nafdacRegistration: "",
+              howManyPackage: "",
+              productsPerPackage: "",
+              currentHumidity: "",
+              currentTemperature: "",
+              productComponent: "",
+            });
+            setQrcodeDetails(data.product)
+            console.log('product',data.product)
+          
+          
+
            // Extract pdfUrl from the response
             // Log the entire response object
           // console.log("Full response:", response);
 
-          if (data && data.pdfUrl) {
-            // Download the PDF
-            downloadPdf(data.pdfUrl);
-          } else {
-            console.error("PDF URL is not available");
-          }
+          // if (data && data.pdfUrl) {
+            
+          //   downloadPdf(data.pdfUrl);
+          // } else {
+          //   console.error("PDF URL is not available");
+          // }
         } else {
           console.error("Failed to add product");
         }
@@ -193,10 +208,15 @@ export default function AddNewPro() {
       console.error("Error downloading the PDF:", error);
     }
   };
+  const handleQRcode=(productDetails)=>{
+    // message.info(productDetails._id)
   
+    setQrcodeDetails(productDetails)
+}
 
   return (
     <div className="text-2xl md:mx-20">
+       {qrCodeDetails != null && <PrintQrCode qrCodeDetails={qrCodeDetails} setQrcodeDetails={setQrcodeDetails}/>}
       <h1 className="md:mt-16 mt-4 text-2xl font-bold">
         Register New Product To Blockchain
       </h1>

@@ -4,8 +4,8 @@ import { BiLogIn } from "react-icons/bi";
 export const fetch = createApi({
   reducerPath: "fetch",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://medscan-backend.vercel.app/api", 
-    // baseUrl: "http://localhost:5000/api", 
+    //baseUrl: "https://medscan-backend.vercel.app/api", 
+    baseUrl: "http://localhost:5000/api", 
     prepareHeaders: (headers) => {
       // Retrieve the token from local storage
       const token = localStorage.getItem("token");

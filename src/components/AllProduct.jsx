@@ -2,9 +2,13 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
+import { Button, message } from "antd";
+import PrintQrCode from '../Helper/PrintOut'
 
 export default function AllProduct() {
   const [products, setProducts] = useState([]);
+  const [qrCodeDetails,setQrcodeDetails] = useState(null)
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -56,8 +60,15 @@ export default function AllProduct() {
     fetchProducts();
   }, []);
 
+  const handleQRcode=(productDetails)=>{
+      // message.info(productDetails._id)
+    
+      setQrcodeDetails(productDetails)
+  }
+
   return (
     <div className="md:mx-20 mx-5 md:mt-10 mb-5 mt-5">
+      {qrCodeDetails != null && <PrintQrCode qrCodeDetails={qrCodeDetails} setQrcodeDetails={setQrcodeDetails}/>}
       <div className="flex items-center justify-between mb-5">
       <h1 className="text-2xl font-bold md:mb-5">All Products</h1>
       <Link to="/dashboard/add-products">
@@ -96,8 +107,9 @@ export default function AllProduct() {
                     })}
                   </td>
                   <td className="border px-4 py-2 text-sm">{product.ipr || "N/A"}</td>
-                  <td className="border px-4 py-2 text-sm text-blue-500 cursor-pointer">
-                    View Details
+                  <td className="flex gap-2">
+                    <Button type="primary">View Details</Button>
+                    <Button type="dashed" onClick={()=>handleQRcode(product)}>Print QrCode</Button>
                   </td>
                 </tr>
               ))}
