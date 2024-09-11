@@ -52,9 +52,11 @@ const data = [
 // };
 
 const pieData = [
-  { name: "Red", value: 12 },
-  { name: "Blue", value: 19 },
-  { name: "Yellow", value: 3 },
+  { name: "Red", value: 9 },
+  { name: "Blue", value: 52 },
+  { name: "Brown", value: 17 },
+  { name: "Purple", value: 22 },
+
 ];
 
 

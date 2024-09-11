@@ -16,9 +16,11 @@ function Header({ children }) {
       <div className="w-full pt-7 pb-5 shadow-md">
         <div className="flex justify-between items-center w-[90%] m-auto">
           {/* Logo */}
-          <div className="w-[80px]">
-            <img src={logo} alt="nav-logo" className="h-10" />
-          </div>
+          <Link to='/'>
+            <div className="w-[80px]">
+              <img src={logo} alt="nav-logo" className="h-10" />
+            </div>
+          </Link>
   
           {/* Nav Links for larger screens */}
           <nav className="hidden lg:flex gap-6">
