@@ -156,7 +156,7 @@ export default function SignInManufactur() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-red-500 text-white py-2 rounded-lg"
+                    className="w-full bg-blue-400  text-white py-4 rounded-lg hover:bg-green-400 duration-300  transition-all ease-in-out"
                   >
                     {isSubmitting ? "Submitting..." : "Sign In"}
                   </button>

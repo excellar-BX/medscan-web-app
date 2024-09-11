@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import {  ErrorMessage } from 'formik';
 
 
 const PhoneNumberInput = ({ field, form }) => {
@@ -226,26 +226,33 @@ const PhoneNumberInput = ({ field, form }) => {
     };
 
     return (
-        <div className="w-full max-w-xs flex mt-4">
-            <select
-                onChange={handleCountryChange}
-                className="px-2 py-2 border-r-0 border rounded-l-lg focus:outline-none"
-                value={Object.keys(countryCodes).find(country => countryCodes[country] === countryCode) || ''}
-            >
-                {Object.keys(countryCodes).map((country) => (
-                    <option key={country} value={country}>
-                        {country}
-                    </option>
-                ))}
-            </select>
-            <input
-                type="text"
-                value={phoneNumber}
-                onChange={handlePhoneNumberChange}
-                placeholder="Enter your Phone Number"
-                className="w-full px-4 py-2 border rounded-r-lg focus:outline-red-200"
-            />
+        <div className="relative border border-gray-300 rounded-lg">
+        <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+          PhoneNumber
+        </label>
+        <div className="flex">
+          <select
+            onChange={handleCountryChange}
+            className="px-2 py-2 bg-transparent border-r-0 border-none outline-none rounded-l-lg focus:outline-none"
+            value={Object.keys(countryCodes).find(country => countryCodes[country] === countryCode) || ''}
+          >
+            {Object.keys(countryCodes).map((country) => (
+              <option key={country} value={country}>
+                {country}
+              </option>
+            ))}
+          </select>
+          <input
+            type="text"
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
+            placeholder="Enter your Phone Number"
+            className="w-full px-4 py-2 bg-transparent border-none outline-none rounded-r-lg"
+          />
         </div>
+        <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
+      </div>
+      
     );
 };
 
