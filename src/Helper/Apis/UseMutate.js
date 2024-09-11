@@ -78,6 +78,20 @@ export const api = createApi({
         }
       },
     }),
+    sendEmail: builder.mutation({
+      query: (body) => ({
+        url: "/auth/send-email",
+        method: "POST",
+        body,
+      })
+    }),
+    verifyEmail: builder.mutation({
+      query: (body) => ({
+        url: "/auth/verify-email",
+        method: "POST",
+        body,
+      })
+    }),
   }),
 });
 
@@ -86,4 +100,6 @@ export const {
   useLoginUserMutation,
   useUpdateProfileMutation,
   useUpdateKycMutation,
+  useVerifyEmailMutation,
+  useSendEmailMutation
 } = api;
