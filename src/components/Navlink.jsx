@@ -123,7 +123,7 @@ export default function Navlink({ isAuthenticated, userProfile }) {
                   <div className="px-6 h-[55px] text-white flex justify-center items-center rounded-[5px] bg-[#0084FC]">
                     <li>
                       <Link
-                        to="/login"
+                        to="/logoption"
                         onClick={toggleMenu}
                         className="text-white"
                       >
