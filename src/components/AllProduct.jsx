@@ -38,7 +38,7 @@ export default function AllProduct() {
       }
   
       try {
-        const response = await fetch(`https://medscan-backend.vercel.app/api/products?userId=${userId}`, {
+        const response = await fetch(`https://medscan-backend-dev.vercel.app/api/products?userId=${userId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

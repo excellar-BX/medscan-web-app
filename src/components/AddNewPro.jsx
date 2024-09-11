@@ -37,6 +37,7 @@ export default function AddNewPro() {
   const [qrCodeDetails,setQrcodeDetails] = useState(null)
 
   const [pdfUrl, setPdfUrl] = useState("");
+  const [loading,isLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,10 +87,11 @@ export default function AddNewPro() {
   
       console.log("productData:", productData);
       // http://localhost:5000/api/products/create
-      //https://medscan-backend.vercel.app/api/products/create
+      //https://medscan-backend-dev.vercel.app/api/products/create
       // 
+      isLoading(true)
       try {
-        const response = await fetch("http://localhost:5000/api/products/create", {
+        const response = await fetch(" https://medscan-backend-dev.vercel.app/api/products/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -105,7 +107,7 @@ export default function AddNewPro() {
           // console.log("Response from backend:",data);
           // console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
           console.log("Product added successfully");
-
+          isLoading(false)
           
             message.success(data.message)
             setFormData({
@@ -142,9 +144,11 @@ export default function AddNewPro() {
           console.error("Failed to add product");
         }
       } catch (error) {
+        isLoading(false)
         console.error("Error:", error.response?.data?.message || error.message);
       }
     } catch (error) {
+      isLoading(false)
       console.error("Error decoding token:", error);
     }
   };
@@ -193,7 +197,7 @@ export default function AddNewPro() {
   const downloadPdf = async (url) => {
     try {
       // Prepend base URL if required
-      const fullUrl = url.startsWith('https') ? url : `https://meds-scan-backend.vercel.app/${url}`;
+      const fullUrl = url.startsWith('https') ? url : `https://meds-scan-backend-dev.vercel.app/${url}`;
       const response = await axios.get(fullUrl, { responseType: "blob" });
   
       const blob = new Blob([response.data], { type: "application/pdf" });
@@ -435,8 +439,9 @@ export default function AddNewPro() {
           <button
             className="bg-blue-700 w-[300px] py-2 px-4 text-sm text-white rounded-xl mt-4"
             type="submit"
+            disabled={loading}
           >
-            Register
+            {loading ?'Creating Product':'Register'}
           </button>
         {/* ) : (
           <p className="text-red-500 mt-4">
