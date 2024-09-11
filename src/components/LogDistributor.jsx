@@ -73,7 +73,7 @@ export default function LogDistributor() {
                   if (data.token) {
                     localStorage.setItem('token', data.token);
                     console.log("Token set in localStorage:", localStorage.getItem('token'));
-                    navigate(`/login/${type || 'Distributors'}`);
+                    navigate(`/send-email?email=${values.email}`);
                   } else {
                     console.error("Token is missing from the response.");
                     setMessage({ success: '', error: 'Failed to retrieve token' });
