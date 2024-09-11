@@ -4,11 +4,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useCreateUserMutation } from '../Helper/Apis/UseMutate';
 import PhoneNumberInput from './phoneNumber';
+import logi from "../assets/images/image 2.png";
+import bgImage from "../assets/images/login-img.jpg";
+
 
 const LocalSignupSchema = Yup.object().shape({
   fullName: Yup.string().required('Full Name is required'),
+  businessName: Yup.string().required('business Name is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
   phone: Yup.string().required('Phone number is required'),
+  businessDateOfEstab: Yup.string().required('business Date is required'),
+  businessLocation: Yup.string().required('business Location is required'),
+  businessRegNumber: Yup.string().required('businessReg Number is required'),
+  taxIdNumber: Yup.string().required('tax Id is required'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -40,118 +48,229 @@ export default function LogDistributor() {
         </div>
       )}
       <div className="w-full h-full">
-        <div className="relative h-full flex">
-          <div
-            className="w-[800px] h-[full] bg-cover bg-center"
-            style={{ backgroundImage: "url('http://localhost:5173/src/assets/images/login-img.jpg')" }}
-          ></div>
+  <div className="relative h-full flex flex-col lg:flex-row">
+    {/* Background image */}
+    <img
+      src={bgImage}
+      alt="background"
+      className="w-full h-full absolute top-0 left-0 z-10 object-cover"
+    />
 
-          <div className="lg:w-[40%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 rounded items-center flex flex-col h-full relative z-40">
-            <h3 className="font-[800] text-[30px]">Create Account</h3>
-            <p className="md:text-[16px] text-center mb-5">
-              You are creating an account as a {type ? type : 'Distributors'}
-            </p>
+    {/* Logo Section */}
+    <div className="lg:w-[50%] w-full flex justify-center items-center h-full relative z-20 lg:z-40">
+      <img src={logi} alt="logo" className="contrast-200 w-44" />
+    </div>
 
-            <Formik
-              initialValues={{
-                fullName: '',
-                email: '',
-                phone: '',
-                password: '',
-                confirmPassword: '',
-                agreeToTerms: false,
-              }}
-              validationSchema={LocalSignupSchema}
-              onSubmit={async (values, { setSubmitting }) => {
-                try {
-                  console.log("Submitting values:", values);
-                  const data = await createUser({ ...values, role: type || 'Distributors' }).unwrap();
-                  console.log("Received data:", data); // Check if the data contains the token
-                  setMessage({ success: 'Account created successfully', error: '' });
-                  
-                  // Ensure token exists before setting
-                  if (data.token) {
-                    localStorage.setItem('token', data.token);
-                    console.log("Token set in localStorage:", localStorage.getItem('token'));
-                    navigate(`/login/${type || 'Distributors'}`);
-                  } else {
-                    console.error("Token is missing from the response.");
-                    setMessage({ success: '', error: 'Failed to retrieve token' });
-                  }
-                } catch (error) {
-                  const errorMessage = error.data ? error.data.message : 'An unknown error occurred';
-                  setMessage({ success: '', error: errorMessage });
-                  console.error("Error during form submission:", error);
-                } finally {
-                  setSubmitting(false);
-                }
-              }}
+    {/* Form Section */}
+    <div className="lg:w-[50%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 flex flex-col items-center h-full relative z-40">
+      <h3 className="font-[800] text-[30px]">Create Account</h3>
+      <p className="md:text-[16px] text-center mb-5">
+        You are creating an account as a {type ? type : 'Distributors'}
+      </p>
+
+      <Formik
+        initialValues={{
+          fullName: '',
+          businessName: '',
+          email: '',
+          phone: '',
+          businessDateOfEstab: '',
+          businessLocation: '',
+          businessRegNumber: '',
+          taxIdNumber: '',
+          password: '',
+          confirmPassword: '',
+          agreeToTerms: false,
+        }}
+        validationSchema={LocalSignupSchema}
+        onSubmit={async (values, { setSubmitting }) => {
+          try {
+            const data = await createUser({
+              ...values,
+              role: type || 'Distributors',
+            }).unwrap();
+            setMessage({ success: 'Account created successfully', error: '' });
+            if (data.token) {
+              localStorage.setItem('token', data.token);
+              navigate(`/login/${type || 'Distributors'}`);
+            } else {
+              setMessage({ success: '', error: 'Failed to retrieve token' });
+            }
+          } catch (error) {
+            const errorMessage = error.data ? error.data.message : 'An unknown error occurred';
+            setMessage({ success: '', error: errorMessage });
+          } finally {
+            setSubmitting(false);
+          }
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form className="space-y-4 w-full">
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                Full Name
+              </label>
+              <Field
+                name="fullName"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="fullName"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                businessName
+              </label>
+              <Field
+                name="businessName"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="businessName"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                businessEmailAddress
+              </label>
+              <Field
+                type="email"
+                name="email"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+
+            <Field name="phone">
+              {({ field, form }) => <PhoneNumberInput field={field} form={form} />}
+            </Field>
+            <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+              businessDateOfEstab
+              </label>
+              <Field
+              type="date"
+                name="businessDateOfEstab"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="businessDateOfEstab"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                businessLocation
+              </label>
+              <Field
+                name="businessLocation"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="businessLocation"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                businessRegNumber
+              </label>
+              <Field
+              type="text"
+                name="businessRegNumber"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="businessRegNumber"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+      
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                taxIdNumber
+              </label>
+              <Field
+              type="text"
+                name="taxIdNumber"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="taxIdNumber"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                Password
+              </label>
+              <Field
+                type="password"
+                name="password"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                Confirm Password
+              </label>
+              <Field
+                type="password"
+                name="confirmPassword"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="confirmPassword"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Field type="checkbox" name="agreeToTerms" className="w-4 h-4" />
+              <label htmlFor="agreeToTerms" className="text-sm">
+                I agree to the terms and conditions
+              </label>
+              <ErrorMessage name="agreeToTerms" component="div" className="text-red-500 text-xs" />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+             className="w-full bg-blue-400 text-white py-4 rounded-lg hover:bg-green-400 transition-all duration-300 ease-in-out"
+
             >
-              {({ isSubmitting }) => (
-                <Form className="space-y-4 w-full">
-                  <div className="relative border border-gray-300 rounded-lg">
-                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                      Full Name
-                    </label>
-                    <Field
-                      name="fullName"
-                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
-                    />
-                    <ErrorMessage name="fullName" component="div" className="text-red-500 text-xs" />
-                  </div>
+              {isSubmitting ? 'Submitting...' : 'Create Account'}
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  </div>
+</div>
 
-                  <div className="relative border border-gray-300 rounded-lg">
-                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                      Email
-                    </label>
-                    <Field type="email" name="email" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
-                    <ErrorMessage name="email" component="div" className="text-red-500 text-xs" />
-                  </div>
-
-                  <Field name="phone">{({ field, form }) => <PhoneNumberInput field={field} form={form} />}</Field>
-                  <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
-
-                  <div className="relative border border-gray-300 rounded-lg">
-                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                      Password
-                    </label>
-                    <Field
-                      type="password"
-                      name="password"
-                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
-                    />
-                    <ErrorMessage name="password" component="div" className="text-red-500 text-xs" />
-                  </div>
-
-                  <div className="relative border border-gray-300 rounded-lg">
-                    <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                      Confirm Password
-                    </label>
-                    <Field
-                      type="password"
-                      name="confirmPassword"
-                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
-                    />
-                    <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-xs" />
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <Field type="checkbox" name="agreeToTerms" className="w-4 h-4" />
-                    <label htmlFor="agreeToTerms" className="text-sm">
-                      I agree to the terms and conditions
-                    </label>
-                    <ErrorMessage name="agreeToTerms" component="div" className="text-red-500 text-xs" />
-                  </div>
-
-                  <button type="submit" disabled={isSubmitting} className="w-full bg-red-500 text-white py-2 rounded-lg">
-                    {isSubmitting ? 'Submitting...' : 'Create Account'}
-                  </button>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
