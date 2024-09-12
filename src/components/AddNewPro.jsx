@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useGetUserQuery } from "../Helper/Apis/UseFetch";
 import { message } from "antd";
 import PrintQrCode from '../Helper/PrintOut'
+import { BASE_URL } from "../constant/ServerUrl";
 
 
 
@@ -38,7 +39,7 @@ export default function AddNewPro() {
   const [qrCodeDetails,setQrcodeDetails] = useState(null)
 
   const [pdfUrl, setPdfUrl] = useState("");
-  const [loading,isLoading] = useState(false)
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,7 +93,7 @@ export default function AddNewPro() {
       // 
       isLoading(true);
       try {
-        const response = await fetch(" https://medscan-backend-dev.vercel.app/api/products/create", {
+        const response = await fetch(`${BASE_URL}/products/create`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
