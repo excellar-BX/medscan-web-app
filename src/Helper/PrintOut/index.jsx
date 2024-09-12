@@ -114,7 +114,7 @@ useEffect(() => {
         const productName = qrCodeDetails?.productInformation?.productName || 'Unknown Product';
         const productDescription = qrCodeDetails?.productInformation?.productDescription || 'No Description';
         const qrImage = qrCodeImages[index];
-        console.log(qrCodeImages)
+       
         return `
           <div class="qr-code-item" style="width:30%; margin: 10px; text-align: center;">
             <h4>Product Information</h4>
