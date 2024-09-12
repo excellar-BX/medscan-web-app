@@ -32,6 +32,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
+import logo from "../../assets/images/image 2.png"
 // import { Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useGetUserQuery } from "../../Helper/Apis/UseFetch";
@@ -163,8 +164,8 @@ const Layout = () => {
           }}
         >
           <img
-            src="https://s3-alpha-sig.figma.com/img/696c/5298/0fe1bb5f5101ecb5966f1be43f16825d?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Itny~-4iBRn-LlVeWYN5BYgSRjlShW6oTYnecMQpCIGuuRNoUHp27oKR2eyKOyeTbAOw015EJ6OOXomwOqKT3drPu4TIAWCLpDxbywPFDo3XMIex-m21r8GPr4EIVU2heLZimR6M4SJ57oL1clCAyLCToCylQb9az4l3zqI8D7R8csluQYbzFYU6~PHE7VpHUVCCnk0U2JvQmQ9YX32rrtr39JtKVziOlzbDmaatNwANuKlpMYc64AQ-XWR0OElS3482uwDo~wJBcIAd6eY2co-yFfWGaFdW7zLG6YhPXckTsoBO-DqTUeIhr85T~pCrHalgQuquw~-y3epdtYJPPQ__"
-            alt="Logo"
+             src={logo} alt="nav-logo" className="h-10" 
+          
             style={{ maxWidth: "100px", height: "100px" }}
           />
         </Box>
