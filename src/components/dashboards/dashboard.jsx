@@ -153,7 +153,7 @@ const Dashboards = () => {
 
     fetchDashboardData();
   }, []);
-
+  console.log('datax',data)
   return (
     <main className="flex-1 px-8  bg-gray-100 overflow-y-auto">
       {!data?.is_kyc_verified && (

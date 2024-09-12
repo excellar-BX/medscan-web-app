@@ -33,6 +33,7 @@ export default function AddNewPro() {
     productComponent: "",
 
   });
+  const [loading,isLoading] = useState(false)
 
   const [qrCodeDetails,setQrcodeDetails] = useState(null)
 
@@ -88,6 +89,7 @@ export default function AddNewPro() {
       // http://localhost:5000/api/products/create
       //https://medscan-backend.vercel.app/api/products/create
       // 
+      isLoading(true);
       try {
         const response = await fetch("http://localhost:5000/api/products/create", {
           method: "POST",
@@ -99,6 +101,7 @@ export default function AddNewPro() {
         });
   
         if (response.status === 201) {
+          isLoading(false);
           const data = await response.json();
           //   console.log("Response data:", data);
           // console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
@@ -139,12 +142,18 @@ export default function AddNewPro() {
           //   console.error("PDF URL is not available");
           // }
         } else {
+          isLoading(false);
+          message.error('Failed to add product')
           console.error("Failed to add product");
         }
       } catch (error) {
+        isLoading(false);
+        message.error(error.response?.data?.message || error?.message)
         console.error("Error:", error.response?.data?.message || error.message);
       }
     } catch (error) {
+        isLoading(false);
+        message.error(error)
       console.error("Error decoding token:", error);
     }
   };
@@ -435,8 +444,9 @@ export default function AddNewPro() {
           <button
             className="bg-blue-700 w-[300px] py-2 px-4 text-sm text-white rounded-xl mt-4"
             type="submit"
+            disabled={loading}
           >
-            Register
+            {loading ? 'Please wait':'Register'}
           </button>
         {/* ) : (
           <p className="text-red-500 mt-4">

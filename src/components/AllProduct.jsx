@@ -4,6 +4,7 @@ import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
 import { Button, message } from "antd";
 import PrintQrCode from '../Helper/PrintOut'
+import { BASE_URL } from "../constant/ServerUrl";
 
 export default function AllProduct() {
   const [products, setProducts] = useState([]);
@@ -38,7 +39,7 @@ export default function AllProduct() {
       }
   
       try {
-        const response = await fetch(`localhost:5000/api/products?userId=${userId}`, {
+        const response = await fetch(`${BASE_URL}/products/all?userId=${userId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
