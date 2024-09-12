@@ -8,10 +8,13 @@ import {
   useUpdateProfileMutation,
 } from "../Helper/Apis/UseMutate";
 
+import { BASE_URL } from "../constant/ServerUrl";
+
 export default function Profile() {
   // Fetch logged-in user details
   const { data, isLoading } = useGetUserQuery();
   const { data: kyc } = useGetKycQuery();
+
 
   const [updateProfile, { isLoading: loading }] = useUpdateProfileMutation();
   const [updateKyc] = useUpdateKycMutation();
@@ -80,7 +83,7 @@ export default function Profile() {
         });
       });
   };
-
+console.log('data',data?.user)
   return (
     <div className="p-6">
       {/* Error Message */}
@@ -167,7 +170,7 @@ export default function Profile() {
                       ) : data?.image ? (
                         <img src={data.image} alt="Profile" className="w-full h-full rounded-full object-cover" />
                       ) : (
-                        <span className="font-[800]">{data?.fullName.charAt(0)}</span>
+                        <span className="font-[800]">{data?.user?.fullName?.charAt(0)}</span>
                       )}
                     </div>
 

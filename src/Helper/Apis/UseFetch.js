@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BiLogIn } from "react-icons/bi";
-
+import { BASE_URL } from "../../constant/ServerUrl";
 export const fetch = createApi({
   reducerPath: "fetch",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://medscan-backend-dev.vercel.app/api", 
-    // baseUrl: "http://localhost:5000/api", 
+    //baseUrl: "https://medscan-backend.vercel.app/api", 
+    baseUrl: BASE_URL, 
     prepareHeaders: (headers) => {
       // Retrieve the token from local storage
       const token = localStorage.getItem("token");

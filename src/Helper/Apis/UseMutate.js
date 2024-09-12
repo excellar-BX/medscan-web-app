@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import { BASE_URL } from "../../constant/ServerUrl";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://medscan-backend-dev.vercel.app/api",
-    // baseUrl: "http://localhost:5000/api",
+    // baseUrl: "https://medscan-backend.vercel.app/api",
+    baseUrl: BASE_URL,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {
