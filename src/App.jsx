@@ -41,8 +41,8 @@ function App() {
   const fetchUserProfile = async (token) => {
     try {
       const response = await fetch(
-        "https://medscan-backend.vercel.app/api/auth/profile",
-        // "http://localhost:5000/api/auth/profile",
+        // "https://medscan-backend.vercel.app/api/auth/profile",
+        "http://localhost:5000/api/auth/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
