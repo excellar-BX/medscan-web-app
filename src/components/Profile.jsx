@@ -85,69 +85,69 @@ export default function Profile() {
     <div className="p-6">
       {/* Error Message */}
       {message.error && (
-        <div className="bg-red-100 text-red-700 p-4 rounded mb-4 flex justify-between items-center px-6">
+        <div className="bg-red-100 text-red-700 p-4 rounded mb-4 flex flex-col md:flex-row justify-between items-center px-6">
           <p>
             <b>Error!!</b> , {message.error}
           </p>
           <div
-            className="bg-white rounded-[8px] font-[500] hover:text-white hover:bg-red-300 cursor-pointer text-red-700 p-2 px-8"
+            className="bg-white rounded-lg font-medium hover:text-white hover:bg-red-300 cursor-pointer text-red-700 p-2 px-4 md:px-8"
             onClick={() => setMessage({ success: "", error: "" })}
           >
             Close
           </div>
         </div>
       )}
-
+  
       {/* Success Message */}
       {message.success && (
-        <div className="bg-green-100 text-green-700 p-4 rounded mb-4 flex justify-between items-center px-6">
+        <div className="bg-green-100 text-green-700 p-4 rounded mb-4 flex flex-col md:flex-row justify-between items-center px-6">
           <p>
             <b>Success!!</b> , {message.success}
           </p>
           <div
-            className="bg-white rounded-[8px] font-[500] hover:text-white hover:bg-green-300 cursor-pointer text-green-700 p-2 px-8"
+            className="bg-white rounded-lg font-medium hover:text-white hover:bg-green-300 cursor-pointer text-green-700 p-2 px-4 md:px-8"
             onClick={() => setMessage({ success: "", error: "" })}
           >
             Close
           </div>
         </div>
       )}
-
+  
       {/* Tabs for Basic Info and KYC */}
       <div className="w-full bg-white">
-        <div className="h-[80px] text-[14px] md:text-[18px] flex gap-4 md:gap-12 items-center px-4 md:px-6 w-full bg-[#5b81eb15]">
+        <div className="h-20 text-sm md:text-base flex flex-col md:flex-row gap-4 md:gap-8 items-center px-4 md:px-6 w-full bg-[#5b81eb15]">
           <div
-            className={`border-b-[2px] ${tabs == 1 && "border-blue-400"} cursor-pointer py-3`}
+            className={`border-b-2 ${tabs === 1 ? "border-blue-400" : "border-transparent"} cursor-pointer py-3`}
             onClick={() => setTabs(1)}
           >
             <p>Basic Information</p>
           </div>
-
+  
           <div
-            className={`border-b-[2px] ${tabs == 2 && "border-blue-400"} cursor-pointer py-3`}
+            className={`border-b-2 ${tabs === 2 ? "border-blue-400" : "border-transparent"} cursor-pointer py-3`}
             onClick={() => setTabs(2)}
           >
             <p>
-              Kyc{" "}
+              KYC{" "}
               {!data?.is_kyc_verified && (
-                <span className="bg-red-100 rounded-[8px] text-[14px] font-[500] text-red-700 p-1 px-6">
-                  Verify Kyc Here
+                <span className="bg-red-100 rounded-lg text-xs font-medium text-red-700 p-1 px-4 md:px-6">
+                  Verify KYC Here
                 </span>
               )}
             </p>
           </div>
         </div>
-
+  
         {/* Content for each Tab */}
         <div className="min-h-[300px] p-4 md:p-12">
-          {tabs == 1 && (
+          {tabs === 1 && (
             <div className="flex flex-col md:flex-row justify-between h-full">
-              <div className="bg-gray-100 rounded-[20px] shadow-sm p-6 h-auto md:h-[400px] font-[500] flex flex-col gap-6 w-full md:w-[20%]">
-                <div className="text-blue-800 bg-[#9ebdff79] p-4 rounded-[50px]">
+              <div className="bg-gray-100 rounded-lg shadow-sm p-6 h-auto md:h-[400px] font-medium flex flex-col gap-6 w-full md:w-1/5">
+                <div className="text-blue-800 bg-[#9ebdff79] p-4 rounded-full">
                   <p>Profile</p>
                 </div>
               </div>
-
+  
               <Formik
                 initialValues={{
                   fullName: data?.fullName || "",
@@ -159,18 +159,18 @@ export default function Profile() {
                 onSubmit={handleSubmit}
               >
                 {({ setFieldValue }) => (
-                  <Form className="w-full md:w-[70%] mt-6 md:mt-0">
+                  <Form className="w-full md:w-3/4 mt-6 md:mt-0">
                     {/* Profile Image */}
-                    <div className="w-[100px] h-[100px] flex justify-center items-center rounded-full relative bg-gray-400 mx-auto md:mx-0">
+                    <div className="w-24 h-24 flex justify-center items-center rounded-full bg-gray-400 mx-auto md:mx-0">
                       {preview ? (
                         <img src={preview} alt="Preview" className="w-full h-full rounded-full object-cover" />
                       ) : data?.image ? (
                         <img src={data.image} alt="Profile" className="w-full h-full rounded-full object-cover" />
                       ) : (
-                        <span className="font-[800]">{data?.fullName.charAt(0)}</span>
+                        <span className="font-bold">{data?.fullName.charAt(0)}</span>
                       )}
                     </div>
-
+  
                     {/* Form Fields */}
                     <div className="mt-4">
                       <label className="block mb-2 text-sm font-bold text-gray-700">Full Name</label>
@@ -181,7 +181,7 @@ export default function Profile() {
                       />
                       <ErrorMessage name="fullName" component="div" className="text-red-500 text-xs mt-1" />
                     </div>
-
+  
                     <div className="mt-4">
                       <label className="block mb-2 text-sm font-bold text-gray-700">Phone</label>
                       <Field
@@ -191,7 +191,7 @@ export default function Profile() {
                       />
                       <ErrorMessage name="phone" component="div" className="text-red-500 text-xs mt-1" />
                     </div>
-
+  
                     <div className="mt-4">
                       <label className="block mb-2 text-sm font-bold text-gray-700">Email</label>
                       <Field
@@ -202,7 +202,7 @@ export default function Profile() {
                       />
                       <ErrorMessage name="email" component="div" className="text-red-500 text-xs mt-1" />
                     </div>
-
+  
                     <div className="mt-4">
                       <label className="block mb-2 text-sm font-bold text-gray-700">Role</label>
                       <Field
@@ -212,7 +212,7 @@ export default function Profile() {
                       />
                       <ErrorMessage name="role" component="div" className="text-red-500 text-xs mt-1" />
                     </div>
-
+  
                     {/* Submit Button */}
                     <button
                       type="submit"
@@ -226,8 +226,8 @@ export default function Profile() {
               </Formik>
             </div>
           )}
-
-          {tabs == 2 && (
+  
+          {tabs === 2 && (
             <Formik
               initialValues={{
                 companyName: kyc?.companyName || "",
@@ -252,7 +252,7 @@ export default function Profile() {
                   />
                   <ErrorMessage name="companyName" component="div" className="text-red-500 text-xs mt-1" />
                 </div>
-
+  
                 <div>
                   <label htmlFor="vat" className="block text-sm font-medium text-gray-700">
                     VAT Number
@@ -265,7 +265,7 @@ export default function Profile() {
                   />
                   <ErrorMessage name="vat" component="div" className="text-red-500 text-xs mt-1" />
                 </div>
-
+  
                 <div>
                   <label htmlFor="cac" className="block text-sm font-medium text-gray-700">
                     CAC Registration
@@ -278,7 +278,7 @@ export default function Profile() {
                   />
                   <ErrorMessage name="cac" component="div" className="text-red-500 text-xs mt-1" />
                 </div>
-
+  
                 <div>
                   <label htmlFor="tax" className="block text-sm font-medium text-gray-700">
                     Tax Number
@@ -291,7 +291,7 @@ export default function Profile() {
                   />
                   <ErrorMessage name="tax" component="div" className="text-red-500 text-xs mt-1" />
                 </div>
-
+  
                 <div>
                   <label htmlFor="nin" className="block text-sm font-medium text-gray-700">
                     NIN
@@ -304,12 +304,13 @@ export default function Profile() {
                   />
                   <ErrorMessage name="nin" component="div" className="text-red-500 text-xs mt-1" />
                 </div>
-
+  
                 <button
                   type="submit"
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                  disabled={loading}
                 >
-                  Update KYC
+                  {loading ? "Updating..." : "Update KYC"}
                 </button>
               </Form>
             </Formik>
@@ -318,4 +319,5 @@ export default function Profile() {
       </div>
     </div>
   );
+  
 }

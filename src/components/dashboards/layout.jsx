@@ -139,9 +139,9 @@ const Layout = () => {
         </AppBar>
       )}
       <Drawer
-        className={
-          small ? " flex absolute" : " hidden md:flex absolute md:relative"
-        }
+         className={`absolute ${
+          small ? "flex" : "hidden md:flex md:relative"
+        }`}
         variant="permanent"
         sx={{
           width: drawerWidth,
@@ -395,9 +395,9 @@ const Layout = () => {
           </ListItem>
         </List>
       </Drawer>
-      <main className=" bg-[#f4f4f4] min-h-screen px-5 flex-grow">
+      <main className="bg-[#f4f4f4] min-h-screen px-4 sm:px-6 lg:px-8 flex-grow">
         <MenuIcon
-          className=" text-orange-900 absolute top-0 left-0 mx-5 my-5 text-2xl z-50"
+         className="text-orange-900 absolute top-0 left-0 mx-4 my-4 sm:mx-5 sm:my-5 text-lg sm:text-2xl z-50"
           onClick={() => setSmall(true)}
         />
         <div className="h-[150px]"></div>
