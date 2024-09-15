@@ -10,10 +10,13 @@ import bgImage from "../assets/images/login-img.jpg";
 
 const LocalSignupSchema = Yup.object().shape({
   fullName: Yup.string().required('Full Name is required'),
-
+  businessName: Yup.string().required('business Name is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
   phone: Yup.string().required('Phone number is required'),
-
+  businessDateOfEstab: Yup.string().required('business Date is required'),
+  businessLocation: Yup.string().required('business Location is required'),
+  businessRegNumber: Yup.string().required('businessReg Number is required'),
+  taxIdNumber: Yup.string().required('tax Id is required'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -50,16 +53,16 @@ export default function LogDistributor() {
     <img
       src={bgImage}
       alt="background"
-      className="w-full h-full absolute top-0 left-0 z-10 object-cover"
+      className="w-full h-[40vh] lg:h-[100%] absolute top-0 left-0 z-10 object-cover"
     />
 
     {/* Logo Section */}
-    <div className="lg:w-[50%] w-full flex justify-center items-center h-full relative z-20 lg:z-40">
+    <div className="lg:w-[50%] w-full flex justify-center items-center lg:h-full h-[30vh] relative z-20 lg:z-40">
       <img src={logi} alt="logo" className="contrast-200 w-44" />
     </div>
 
     {/* Form Section */}
-    <div className="lg:w-[50%] w-full bg-white overflow-y-auto md:p-12 p-4 pt-12 flex flex-col items-center h-full relative z-40">
+    <div className="lg:w-[50%] w-full bg-white overflow-y-auto md:p-12 p-4 md:pt-12 flex flex-col items-center h-full relative z-40">
       <h3 className="font-[800] text-[30px]">Create Account</h3>
       <p className="md:text-[16px] text-center mb-5">
         You are creating an account as a {type ? type : 'Distributors'}
@@ -140,12 +143,66 @@ export default function LogDistributor() {
             </Field>
             <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
       
-            
-         
-    
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+              business Date Of Estab
+              </label>
+              <Field
+              type="date"
+                name="businessDateOfEstab"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="businessDateOfEstab"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                business Location
+              </label>
+              <Field
+                name="businessLocation"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="businessLocation"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                business Reg Number
+              </label>
+              <Field
+              type="number"
+                name="businessRegNumber"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="businessRegNumber"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
       
-        
-
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                tax Id Number
+              </label>
+              <Field
+              type="number"
+                name="taxIdNumber"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="taxIdNumber"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                 Password

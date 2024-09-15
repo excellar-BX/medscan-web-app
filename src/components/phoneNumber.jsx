@@ -226,14 +226,14 @@ const PhoneNumberInput = ({ field, form }) => {
     };
 
     return (
-        <div className="relative border border-gray-300 rounded-lg">
+      <div className="relative border border-gray-300 rounded-lg w-full">
         <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-          PhoneNumber
+          Phone Number
         </label>
-        <div className="flex">
+        <div className="flex flex-col sm:flex-row">
           <select
             onChange={handleCountryChange}
-            className="px-2 py-2 bg-transparent border-r-0 border-none outline-none rounded-l-lg focus:outline-none"
+            className="px-2 py-2 bg-transparent border-r-0 border-none outline-none sm:rounded-l-lg sm:border-r focus:outline-none w-full sm:w-auto"
             value={Object.keys(countryCodes).find(country => countryCodes[country] === countryCode) || ''}
           >
             {Object.keys(countryCodes).map((country) => (
@@ -247,13 +247,13 @@ const PhoneNumberInput = ({ field, form }) => {
             value={phoneNumber}
             onChange={handlePhoneNumberChange}
             placeholder="Enter your Phone Number"
-            className="w-full px-4 py-2 bg-transparent border-none outline-none rounded-r-lg"
+            className="w-full px-4 py-2 bg-transparent border-none outline-none sm:rounded-r-lg"
           />
         </div>
         <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
       </div>
-      
     );
+    
 };
 
 export default PhoneNumberInput;

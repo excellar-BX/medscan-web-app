@@ -196,16 +196,16 @@ export default function AddNewPro() {
   
 
   return (
-    <div className="text-2xl md:mx-20">
-      <h1 className="md:mt-16 mt-4 text-2xl font-bold">
+    <div className="text-xl md:mx-20 mx-4">
+      <h1 className="md:mt-16 mt-6 text-xl md:text-2xl font-bold text-center md:text-left">
         Register New Product To Blockchain
       </h1>
       <form className="flex flex-col mt-4" onSubmit={handleSubmit}>
         {/* Manufacturer Name */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base"> Name : </div>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+          <div>Name:</div>
           <input
-            className="px-3 py-2 text-sm rounded-xl"
+            className="px-3 py-2 text-sm rounded-xl w-full"
             name="manufacturerName"
             type="text"
             placeholder="Manufacturer Name"
@@ -216,22 +216,23 @@ export default function AddNewPro() {
         </section>
 
         {/* Product Name */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Product Name : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="productName"
-            type="text"
-            placeholder="Product Name"
-            value={formData.productName}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>Product Name:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="productName"
+          type="text"
+          placeholder="Product Name"
+          value={formData.productName}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
         {/* Product Category */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Product Category:</div>
+        <section className="py-2 text-sm md:text-base flex flex-col gap-2">
+        <div>Product Category:</div>
+        <div className="flex flex-col gap-1">
           <label className="flex items-center gap-2">
             <input
               type="radio"
@@ -239,11 +240,9 @@ export default function AddNewPro() {
               value="Pharmaceuticals/ Drugs"
               checked={formData.productCategory === 'Pharmaceuticals/ Drugs'}
               onChange={handleInputChange}
-              className="text-sm"
             />
             Pharmaceuticals/ Drugs
           </label>
-
           <label className="flex items-center gap-2">
             <input
               type="radio"
@@ -251,11 +250,9 @@ export default function AddNewPro() {
               value="Foods & Beverages"
               checked={formData.productCategory === 'Foods & Beverages'}
               onChange={handleInputChange}
-              className="text-sm"
             />
             Foods & Beverages
           </label>
-
           <label className="flex items-center gap-2">
             <input
               type="radio"
@@ -263,26 +260,26 @@ export default function AddNewPro() {
               value="Cosmetics"
               checked={formData.productCategory === 'Cosmetics'}
               onChange={handleInputChange}
-              className="text-sm"
             />
             Cosmetics
           </label>
-        </section>
+        </div>
+      </section>
 
 
         {/* Product Description */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Product Description : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="productDescription"
-            type="text"
-            placeholder="Product Description"
-            value={formData.productDescription}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>Product Description:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="productDescription"
+          type="text"
+          placeholder="Product Description"
+          value={formData.productDescription}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
         {/* ISSN */}
         {/* <section className="py-2 text-base flex-col flex justify-center gap-2">
@@ -299,125 +296,123 @@ export default function AddNewPro() {
         </section> */}
 
         {/* Manufactured Date */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base"> Manufactured Date : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="manufacturedDate"
-            type="date"
-            placeholder="Manufactured Date"
-            value={formData.manufacturedDate}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>Manufactured Date:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="manufacturedDate"
+          type="date"
+          value={formData.manufacturedDate}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
         {/* Expiry Date */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Expiry Date : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="expiryDate"
-            type="date"
-            placeholder="Expiry Date"
-            value={formData.expiryDate}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>Expiry Date:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="expiryDate"
+          type="date"
+          value={formData.expiryDate}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
         {/* Nafdac Registration Number */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Nafdac Registration Number : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="nafdacRegistration"
-            type="text"
-            placeholder="NAFDAC Registration"
-            value={formData.nafdacRegistration}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>Nafdac Registration Number:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="nafdacRegistration"
+          type="text"
+          placeholder="NAFDAC Registration"
+          value={formData.nafdacRegistration}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
         {/* How Many Packages */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">How Many : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="howManyPackage"
-            type="text"
-            placeholder="How many Package"
-            value={formData.howManyPackage}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>How Many:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="howManyPackage"
+          type="text"
+          placeholder="How many packages"
+          value={formData.howManyPackage}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
         {/* Units Per Package */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Units Per Package : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="productsPerPackage"
-            type="text"
-            placeholder="Units Per Package"
-            value={formData.productsPerPackage}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>Units Per Package:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="productsPerPackage"
+          type="text"
+          placeholder="Units Per Package"
+          value={formData.productsPerPackage}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
         {/* Current Humidity */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Humidity in Celcius : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="currentHumidity"
-            type="text"
-            placeholder="Current Humidity in Celcius"
-            value={formData.currentHumidity}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>Humidity in Celsius:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="currentHumidity"
+          type="text"
+          placeholder="Current Humidity in Celsius"
+          value={formData.currentHumidity}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
         {/* Current Temperature */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Temperature in Celcius : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="currentTemperature"
-            type="text"
-            placeholder="Current Temperature in Celcius"
-            value={formData.currentTemperature}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>Temperature in Celsius:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="currentTemperature"
+          type="text"
+          placeholder="Current Temperature in Celsius"
+          value={formData.currentTemperature}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
         {/* Product Components */}
-        <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">Product Components : </div>
-          <input
-            className="px-3 py-2 text-sm rounded-xl"
-            name="productComponent"
-            type="text"
-            placeholder="Product Components"
-            value={formData.productComponent}
-            onChange={handleInputChange}
-            required
-          />
-        </section>
+        <section className="py-2 text-sm md:text-base flex flex-col justify-center gap-2">
+        <div>Product Components:</div>
+        <input
+          className="px-3 py-2 text-sm rounded-xl w-full"
+          name="productComponent"
+          type="text"
+          placeholder="Product Components"
+          value={formData.productComponent}
+          onChange={handleInputChange}
+          required
+        />
+      </section>
 
           {/* Submit button */}
         {/* {data?( */}
-          <button
-            className="bg-blue-700 w-[300px] py-2 px-4 text-sm text-white rounded-xl mt-4"
-            type="submit"
-          >
-            Register
-          </button>
+        <button
+        className="bg-blue-700 w-full md:w-[300px] py-2 px-4 text-sm text-white rounded-xl mt-4"
+        type="submit"
+      >
+        Register
+      </button>
         {/* ) : (
           <p className="text-red-500 mt-4">
             Verify your KYC to register a product 
@@ -427,12 +422,12 @@ export default function AddNewPro() {
 
       {/* Download Button */}
       {pdfUrl && (
-        <button
-          className="bg-green-700 py-2 px-4 text-sm text-white rounded-xl mt-4"
-          onClick={handleDownloadAndNavigate}
-        >
-          Download PDF & Go to Dashboard
-        </button>
+            <button
+            className="bg-green-700 py-2 px-4 text-sm text-white rounded-xl mt-4"
+            onClick={handleDownloadAndNavigate}
+          >
+            Download PDF & Go to Dashboard
+          </button>
       )}
     </div>
   );

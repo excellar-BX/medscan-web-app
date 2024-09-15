@@ -93,8 +93,9 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="flex">
-      <aside className="w-64 bg-gray-800 text-white h-screen p-6">
+    <div className="flex flex-col md:flex-row">
+      {/* Sidebar */}
+      <aside className="w-full md:w-64 bg-gray-800 text-white h-screen p-6 md:relative md:sticky md:top-0 md:flex-shrink-0">
         <nav className="space-y-4">
           <Link
             to="/"
@@ -152,19 +153,20 @@ export default function Dashboard() {
           </Link>
         </nav>
       </aside>
-
-      <main className="flex-1 p-8 bg-gray-100 overflow-y-auto">
+  
+      {/* Main Content */}
+      <main className="flex-1 p-6 md:p-8 bg-gray-100 overflow-y-auto">
         <header className="mb-8">
           <h1 className="text-3xl font-bold">Manufacturer Dashboard</h1>
           <p className="text-sm text-gray-600">15th of August, 2024</p>
         </header>
-
+  
         {error && (
           <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
             {error}
           </div>
         )}
-
+  
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
             <h3 className="text-lg font-semibold mb-4">Sales Trend</h3>
@@ -177,7 +179,7 @@ export default function Dashboard() {
               <Bar dataKey="totalSales" barSize={20} fill="#8884d8" />
             </ComposedChart>
           </div>
-
+  
           <div className="bg-white p-6 rounded-lg shadow">
             <h3 className="text-lg font-semibold mb-4">Market Share</h3>
             <PieChart width={300} height={300}>
@@ -194,7 +196,7 @@ export default function Dashboard() {
               <Tooltip />
             </PieChart>
           </div>
-
+  
           <div className="bg-white p-6 rounded-lg shadow">
             <h3 className="text-lg font-semibold mb-4">Top Products</h3>
             <BarChart width={500} height={300} data={topProducts}>
@@ -210,4 +212,5 @@ export default function Dashboard() {
       </main>
     </div>
   );
+  
 }
