@@ -105,14 +105,24 @@ export default function AddNewPro() {
         if (response.status === 201) {
           isLoading(false);
           const data = await response.json();
-          //   console.log("Response data:", data);
-          // console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-          // console.log("Response from backend:",data);
-          // console.log("<<<<<<<<<<<<<<<<<<Data>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-          console.log("Product added successfully");
+
+          
+
+          
+
+          // const downloadUrl = window.URL.createObjectURL(blob);
+          //   const a = document.createElement('a');
+          //   a.style.display = 'none';
+          //   a.href = downloadUrl;
+          //   a.download = `product_codes_${Date.now()}.pdf`; // Optional: Set a dynamic name
+          //   document.body.appendChild(a);
+          //   a.click();
+          //   window.URL.revokeObjectURL(downloadUrl);
+        
+          
           isLoading(false)
           
-            message.success(data.message)
+            message.success("Product Successfully Added")
             setFormData({
               manufacturerName: "",
               productName: "",
@@ -158,6 +168,8 @@ export default function AddNewPro() {
         message.error(error)
       console.error("Error decoding token:", error);
     }
+
+    
   };
   
   const handleInputChange = (e) => {
