@@ -40,7 +40,26 @@ export default function AddNewPro() {
 
   const [pdfUrl, setPdfUrl] = useState("");
   
+// const generateProductCodes =(totalProducts)=>{
+//   const codes = [];
 
+//   for (let i = 0; i < totalProducts; i++) {
+//     const uniqueCode = window.crypto.randomBytes(8).toString('hex');
+//     codes.push(uniqueCode);
+//   }
+//   return codes;
+// }
+const generateProductCodes = (totalProducts) => {
+  const codes = [];
+
+  for (let i = 0; i < totalProducts; i++) {
+    const array = new Uint8Array(8); // 8 bytes for a 16-character hex code
+    window.crypto.getRandomValues(array);
+    const uniqueCode = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+    codes.push(uniqueCode);
+  }
+  return codes;
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -59,12 +78,15 @@ export default function AddNewPro() {
         console.error("User ID is missing from token");
         return;
       }
+
+      var productCodesArray = await generateProductCodes(formData.howManyPackage * formData.productsPerPackage )
   
       // console.log("Token from localStorage:", token);
       // console.log("UserId:", userId);
   
       // Ensure all required fields are included
       const productData = {
+        productCodes:productCodesArray,
         manufacturerInformation: {
           manufacturerName: formData.manufacturerName,
           nafdacRegistration: formData.nafdacRegistration,
@@ -108,7 +130,7 @@ export default function AddNewPro() {
 
           
 
-          
+
 
           // const downloadUrl = window.URL.createObjectURL(blob);
           //   const a = document.createElement('a');
@@ -120,7 +142,7 @@ export default function AddNewPro() {
           //   window.URL.revokeObjectURL(downloadUrl);
         
           
-          isLoading(false)
+         
           
             message.success("Product Successfully Added")
             setFormData({
@@ -138,6 +160,7 @@ export default function AddNewPro() {
               currentTemperature: "",
               productComponent: "",
             });
+            isLoading(false)
             setQrcodeDetails(data.product)
             console.log('product',data.product)
           
