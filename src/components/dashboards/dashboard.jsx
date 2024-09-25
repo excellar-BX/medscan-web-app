@@ -155,16 +155,11 @@ const Dashboards = () => {
   }, []);
 
   return (
-    <main className="flex-1 px-4 sm:px-6 lg:px-8 bg-gray-100 overflow-y-auto">
+    <main className="flex-1 px-8  bg-gray-100 overflow-y-auto">
       {!data?.is_kyc_verified && (
-        <div className="bg-red-100 text-red-700 p-4 rounded mb-4 flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 lg:px-8">
-          <p>
-            <b>Welcome!!</b> , Verify your kyc to get access to features
-          </p>
-          <div
-            className="bg-white rounded-lg font-medium hover:text-white hover:bg-red-300 cursor-pointer text-red-700 py-2 px-4 sm:px-6 md:px-8 lg:px-10"
-            onClick={() => navigate("profile")}
-          >
+        <div className="bg-red-100 text-red-700 p-4 rounded mb-4 flex justify-between items-center px-6">
+          <p><b>Welcome!!</b> , Verify your kyc to get access to features</p>
+          <div className="bg-white rounded-[8px] font-[500] hover:text-white hover:bg-red-300 cursor-pointer text-red-700 p-2 px-8" onClick={() => navigate('profile')}>
             Verify
           </div>
         </div>
@@ -173,33 +168,29 @@ const Dashboards = () => {
         <h1 className="text-2xl font-bold">{userRole} Dashboard</h1>
         <p className="text-sm text-gray-600">{currentDate}</p>
       </header>
-      <div className="text-[#0084FC] font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl leading-6 sm:leading-7 text-center mb-4 sm:mb-5 md:mb-6 lg:mb-8">
+      <div className=" text-[#0084FC] font-bold text-xl leading-7 text-center mb-4">
         Overall Product Analysis
       </div>
+      
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-lg shadow overflow-hidden">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-lg shadow overflow-hidden">
           {/* <LineChart width={400} height={300} data={data}>
             <XAxis dataKey="name" />
             <YAxis />
             <CartesianGrid stroke="#eee" />
             <Line type="monotone" dataKey="uv" stroke="#8884d8" />
           </LineChart> */}
-          <LineChart width={400} height={300} data={data}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="uv"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
+           <LineChart width={400} height={300} data={data}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+              <Tooltip />
+              <Line type="monotone" dataKey="uv" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
         </div>
 
-        <div className="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow overflow-hidden">
+        <div className="bg-white p-6 rounded-lg shadow overflow-hidden">
           {/* <PieChart width={400} height={250}>
             <Pie
               data={pieData}
@@ -235,42 +226,31 @@ const Dashboards = () => {
             <Legend />
             <Bar dataKey="pnmv" fill="#8884d8" />
           </BarChart> */}
-          <BarChart width={400} height={300} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="pnmv" fill="#8884d8" />
-          </BarChart>
+           <BarChart width={400} height={300} data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="pnmv" fill="#8884d8" />
+            </BarChart>
         </div>
       </section>
 
       <section className="bg-[#d9d9d932] p-4 rounded my-5 relative w-full">
-        <img
-          src={flow}
-          alt="flow"
-          className="w-full object-cover h-48 sm:h-60 md:h-72 lg:h-80"
-        />
+        <img src={flow} alt="bf" className="w-full  object-cover" />
       </section>
 
       <section className="bg-[#d9d9d932] p-4 rounded my-5 relative w-full">
-        <img
-          src={recent}
-          alt="recent"
-          className="w-full object-cover h-48 sm:h-60 md:h-72 lg:h-80"
-        />
+        <img src={recent} alt="bf" className="w-full  object-cover" />
       </section>
 
       <section className="bg-[#d9d9d932] p-4 rounded my-5 relative w-full">
-        <img
-          src={details}
-          alt="details"
-          className="w-full object-cover h-48 sm:h-60 md:h-72 lg:h-80"
-        />
+        <img src={details} alt="bf" className="w-full  object-cover" />
       </section>
     </main>
   );
 };
 
 export default Dashboards;
+

@@ -16,7 +16,7 @@ const LocalSignupSchema = Yup.object().shape({
   businessDateOfEstab: Yup.string().required('business Date is required'),
   businessLocation: Yup.string().required('business Location is required'),
   businessRegNumber: Yup.string().required('businessReg Number is required'),
-  taxIdNumber: Yup.string().required('tax Id is required'),
+
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -77,13 +77,18 @@ export default function LogDistributor() {
           businessDateOfEstab: '',
           businessLocation: '',
           businessRegNumber: '',
-          taxIdNumber: '',
           password: '',
           confirmPassword: '',
           agreeToTerms: false,
         }}
+      
+        
         validationSchema={LocalSignupSchema}
         onSubmit={async (values, { setSubmitting }) => {
+          console.log('Form is submitting...');
+          
+         
+          
           try {
             const data = await createUser({
               ...values,
@@ -104,6 +109,7 @@ export default function LogDistributor() {
           }
         }}
       >
+        
         {({ isSubmitting }) => (
           <Form className="space-y-4 w-full">
             <div className="relative border border-gray-300 rounded-lg">
@@ -116,6 +122,20 @@ export default function LogDistributor() {
               />
               <ErrorMessage
                 name="fullName"
+                component="div"
+                className="text-red-500 text-xs"
+              />
+            </div>
+            <div className="relative border border-gray-300 rounded-lg">
+              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                business Name
+              </label>
+              <Field
+                name="businessName"
+                className="w-full px-4 py-2 bg-transparent border-none outline-none"
+              />
+              <ErrorMessage
+                name="businessName"
                 component="div"
                 className="text-red-500 text-xs"
               />
@@ -188,21 +208,7 @@ export default function LogDistributor() {
               />
             </div>
       
-            <div className="relative border border-gray-300 rounded-lg">
-              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                tax Id Number
-              </label>
-              <Field
-              type="number"
-                name="taxIdNumber"
-                className="w-full px-4 py-2 bg-transparent border-none outline-none"
-              />
-              <ErrorMessage
-                name="taxIdNumber"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
+         
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                 Password
@@ -244,13 +250,16 @@ export default function LogDistributor() {
             </div>
 
             <button
-              type="submit"
-              disabled={isSubmitting}
-             className="w-full bg-blue-400 text-white py-4 rounded-lg hover:bg-green-400 transition-all duration-300 ease-in-out"
-
-            >
-              {isSubmitting ? 'Submitting...' : 'Create Account'}
-            </button>
+  type="submit"
+  disabled={isSubmitting}
+  className="w-full bg-blue-400 text-white py-4 rounded-lg hover:bg-green-400 transition-all duration-300 ease-in-out flex justify-center items-center"
+>
+  {isSubmitting ? (
+    <span className="loader inline-block w-4 h-4 border-4 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+  ) : (
+    'Create Account'
+  )}
+</button>
           </Form>
         )}
       </Formik>
