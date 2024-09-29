@@ -383,9 +383,37 @@ export default function AddNewPro() {
           />
         </section>
 
+          {/* Batch Number */}
+          <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Batch Number : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="batchnumber"
+            type="text"
+            placeholder="Batch Number"
+            value={formData.batchnumber}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        {/* How many batches*/}
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">How many batches : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="howManyBatches"
+            type="text"
+            placeholder="How many batches"
+            value={formData.howManyBatches}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
         {/* How Many Packages */}
         <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">How Many : </div>
+          <div className="text-base">How Many Package(s) Per Batch : </div>
           <input
             className="px-3 py-2 text-sm rounded-xl"
             name="howManyPackage"
