@@ -78,6 +78,8 @@ export default function AddNewPro() {
           // issn: formData.issn,
         },
         packageInformation: {
+          batchNumber:formData.batchNumber,
+          howManyBatches:formData.howManyBatches,
           howManyPackage: formData.howManyPackage,
           productsPerPackage: formData.productsPerPackage,
           currentHumidity: formData.currentHumidity,
@@ -388,10 +390,10 @@ export default function AddNewPro() {
           <div className="text-base">Batch Number : </div>
           <input
             className="px-3 py-2 text-sm rounded-xl"
-            name="batchnumber"
+            name="batchNumber"
             type="text"
             placeholder="Batch Number"
-            value={formData.batchnumber}
+            value={formData.batchNumber}
             onChange={handleInputChange}
             required
           />
