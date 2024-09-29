@@ -100,6 +100,8 @@ const generateProductCodes = (totalProducts) => {
           // issn: formData.issn,
         },
         packageInformation: {
+          batchNumber:formData.batchNumber,
+          howManyBatches:formData.howManyBatches,
           howManyPackage: formData.howManyPackage,
           productsPerPackage: formData.productsPerPackage,
           currentHumidity: formData.currentHumidity,
@@ -406,9 +408,37 @@ const generateProductCodes = (totalProducts) => {
           />
         </section>
 
+          {/* Batch Number */}
+          <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">Batch Number : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="batchNumber"
+            type="text"
+            placeholder="Batch Number"
+            value={formData.batchNumber}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
+        {/* How many batches*/}
+        <section className="py-2 text-base flex-col flex justify-center gap-2">
+          <div className="text-base">How many batches : </div>
+          <input
+            className="px-3 py-2 text-sm rounded-xl"
+            name="howManyBatches"
+            type="text"
+            placeholder="How many batches"
+            value={formData.howManyBatches}
+            onChange={handleInputChange}
+            required
+          />
+        </section>
+
         {/* How Many Packages */}
         <section className="py-2 text-base flex-col flex justify-center gap-2">
-          <div className="text-base">How Many : </div>
+          <div className="text-base">How Many Package(s) Per Batch : </div>
           <input
             className="px-3 py-2 text-sm rounded-xl"
             name="howManyPackage"

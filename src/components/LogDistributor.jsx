@@ -16,7 +16,7 @@ const LocalSignupSchema = Yup.object().shape({
   businessDateOfEstab: Yup.string().required('business Date is required'),
   businessLocation: Yup.string().required('business Location is required'),
   businessRegNumber: Yup.string().required('businessReg Number is required'),
-  taxIdNumber: Yup.string().required('tax Id is required'),
+  // taxIdNumber: Yup.string().required('tax Id is required'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -77,7 +77,7 @@ export default function LogDistributor() {
           businessDateOfEstab: '',
           businessLocation: '',
           businessRegNumber: '',
-          taxIdNumber: '',
+          // taxIdNumber: '',
           password: '',
           confirmPassword: '',
           agreeToTerms: false,
@@ -200,7 +200,7 @@ export default function LogDistributor() {
               />
             </div>
       
-            <div className="relative border border-gray-300 rounded-lg">
+            {/* <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                 taxIdNumber
               </label>
@@ -214,7 +214,7 @@ export default function LogDistributor() {
                 component="div"
                 className="text-red-500 text-xs"
               />
-            </div>
+            </div> */}
 
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">

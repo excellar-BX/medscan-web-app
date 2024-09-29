@@ -25,6 +25,7 @@ const Index =(props)=>{
 // },[qrCodeDetails])
 
 useEffect(() => {
+  console.log(qrCodeDetails)
   if (qrCodeImages.length > 0) {
     handlePrint();  // Automatically trigger printing once images are generated
   }
@@ -113,6 +114,7 @@ useEffect(() => {
       return qrCodeDetails?.packageInformation?.productCodes.map((code, index) => {
         const productName = qrCodeDetails?.productInformation?.productName || 'Unknown Product';
         const productDescription = qrCodeDetails?.productInformation?.productDescription || 'No Description';
+        
         const qrImage = qrCodeImages[index];
        
         return `
@@ -121,6 +123,7 @@ useEffect(() => {
             <div class="product-info">
               <h4>${productName}</h4>
               <p>${productDescription}</p>
+              <p>${code}</p>
             </div>
            
               ${qrImage ? `<img src="${qrImage}"/>` : `<p>No QR Code available</p>`}
@@ -152,7 +155,7 @@ useEffect(() => {
       })}
     </div>
 
-    <button onClick={handlePrint}>Print QR Codes</button>
+    {/* <button onClick={handlePrint}>Print QR Codes</button> */}
   </div>
    )
   
