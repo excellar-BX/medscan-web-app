@@ -1,1 +1,1 @@
-Mediscan Development Environment II
+Mediscan Development Environment
