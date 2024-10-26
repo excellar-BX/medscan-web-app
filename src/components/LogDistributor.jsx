@@ -10,7 +10,7 @@ import bgImage from "../assets/images/login-img.jpg";
 
 const LocalSignupSchema = Yup.object().shape({
   fullName: Yup.string().required('Full Name is required'),
-  businessName: Yup.string().required('business Name is required'),
+
   email: Yup.string().email('Invalid email').required('Email is required'),
   phone: Yup.string().required('Phone number is required'),
   businessDateOfEstab: Yup.string().required('business Date is required'),
@@ -120,24 +120,11 @@ export default function LogDistributor() {
                 className="text-red-500 text-xs"
               />
             </div>
-            <div className="relative border border-gray-300 rounded-lg">
-              <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                businessName
-              </label>
-              <Field
-                name="businessName"
-                className="w-full px-4 py-2 bg-transparent border-none outline-none"
-              />
-              <ErrorMessage
-                name="businessName"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
+     
 
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                businessEmailAddress
+                Email
               </label>
               <Field
                 type="email"
@@ -200,7 +187,7 @@ export default function LogDistributor() {
               />
             </div>
       
-            {/* <div className="relative border border-gray-300 rounded-lg">
+            <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                 taxIdNumber
               </label>
@@ -214,7 +201,7 @@ export default function LogDistributor() {
                 component="div"
                 className="text-red-500 text-xs"
               />
-            </div> */}
+            </div>
 
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">

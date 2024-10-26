@@ -26,6 +26,8 @@ import LogOption from "./components/LogOption";
 import SignInManufactur from "./components/SigninDistributor";
 import Policy from "./components/policy";
 import Terms from "./components/terms";
+import VerifyEmail from "./components/VerifyEmail";
+import SendEmail from "./components/SendEmail";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -88,6 +90,8 @@ function App() {
          <Route path="/login/:type" element={<SignInManufactur/>} />
         <Route path="/signup" element={<SignOption />} />
         <Route path="signup/:type" element={<LogDistributor />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/send-email" element={<SendEmail />} />
         <Route path='/country' element={<CountryState />} />
         <Route path='/number' element={<PhoneNumberInput />} />
          <Route path='logoption' element={<LogOption />} />
