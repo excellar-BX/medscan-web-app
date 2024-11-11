@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BiLogIn } from "react-icons/bi";
 import { BASE_URL } from "../../constant/ServerUrl";
 export const fetch = createApi({
   reducerPath: "fetch",

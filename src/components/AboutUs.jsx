@@ -1,4 +1,3 @@
-import React from "react";
 import Footer from "./Footer";
 import { PiAppleLogo } from "react-icons/pi";
 import playstore from "../assets/images/playimg.png";

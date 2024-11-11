@@ -26,7 +26,7 @@ export default function SignOption() {
             <img src={logi} alt="" className="top-0 z-40 contrast-200 w-44" />
           </div>
 
-          <div className="h-full lg:w-[50%] w-full bg-white p-12 rounded-l-[10px] flex flex-col items-center h-full relative z-40">
+          <div className="h-full lg:w-[50%] w-full bg-white p-12 rounded-l-[10px] flex flex-col items-center  relative z-40">
              <div><img src={logi} alt="" className="" /></div>
             <h3 className="py-5 font-[800] text-[20px]">Create Account</h3>
             <p className="text-center md:text-[20px] md:w-[497px]">
