@@ -207,23 +207,25 @@ const PhoneNumberInput = ({ field, form }) => {
     };
 
     const handleCountryChange = (e) => {
-        const selectedCountry = e.target.value;
-        const code = countryCodes[selectedCountry] || '';
-        setCountryCode(code);
-        // Update phoneNumber state and Formik field with the new country code
-        if (!phoneNumber.startsWith(code)) {
-            const updatedPhoneNumber = code + phoneNumber.replace(/^\+\d+\s*/, ''); // Remove old country code if present
-            setPhoneNumber(updatedPhoneNumber);
-            form.setFieldValue(field.name, updatedPhoneNumber);
-        }
-    };
-
-    const handlePhoneNumberChange = (e) => {
-        const newPhoneNumber = e.target.value;
-        setPhoneNumber(newPhoneNumber);
-        // Update Formik field value with the new phone number
-        form.setFieldValue(field.name, countryCode + newPhoneNumber);
-    };
+      const selectedCountry = e.target.value;
+      const code = countryCodes[selectedCountry] || '';
+      setCountryCode(code);
+      // Update phoneNumber state and Formik field with the new country code, removing hyphens
+      let cleanedPhoneNumber = phoneNumber.replace(/[-\s]/g, ''); // Remove hyphens and spaces
+      if (!cleanedPhoneNumber.startsWith(code)) {
+          const updatedPhoneNumber = code + cleanedPhoneNumber.replace(/^\+\d+\s*/, ''); // Remove old country code if present
+          setPhoneNumber(updatedPhoneNumber);
+          form.setFieldValue(field.name, updatedPhoneNumber);
+      }
+  };
+  
+  const handlePhoneNumberChange = (e) => {
+      const newPhoneNumber = e.target.value;
+      let cleanedPhoneNumber = newPhoneNumber.replace(/[-\s]/g, ''); // Remove hyphens and spaces
+      setPhoneNumber(cleanedPhoneNumber);
+      // Update Formik field value with the new phone number (country code + cleaned phone number)
+      form.setFieldValue(field.name, countryCode + cleanedPhoneNumber);
+  };
 
     return (
         <div className="relative border border-gray-300 rounded-lg">
