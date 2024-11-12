@@ -98,14 +98,9 @@ export default function SignInManufactur() {
                     ...values,
                     role: localStorage.getItem("role") || "Manufacturer", // Attach role to the login request
                   };
-                 await loginUser(loginData).unwrap().then((res)=>{
-                    if(!res.isEmailVerified){
-                      navigate(`/send-email?email=${values.email}`);
-                      return
-                    }
-                    localStorage.setItem("token", res.token);
-                    navigate("/dashboard");
-                  });
+                  const userData = await loginUser(loginData).unwrap();
+                  localStorage.setItem("token", userData.token);
+                  navigate("/dashboard");
                 } catch (error) {
                   setMessage({
                     success: "",
