@@ -19,7 +19,7 @@ import CountryState from "./components/country";
 import PhoneNumberInput from "./components/phoneNumber";
 import ContactUs from "./components/ContactUs";
 import AboutUs from "./components/AboutUs";
-import { AuthProvider } from "./Helper/AuthContext";
+// import { AuthProvider } from "./Helper/AuthContext";
 import LogOption from "./components/LogOption";
 import SignInManufactur from "./components/SigninDistributor";
 import Policy from "./components/policy";
@@ -65,13 +65,13 @@ function App() {
   
       const data = await response.json();
       setIsAuthenticated(true);
-      setUserProfile(data);
+      setUserProfile(data); // Set the profile data once fetched
     } catch (error) {
       console.error("Error fetching user profile:", error);
       localStorage.removeItem("token"); // Remove token on error
       setIsAuthenticated(false);
-      setUserProfile(null);
-      window.location.href = "/"; 
+      setUserProfile(null); // Clear user profile if error occurs
+      window.location.href = "/"; // Redirect to login
     } finally {
       setLoading(false); // Ensure loading is false after attempt
     }
@@ -83,7 +83,7 @@ function App() {
   }
 
   return (
-    <AuthProvider>
+    // <AuthProvider>
       <Router>
         <Routes>
           <Route
@@ -127,7 +127,7 @@ function App() {
           <Route path="/addStock" element={<ProtectedRoute component={ManufacturerForm} />} />
         </Routes>
       </Router>
-    </AuthProvider>
+    
   );
 }
 

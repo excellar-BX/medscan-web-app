@@ -21,6 +21,7 @@ export default function AllProduct() {
         try {
           const decodedToken = jwtDecode(token);
           userId = decodedToken.userId;
+          console.log("this is the token here want to confirm what i got from here ", userId)
           if (userId) {
             localStorage.setItem("userId", userId);
           } else {
