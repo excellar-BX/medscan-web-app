@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 import {
   FaUserCircle,
@@ -9,8 +9,58 @@ import {
 } from "react-icons/fa";
 import { navlink } from "../data-link";
 import logo from "../assets/images/image 2.png";
+import Welcomepage from "./Welcomepage";
 
-export default function Navlink({ isAuthenticated, userProfile }) {
+
+export default function Navlink() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token retrieved:", token);
+    if (token) {
+      fetchUserProfile(token);
+    } else {
+      // setLoading(false); // Set loading to false if no token
+    }
+  }, []);
+
+  const fetchUserProfile = async (token) => {
+    try {
+      // Check if token is correctly retrieved
+      if (!token) {
+        console.error("Token is missing, cannot fetch profile.");
+        return;
+      }
+      
+      const response = await fetch(
+        "https://medscan-backend-4lgk.onrender.com/api/auth/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log("Error data:", errorData);
+        throw new Error(errorData.message || "Failed to fetch user profile");
+      }
+  
+      const data = await response.json();
+      setIsAuthenticated(true);
+      setUserProfile(data); // Set the profile data once fetched
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      localStorage.removeItem("token"); // Remove token on error
+      setIsAuthenticated(false);
+      setUserProfile(null); // Clear user profile if error occurs
+      window.location.href = "/"; // Redirect to login
+    } finally {
+      // setLoading(false); 
+    }
+  };
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -167,7 +217,7 @@ export default function Navlink({ isAuthenticated, userProfile }) {
           </div>
         </div>
       )}
-      <Outlet />
+     <Welcomepage />
     </div>
   );
 }

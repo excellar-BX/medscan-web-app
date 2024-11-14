@@ -402,7 +402,7 @@ const Layout = () => {
         />
         <div className="h-[150px]"></div>
         {/* <button onClick={() => setSmall(false)}> */}
-        <Outlet />
+        <Outlet />  
         {/* </button> */}
       </main>
     </div>
