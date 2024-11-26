@@ -68,7 +68,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-// Render app with Provider and RouterProvider
+//Render app with Provider and RouterProvider
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
