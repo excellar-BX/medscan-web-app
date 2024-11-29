@@ -1,12 +1,12 @@
 import "../App.css";
 import Footer from "./Footer";
-import OurService from "./OurService";
 import { Link } from "react-router-dom";
 import bgImage from "../assets/images/Rectangle 2hero-img.png";
 import bgImage2 from "../assets/images/Rectangle 18footer-img-1.png";
 import google from "../assets/images/google.png";
 import apple from "../assets/images/apple.png";
 import PricingPage from "./PricingPage";
+import WhyMedscan from "./WhyMedScan";
 export default function Welcomepage() {
   return (
     <>
@@ -34,10 +34,10 @@ export default function Welcomepage() {
           </div>
         </div>
       </div>
-      <OurService />
+      <WhyMedscan />
 
       {/* Pricing Plan */}
-      <PricingPage/>
+      <PricingPage />
       {/*  */}
       <div className="w-full md:h-[421px]">
         <div className="relative h-full w-full md:p-16 p-6">

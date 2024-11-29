@@ -19,7 +19,7 @@ function Header({ children }) {
           <div className="w-[80px]">
             <img src={logo} alt="nav-logo" className="h-10" />
           </div>
-  
+
           {/* Nav Links for larger screens */}
           <nav className="hidden lg:flex gap-6">
             <div className="text-[16px] font-[900] font-[flame] hover:bg-[rgb(232,224,210)] hover:text-[#0019d7] rounded-xl p-[2.5px]">
@@ -35,7 +35,7 @@ function Header({ children }) {
               <Link to='/terms'>TERMS & CONDITIONS</Link>
             </div>
           </nav>
-  
+
           {/* Toggle Menu Button for smaller screens */}
           <div className="lg:hidden">
             <button onClick={toggleMenu}>
@@ -44,12 +44,11 @@ function Header({ children }) {
           </div>
         </div>
       </div>
-  
+
       {/* Side Menu */}
       <div
-        className={`fixed top-0 right-0 h-full bg-white shadow-lg p-6 transition-transform transform z-50 ${
-          menuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed top-0 right-0 h-full bg-white shadow-lg p-6 transition-transform transform z-50 ${menuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
         style={{ width: '250px' }}
       >
         <div className="flex flex-col gap-6">
@@ -67,12 +66,12 @@ function Header({ children }) {
           </div>
         </div>
       </div>
-  
+
       {/* Apply blur effect to the page content */}
       <div className={`transition-all duration-300 ${menuOpen ? 'blur-md' : ''}`}>
         {children}
       </div>
-  
+
       {/* Overlay to close the menu when clicking outside */}
       {menuOpen && (
         <div
@@ -82,7 +81,7 @@ function Header({ children }) {
       )}
     </div>
   );
-  
+
 }
 
 export default Header
