@@ -16,17 +16,11 @@ export default function AllProduct() {
       let userId = localStorage.getItem("userId");
       const token = localStorage.getItem("token");
   
-      // Decode the token and set userId if not already set
       if (!userId && token) {
         try {
           const decodedToken = jwtDecode(token);
           userId = decodedToken.userId;
-          if (userId) {
-            localStorage.setItem("userId", userId);
-          } else {
-            console.error("User ID is missing from the token");
-            return;
-          }
+          if (userId) localStorage.setItem("userId", userId);
         } catch (error) {
           console.error("Error decoding token:", error);
           return;
@@ -39,7 +33,7 @@ export default function AllProduct() {
       }
   
       try {
-        const response = await fetch(`${BASE_URL}/products/all?userId=${userId}`, {
+        const response = await fetch(`${BASE_URL}/products/last-scanned?userId=${userId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,6 +54,7 @@ export default function AllProduct() {
   
     fetchProducts();
   }, []);
+  
 
   const handleQRcode=(productDetails)=>{
       // message.info(productDetails._id)
@@ -72,11 +67,11 @@ export default function AllProduct() {
       {qrCodeDetails != null && <PrintQrCode qrCodeDetails={qrCodeDetails} setQrcodeDetails={setQrcodeDetails}/>}
       <div className="flex items-center justify-between mb-5">
       <h1 className="text-2xl font-bold md:mb-5">All Products</h1>
-      <Link to="/dashboard/add-products">
+      {/* <Link to="/dashboard/add-products">
           <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
             + Add New Product
           </button>
-        </Link>
+        </Link> */}
       </div>
       {products.length === 0 ? (
         <p className="text-center text-gray-500">No products added yet</p>
