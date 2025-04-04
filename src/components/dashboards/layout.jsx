@@ -33,7 +33,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../../assets/images/image 2.png"
-// import { Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useGetUserQuery } from "../../Helper/Apis/UseFetch";
 
@@ -51,7 +50,6 @@ const Search = styled("div")(({ theme }) => ({
   width: "350px",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
-    // width: "auto",
   },
 }));
 
@@ -82,6 +80,7 @@ const Layout = () => {
   const [activeItem, setActiveItem] = useState("Dashboard"); // Default active item
   const [small, setSmall] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
+  const [role, setRole] = useState("");
 
   const { data } = useGetUserQuery();
 
@@ -91,6 +90,8 @@ const Layout = () => {
 
   useEffect(() => {
     setWidth(window.innerWidth);
+    const userRole = localStorage.getItem("role");
+    setRole(userRole);
   }, [width, activeItem, small]);
 
   return (
@@ -229,29 +230,31 @@ const Layout = () => {
                 </ListItemIcon>
                 <ListItemText primary="All Product" className="font-bold" />
               </ListItem>
-              <ListItem
-                button
-                key="Add New Product"
-                component={Link}
-                to="/dashboard/add-products"
-                onClick={() => handleMenuItemClick("Add New Product")}
-                sx={{
-                  color:
-                    activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
-                }}
-              >
-                <ListItemIcon>
-                  <AddCircleOutlineIcon
-                    style={{
-                      color:
-                        activeItem === "Add New Product"
-                          ? "#0084FC"
-                          : "#ffffff",
-                    }}
-                  />
-                </ListItemIcon>
-                <ListItemText primary="Add New Product" className="font-bold" />
-              </ListItem>
+              {role === "Manufacturer" && (
+                <ListItem
+                  button
+                  key="Add New Product"
+                  component={Link}
+                  to="/dashboard/add-products"
+                  onClick={() => handleMenuItemClick("Add New Product")}
+                  sx={{
+                    color:
+                      activeItem === "Add New Product" ? "#0084FC" : "#ffffff",
+                  }}
+                >
+                  <ListItemIcon>
+                    <AddCircleOutlineIcon
+                      style={{
+                        color:
+                          activeItem === "Add New Product"
+                            ? "#0084FC"
+                            : "#ffffff",
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary="Add New Product" className="font-bold" />
+                </ListItem>
+              )}
               <ListItem
                 button
                 key="Track Product"
@@ -401,9 +404,7 @@ const Layout = () => {
           onClick={() => setSmall(true)}
         />
         <div className="h-[150px]"></div>
-        {/* <button onClick={() => setSmall(false)}> */}
         <Outlet />
-        {/* </button> */}
       </main>
     </div>
   );
