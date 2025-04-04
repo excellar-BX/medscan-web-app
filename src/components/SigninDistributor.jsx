@@ -93,14 +93,29 @@ export default function SignInManufactur() {
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  // Pass role as part of login data
+                  // Use the `type` parameter from the URL to determine the role
                   const loginData = {
                     ...values,
-                    role: localStorage.getItem("role") || "Manufacturer", // Attach role to the login request
+                    role: type || "Distributor", // Use the `type` from the URL or default to "Distributor"
                   };
+
+                  console.log("Login Data:", loginData); // Debugging
+
+                  // Perform login
                   const userData = await loginUser(loginData).unwrap();
+
+                  // Store token and role in localStorage
                   localStorage.setItem("token", userData.token);
-                  navigate("/dashboard");
+                  localStorage.setItem("role", loginData.role); // Store the role in localStorage
+
+                  console.log("Role after login:", loginData.role); // Debugging
+
+                  // Redirect to Distributor Dashboard
+                  if (loginData.role === "Distributor") {
+                    navigate("/dashboard/distributor/dashboard-distributor");
+                  } else {
+                    navigate("/dashboard"); // Default dashboard for other roles
+                  }
                 } catch (error) {
                   setMessage({
                     success: "",

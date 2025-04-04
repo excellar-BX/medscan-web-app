@@ -47,7 +47,7 @@ function App() {
         console.error("Token is missing, cannot fetch profile.");
         return;
       }
-      
+
       const response = await fetch(
         "https://medscan-backend-4lgk.onrender.com/api/auth/profile",
         {
@@ -56,13 +56,13 @@ function App() {
           },
         }
       );
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         console.log("Error data:", errorData);
         throw new Error(errorData.message || "Failed to fetch user profile");
       }
-  
+
       const data = await response.json();
       setIsAuthenticated(true);
       setUserProfile(data);
@@ -71,12 +71,11 @@ function App() {
       localStorage.removeItem("token"); // Remove token on error
       setIsAuthenticated(false);
       setUserProfile(null);
-      window.location.href = "/"; 
+      window.location.href = "/";
     } finally {
       setLoading(false); // Ensure loading is false after attempt
     }
   };
-  
 
   if (loading) {
     return <div>Loading...</div>; // Show a loading screen while fetching the user profile
@@ -112,7 +111,10 @@ function App() {
             path="/dashboards"
             element={<ProtectedRoute component={Dashboard} />}
           />
-          <Route path="/dashboard" element={<ProtectedRoute component={Layout} />}>
+          <Route
+            path="/dashboard"
+            element={<ProtectedRoute component={Layout} />}
+          >
             <Route path="" element={<Dashboards />} />
             <Route path="/dashboard/all-products" element={<AllProduct />} />
             <Route path="/dashboard/add-products" element={<AddNewPro />} />
@@ -124,7 +126,10 @@ function App() {
             <Route path="/dashboard/message" element={<Message />} />
             <Route path="/dashboard/track-product" element={<Dashboards />} />
           </Route>
-          <Route path="/addStock" element={<ProtectedRoute component={ManufacturerForm} />} />
+          <Route
+            path="/addStock"
+            element={<ProtectedRoute component={ManufacturerForm} />}
+          />
         </Routes>
       </Router>
     </AuthProvider>
