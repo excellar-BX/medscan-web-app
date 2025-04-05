@@ -6,12 +6,14 @@ import { BASE_URL } from "../constant/ServerUrl";
 
 export default function AllProduct() {
   const [products, setProducts] = useState([]);
+  const [recentScans, setRecentScans] = useState([]);
   const [qrCodeDetails, setQrcodeDetails] = useState(null);
   const [role, setRole] = useState("");
 
   useEffect(() => {
     // Retrieve the role from localStorage
     const userRole = localStorage.getItem("role");
+    const userId = localStorage.getItem("userId"); // Make sure you have userId in localStorage
     setRole(userRole);
 
     const fetchProducts = async () => {
@@ -41,20 +43,33 @@ export default function AllProduct() {
 
         if (response.ok) {
           const data = await response.json();
+          let productsArray = [];
 
           // Ensure the response is an array
           if (Array.isArray(data)) {
-            setProducts(data);
+            productsArray = data;
           } else if (data.products && Array.isArray(data.products)) {
-            setProducts(data.products);
-          } else {
-            setProducts([]); // Fallback to an empty array
+            productsArray = data.products;
           }
+
+          // Sort products by manufactured date (newest first)
+          const sortedProducts = productsArray.sort((a, b) => {
+            const dateA = new Date(a.manufacturerInformation.manufacturedDate);
+            const dateB = new Date(b.manufacturerInformation.manufacturedDate);
+            return dateB - dateA; // Descending order (newest first)
+          });
+
+          setProducts(sortedProducts);
+          
+          // Get only the 5 most recent scans
+          setRecentScans(sortedProducts.slice(0, 5));
         } else {
-          setProducts([]); // Fallback to an empty array
+          setProducts([]);
+          setRecentScans([]);
         }
       } catch (error) {
-        setProducts([]); // Fallback to an empty array
+        setProducts([]);
+        setRecentScans([]);
       }
     };
 
@@ -73,8 +88,69 @@ export default function AllProduct() {
           setQrcodeDetails={setQrcodeDetails}
         />
       )}
+      
+      {/* Recent Scans Section */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold mb-5">Recent Scans</h1>
+        {recentScans.length === 0 ? (
+          <p className="text-center text-gray-500">No recent scans available</p>
+        ) : (
+          <table className="table-auto w-full border-collapse">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="border px-4 py-2 text-left font-semibold">ID</th>
+                <th className="border px-4 py-2 text-left font-semibold">
+                  Product Name
+                </th>
+                <th className="border px-4 py-2 text-left font-semibold">
+                  Scanned Date
+                </th>
+                <th className="border px-4 py-2 text-left font-semibold">IPR</th>
+                <th className="border px-4 py-2 text-left font-semibold">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentScans.map((product, index) => (
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="border px-4 py-2 text-sm">{index + 1}</td>
+                  <td className="border px-4 py-2 text-sm">
+                    {product.productInformation.productName}
+                  </td>
+                  <td className="border px-4 py-2 text-sm">
+                    {new Date(
+                      product.manufacturerInformation.manufacturedDate
+                    ).toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td className="border px-4 py-2 text-sm">
+                    {product.ipr || "N/A"}
+                  </td>
+                  <td className="border px-4 py-2">
+                    <div className="flex gap-2">
+                      <Button type="primary">View Details</Button>
+                      <Button
+                        type="dashed"
+                        onClick={() => handleQRcode(product)}
+                      >
+                        Print QrCode
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+      
+      {/* All Products Section */}
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-2xl font-bold md:mb-5">
+        <h1 className="text-2xl font-bold">
           {role === "Distributor"
             ? "Distributor Products"
             : role === "Store"
@@ -107,7 +183,7 @@ export default function AllProduct() {
                 </th>
                 <th className="border px-4 py-2 text-left font-semibold">IPR</th>
                 <th className="border px-4 py-2 text-left font-semibold">
-                  Details
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -130,14 +206,16 @@ export default function AllProduct() {
                   <td className="border px-4 py-2 text-sm">
                     {product.ipr || "N/A"}
                   </td>
-                  <td className="flex gap-2">
-                    <Button type="primary">View Details</Button>
-                    <Button
-                      type="dashed"
-                      onClick={() => handleQRcode(product)}
-                    >
-                      Print QrCode
-                    </Button>
+                  <td className="border px-4 py-2">
+                    <div className="flex gap-2">
+                      <Button type="primary">View Details</Button>
+                      <Button
+                        type="dashed"
+                        onClick={() => handleQRcode(product)}
+                      >
+                        Print QrCode
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))}
