@@ -230,7 +230,7 @@ const PhoneNumberInput = ({ field, form }) => {
     return (
         <div className="relative border border-gray-300 rounded-lg">
         <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-          businessPhoneNumber
+          Business Phone Number
         </label>
         <div className="flex">
           <select

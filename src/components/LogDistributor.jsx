@@ -122,7 +122,7 @@ export default function LogDistributor() {
             </div>
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                businessName
+                Business Name
               </label>
               <Field
                 name="businessName"
@@ -137,7 +137,7 @@ export default function LogDistributor() {
 
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                businessEmailAddress
+                Business Email Address
               </label>
               <Field
                 type="email"
@@ -157,7 +157,7 @@ export default function LogDistributor() {
             <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-              businessDateOfEstab
+              Business Date Of Estab
               </label>
               <Field
               type="date"
@@ -172,7 +172,7 @@ export default function LogDistributor() {
             </div>
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                businessLocation
+                Business Location
               </label>
               <Field
                 name="businessLocation"
@@ -186,7 +186,7 @@ export default function LogDistributor() {
             </div>
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                businessRegNumber
+                Business RegNumber
               </label>
               <Field
               type="text"
