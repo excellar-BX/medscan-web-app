@@ -155,7 +155,7 @@ export default function LogDistributor() {
               {({ field, form }) => <PhoneNumberInput field={field} form={form} />}
             </Field>
             <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
-            <div className="relative border border-gray-300 rounded-lg">
+            {/* <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
               Business Date Of Estab
               </label>
@@ -169,7 +169,7 @@ export default function LogDistributor() {
                 component="div"
                 className="text-red-500 text-xs"
               />
-            </div>
+            </div> */}
             <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                 Business Location
@@ -184,7 +184,7 @@ export default function LogDistributor() {
                 className="text-red-500 text-xs"
               />
             </div>
-            <div className="relative border border-gray-300 rounded-lg">
+            {/* <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                 Business RegNumber
               </label>
@@ -198,7 +198,7 @@ export default function LogDistributor() {
                 component="div"
                 className="text-red-500 text-xs"
               />
-            </div>
+            </div> */}
       
             {/* <div className="relative border border-gray-300 rounded-lg">
               <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
