@@ -31,7 +31,10 @@ export default function AddNewPro() {
 
   const [loading, setLoading] = useState(false);
   const [qrCodeDetails, setQrcodeDetails] = useState(null);
-  const [pdfUrl, setPdfUrl] = useState("");
+  const [pdfUrl, setPdfUrl] = useState()
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [buttonText, setButtonText] = useState('Download PDF')
 
   const generateProductCodes = (totalProducts) => {
     const codes = [];
@@ -65,7 +68,7 @@ export default function AddNewPro() {
       const productCodesArray = generateProductCodes(formData.howManyPackage * formData.productsPerPackage);
 
       const productData = {
-        
+
         manufacturerInformation: {
           manufacturerName: formData.manufacturerName,
           nafdacRegistration: formData.nafdacRegistration,
@@ -77,8 +80,8 @@ export default function AddNewPro() {
           productCategory: formData.productCategory,
           productDescription: formData.productDescription,
           productCode: productCodesArray[0],  //i had errors while passing all the value here that is why i picked one 
-          manufacturer:"i dont know ",
-          store:"60f8b2f71c9d3d3456b4f1e0"// Example valid ObjectId
+          manufacturer: "i dont know ",
+          store: "60f8b2f71c9d3d3456b4f1e0"// Example valid ObjectId
         },
         packageInformation: {
           batchNumber: formData.batchNumber,
@@ -124,13 +127,18 @@ export default function AddNewPro() {
           batchNumber: "",
           howManyBatches: ""
         });
-        
+
         setQrcodeDetails(data.product);  // Store product data for QR code
+        console.log(data.pdfUrl)
+        setPdfUrl(data.pdfUrl); // Set the PDF URL for download
+        setButtonText('Download PDF')
       } else {
         setLoading(false);
         message.error('Failed to add product');
         console.error("Failed to add product");
       }
+
+     
     } catch (error) {
       setLoading(false);
       message.error(error.message || "An error occurred");
@@ -146,27 +154,107 @@ export default function AddNewPro() {
     }));
   };
 
-  const downloadPdf = async (url) => {
-    try {
-      const fullUrl = url.startsWith('https') ? url : `https://meds-scan-backend-dev.vercel.app/${url}`;
-      const response = await axios.get(fullUrl, { responseType: "blob" });
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "product_codes.pdf";
-      link.click();
-      window.URL.revokeObjectURL(link.href);
-    } catch (error) {
-      console.error("Error downloading the PDF:", error);
+
+
+  const handleDownloadPdf = async () => {
+    if (!pdfUrl) {
+      console.error("PDF URL is not available");
+      setButtonText('PDF Not Available')
+      return;
     }
-  };
+
+    setButtonText('Checking PDF Status...')
+
+    try {
+      const fullUrl = pdfUrl.startsWith('https') ? pdfUrl : `https://medscan-backend-4lgk.onrender.com${pdfUrl}`;
+      const response = await axios.get(fullUrl, { responseType: 'blob' })
+      console.log("Response:", response.data)
+
+      const contentType = response.data.type;
+      if(contentType === 'application/pdf'){
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url;
+      link.setAttribute('download',  "product_codes.pdf"); //for customised name
+      document.body.appendChild(link)
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url)
+      console.log("DownLoaded PDF Sucessfully");
+      setIsGenerating(false)
+      setButtonText('DownLoad PDF')
+      }else{
+        const text = await response.data.message.text().catch(() => null);
+        console.log("Text response:", text)
+        if(text.includes('Generating')){
+          console.log('PDF still generating', text)
+          setIsGenerating(true)
+          setButtonText("Generating PDF...Please wait")
+        }else{
+          console.log("Unexpected text response:", text)
+        }
+      }
+
+      
+    } catch (error) {
+        console.error("Error downloading the PDF:", error);
+        setButtonText('Download Failed, Try Again');
+    }
+  
+  //   try {
+  //     const fullUrl = pdfUrl.startsWith('https') ? pdfUrl : `'https://medscan-backend-4lgk.onrender.com'${pdfUrl}`;
+  //     const response = await axios.get(fullUrl, { responseType: 'blob' });
+  //     const data = await response.json();
+  //     console.log(data)// just to check if its still generating or generated
+
+  //     //this is to check if the pdf is still generating, by attempting to read the response
+  //     const text = await response.data.text().catch(() =>nulll);
+
+  //     if (text && text.includes("Generating")){
+  //       setIsGenerating(true)
+  //       setButtonText('Generating PDF..., please wait');
+  //       return;
+  //     }
+
+
+  //     const blob = new Blob([response.data], { type: 'application/pdf' });
+  //     const link = document.createElement("a");
+  //     link.href = window.URL.createObjectURL(blob);
+  //     link.download = "product_codes.pdf"; //for customised name
+  //     link.click();
+  //     window.URL.revokeObjectURL(link.href);
+  //     setIsGenerating(false)
+  //     setButtonText('DownLoad PDF')
+  //   } catch (error) {
+  //     console.error("Error downloading the PDF:", error);
+  //     setButtonText('Download Failed, Try Again');
+  //   } finally {
+  //     setIsDownloading(false);
+  //   }
+  // }
+
+
+  // const downloadPdf = async (url) => {
+  //   try {
+  //     const fullUrl = url.startsWith('https') ? url : `${BASE_URL}/${url}`;
+  //     const response = await axios.get(fullUrl, { responseType: "blob" });
+  //     const blob = new Blob([response.data], { type: "application/pdf" });
+  //     const link = document.createElement("a");
+  //     link.href = window.URL.createObjectURL(blob);
+  //     link.download = "product_codes.pdf";
+  //     link.click();
+  //     window.URL.revokeObjectURL(link.href);
+  //   } catch (error) {
+  //     console.error("Error downloading the PDF:", error);
+  //   }
+ };
 
   const handleQRcode = (productDetails) => {
     setQrcodeDetails(productDetails);
   };
 
   return (
-    <div className="text-2xl md:mx-20">
+    <div className="text-2xl pb-40 md:mx-20">
       {qrCodeDetails && <PrintQrCode qrCodeDetails={qrCodeDetails} setQrcodeDetails={setQrcodeDetails} />}
       <h1 className="md:mt-16 mt-4 text-2xl font-bold">Register New Product To Blockchain</h1>
       <form className="flex flex-col mt-4" onSubmit={handleSubmit}>
@@ -267,12 +355,13 @@ export default function AddNewPro() {
         </button>
       </form>
 
-      {/* Option to Download PDF */}
-      {pdfUrl && (
-        <button className="w-full py-2 mt-4 text-white bg-green-500 rounded-lg" onClick={() => downloadPdf(pdfUrl)}>
-          Download Product Codes PDF
+      {/* Conditionally render the download button */}
+      {pdfUrl&& (
+        <button onClick={handleDownloadPdf} disabled={isGenerating || isDownloading} className="w-full py-2 mt-4 text-white bg-green-500 rounded-lg" >
+          {buttonText}
         </button>
       )}
+     
     </div>
   );
 }
