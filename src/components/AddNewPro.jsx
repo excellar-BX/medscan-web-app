@@ -198,14 +198,13 @@ export default function AddNewPro() {
         console.log("JSON response:", text.message)
         if(text.message.includes("Generating")){
           console.log('PDF still generating', text.message)
-          setIsGenerating(true)
+          setIsGenerating(true); //disble the button
           setButtonText(text.message)
           setTimeout(()=> {
-            setIsGenerating(false)
+            setIsGenerating(false) //enable the button again
             setButtonText("DownLoad PDF")
           }, 5000);
         }else{
-          setIsGenerating(false)
           setButtonText("DownLoad PDF")
           console.log("Genarated PDF:", text)
         }
