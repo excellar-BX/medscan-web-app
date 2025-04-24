@@ -165,7 +165,7 @@ export default function AddNewPro() {
       return;
     }
 
-    setButtonText('Checking PDF Status...')
+    setButtonText('Checking PDF Status...') 
     setDownloadText('')
 
     
@@ -198,12 +198,12 @@ export default function AddNewPro() {
         console.log("JSON response:", text.message)
         if(text.message.includes("Generating")){
           console.log('PDF still generating', text.message)
-          setIsGenerating(true); //disble the button
+          setIsGenerating(true); //disable the button
           setButtonText(text.message)
           setTimeout(()=> {
-            setIsGenerating(false) //enable the button again
-            setButtonText("DownLoad PDF")
-          }, 5000);
+            setIsGenerating(false) //enable the button again after 10 seconds
+            setButtonText('PDF still generating.....please try again...')
+          }, 10000);
         }else{
           setButtonText("DownLoad PDF")
           console.log("Genarated PDF:", text)
@@ -373,7 +373,7 @@ export default function AddNewPro() {
       {/* Conditionally render the download button */}
       {pdfUrl&& (
         <>
-        <button onClick={handleDownloadPdf} disable={isGenerating} className="w-full py-2 mt-4 text-white bg-green-500 rounded-lg" >
+        <button onClick={handleDownloadPdf} disabled={isGenerating&& 'disabled'} className={` w-full py-2 mt-4 text-white ${isGenerating ? 'bg-slate-400 bg-opacity-70' : 'bg-green-500'} rounded-lg`}>
           {buttonText}
         </button>
         {downloadText && <p className="text-green-500 mt-2">{downloadText}</p>}
