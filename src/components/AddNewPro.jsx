@@ -33,7 +33,7 @@ export default function AddNewPro() {
   const [qrCodeDetails, setQrcodeDetails] = useState(null);
   const [pdfUrl, setPdfUrl] = useState()
   const [isGenerating, setIsGenerating] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadText, setDownloadText] = useState('')
   const [buttonText, setButtonText] = useState('Download PDF')
 
   const generateProductCodes = (totalProducts) => {
@@ -49,6 +49,8 @@ export default function AddNewPro() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setPdfUrl('')
+    setDownloadText('')
 
     const token = localStorage.getItem("token");
     if (!token) {
@@ -164,14 +166,20 @@ export default function AddNewPro() {
     }
 
     setButtonText('Checking PDF Status...')
+    setDownloadText('')
+
+    
 
     try {
-      const fullUrl = pdfUrl.startsWith('https') ? pdfUrl : `https://medscan-backend-4lgk.onrender.com${pdfUrl}`;
-      const response = await axios.get(fullUrl, { responseType: 'blob' })
-      console.log("Response:", response.data)
+      const fullUrl = `https://medscan-backend-4lgk.onrender.com${pdfUrl}`;
+      const response = await axios.get(fullUrl, { responseType: 'blob', validateStatus:(status)=> {
+        return status >= 200 && status < 300 || status === 404;
+      } })
+      
+      console.log("Response:", response)
 
-      const contentType = response.data.type;
-      if(contentType === 'application/pdf'){
+      const contentType = response.headers['content-type'];
+      if(contentType.includes('application/pdf') ){
         const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
       link.href = url;
@@ -183,21 +191,29 @@ export default function AddNewPro() {
       console.log("DownLoaded PDF Sucessfully");
       setIsGenerating(false)
       setButtonText('DownLoad PDF')
-      }else{
-        const text = await response.data.message.text().catch(() => null);
-        console.log("Text response:", text)
-        if(text.includes('Generating')){
-          console.log('PDF still generating', text)
+      setDownloadText('DownLoaded PDF Sucessfully')
+      }else if(contentType.includes('application/json') ){
+        const blobToJson = await response.data.text()
+        const text = JSON.parse(blobToJson);
+        console.log("JSON response:", text.message)
+        if(text.message.includes("Generating")){
+          console.log('PDF still generating', text.message)
           setIsGenerating(true)
-          setButtonText("Generating PDF...Please wait")
+          setButtonText(text.message)
+          setTimeout(()=> {
+            setIsGenerating(false)
+            setButtonText("DownLoad PDF")
+          }, 5000);
         }else{
-          console.log("Unexpected text response:", text)
+          setIsGenerating(false)
+          setButtonText("DownLoad PDF")
+          console.log("Genarated PDF:", text)
         }
       }
 
       
     } catch (error) {
-        console.error("Error downloading the PDF:", error);
+        console.error("Error fetching the PDF:", error);
         setButtonText('Download Failed, Try Again');
     }
   
@@ -357,9 +373,12 @@ export default function AddNewPro() {
 
       {/* Conditionally render the download button */}
       {pdfUrl&& (
-        <button onClick={handleDownloadPdf} disabled={isGenerating || isDownloading} className="w-full py-2 mt-4 text-white bg-green-500 rounded-lg" >
+        <>
+        <button onClick={handleDownloadPdf} disable={isGenerating} className="w-full py-2 mt-4 text-white bg-green-500 rounded-lg" >
           {buttonText}
         </button>
+        {downloadText && <p className="text-green-500 mt-2">{downloadText}</p>}
+        </>
       )}
      
     </div>
