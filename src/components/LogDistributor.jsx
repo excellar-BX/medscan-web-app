@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Formik, Form, Field, ErrorMessage } from "formik"
-import { useNavigate, useParams } from "react-router-dom"
-import * as Yup from "yup"
-import { useCreateUserMutation } from "../Helper/Apis/UseMutate"
-import PhoneNumberInput from "./phoneNumber"
-import logi from "../assets/images/image 2.png"
-import bgImage from "../assets/images/login-img.jpg"
-import { countriesStates } from "./country"
-import CountryState from "./country" // Import the CountryState component
+import { useState, useEffect } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useNavigate, useParams } from "react-router-dom";
+import * as Yup from "yup";
+import { useCreateUserMutation } from "../Helper/Apis/UseMutate";
+import PhoneNumberInput from "./phoneNumber";
+import logi from "../assets/images/image 2.png";
+import bgImage from "../assets/images/login-img.jpg";
+import { countriesStates } from "./country";
+import CountryState from "./country"; // Import the CountryState component
 
 const LocalSignupSchema = Yup.object().shape({
   fullName: Yup.string().required("Full Name is required"),
@@ -19,25 +19,31 @@ const LocalSignupSchema = Yup.object().shape({
   businessDateOfEstab: Yup.string().required("business Date is required"),
   businessLocation: Yup.string().required("business Location is required"),
   businessRegNumber: Yup.string().required("businessReg Number is required"),
-  country: Yup.string().required("Country is required"), // Add country validation
+  country: Yup.string().required("Country is required"),
+  town: Yup.string().required("Town is required"),
   // taxIdNumber: Yup.string().required('tax Id is required'),
-  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Confirm password is required"),
-  agreeToTerms: Yup.bool().oneOf([true], "You must accept the terms and conditions"),
-})
+  agreeToTerms: Yup.bool().oneOf(
+    [true],
+    "You must accept the terms and conditions"
+  ),
+});
 
 export default function LogDistributor() {
-  const navigate = useNavigate()
-  const [createUser] = useCreateUserMutation()
-  const [message, setMessage] = useState({ success: "", error: "" })
-  const { type } = useParams() // Role type from URL params
+  const navigate = useNavigate();
+  const [createUser] = useCreateUserMutation();
+  const [message, setMessage] = useState({ success: "", error: "" });
+  const { type } = useParams(); // Role type from URL params
 
   useEffect(() => {
-    const timer = setTimeout(() => setMessage({}), 8000)
-    return () => clearTimeout(timer)
-  }, [message.error, message.success])
+    const timer = setTimeout(() => setMessage({}), 8000);
+    return () => clearTimeout(timer);
+  }, [message.error, message.success]);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -62,7 +68,11 @@ export default function LogDistributor() {
 
           {/* Logo Section */}
           <div className="lg:w-[50%] w-full flex justify-center items-center h-full relative z-20 lg:z-40">
-            <img src={logi || "/placeholder.svg"} alt="logo" className="contrast-200 w-44" />
+            <img
+              src={logi || "/placeholder.svg"}
+              alt="logo"
+              className="contrast-200 w-44"
+            />
           </div>
 
           {/* Form Section */}
@@ -81,7 +91,8 @@ export default function LogDistributor() {
                 businessDateOfEstab: "",
                 businessLocation: "",
                 businessRegNumber: "",
-                country: "", // Add country field
+                country: "",
+                town: "",
                 // taxIdNumber: '',
                 password: "",
                 confirmPassword: "",
@@ -93,19 +104,27 @@ export default function LogDistributor() {
                   const data = await createUser({
                     ...values,
                     role: type || "Distributors",
-                  }).unwrap()
-                  setMessage({ success: "Account created successfully", error: "" })
+                  }).unwrap();
+                  setMessage({
+                    success: "Account created successfully",
+                    error: "",
+                  });
                   if (data.token) {
-                    localStorage.setItem("token", data.token)
-                    navigate(`/login/${type || "Distributors"}`)
+                    localStorage.setItem("token", data.token);
+                    navigate(`/login/${type || "Distributors"}`);
                   } else {
-                    setMessage({ success: "", error: "Failed to retrieve token" })
+                    setMessage({
+                      success: "",
+                      error: "Failed to retrieve token",
+                    });
                   }
                 } catch (error) {
-                  const errorMessage = error.data ? error.data.message : "An unknown error occurred"
-                  setMessage({ success: "", error: errorMessage })
+                  const errorMessage = error.data
+                    ? error.data.message
+                    : "An unknown error occurred";
+                  setMessage({ success: "", error: errorMessage });
                 } finally {
-                  setSubmitting(false)
+                  setSubmitting(false);
                 }
               }}
             >
@@ -115,15 +134,29 @@ export default function LogDistributor() {
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Full Name
                     </label>
-                    <Field name="fullName" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
-                    <ErrorMessage name="fullName" component="div" className="text-red-500 text-xs" />
+                    <Field
+                      name="fullName"
+                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
+                    />
+                    <ErrorMessage
+                      name="fullName"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Business Name
                     </label>
-                    <Field name="businessName" className="w-full px-4 py-2 bg-transparent border-none outline-none" />
-                    <ErrorMessage name="businessName" component="div" className="text-red-500 text-xs" />
+                    <Field
+                      name="businessName"
+                      className="w-full px-4 py-2 bg-transparent border-none outline-none"
+                    />
+                    <ErrorMessage
+                      name="businessName"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
 
                   <div className="relative border border-gray-300 rounded-lg">
@@ -135,11 +168,23 @@ export default function LogDistributor() {
                       name="email"
                       className="w-full px-4 py-2 bg-transparent border-none outline-none"
                     />
-                    <ErrorMessage name="email" component="div" className="text-red-500 text-xs" />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
 
-                  <Field name="phone">{({ field, form }) => <PhoneNumberInput field={field} form={form} />}</Field>
-                  <ErrorMessage name="phone" component="div" className="text-red-500 text-xs" />
+                  <Field name="phone">
+                    {({ field, form }) => (
+                      <PhoneNumberInput field={field} form={form} />
+                    )}
+                  </Field>
+                  <ErrorMessage
+                    name="phone"
+                    component="div"
+                    className="text-red-500 text-xs"
+                  />
 
                   {/* Country and State selection using the CountryState component */}
                   <div className="space-y-4">
@@ -163,7 +208,11 @@ export default function LogDistributor() {
                           </option>
                         ))}
                       </Field>
-                      <ErrorMessage name="country" component="div" className="text-red-500 text-xs" />
+                      <ErrorMessage
+                        name="country"
+                        component="div"
+                        className="text-red-500 text-xs"
+                      />
                     </div>
 
                     <div className="relative border border-gray-300 rounded-lg">
@@ -184,13 +233,34 @@ export default function LogDistributor() {
                             </option>
                           ))
                         ) : (
-                          <option value="">Please select a country first</option>
+                          <option value="">
+                            Please select a country first
+                          </option>
                         )}
                       </Field>
-                      <ErrorMessage name="businessLocation" component="div" className="text-red-500 text-xs" />
+                      <ErrorMessage
+                        name="businessLocation"
+                        component="div"
+                        className="text-red-500 text-xs"
+                      />
+                    </div>
+
+                    <div className="relative border border-gray-300 rounded-lg">
+                      <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
+                        Business Town
+                      </label>
+                      <Field
+                        name="businessTown"
+                        className="w-full px-4 py-2 bg-transparent border-none outline-none"
+                      ></Field>
+                      <ErrorMessage
+                        name="businessTown"
+                        component="div"
+                        className="text-red-500 text-xs"
+                      />
                     </div>
                   </div>
-{/* 
+                  {/* 
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Business RegNumber
@@ -224,7 +294,11 @@ export default function LogDistributor() {
                       name="password"
                       className="w-full px-4 py-2 bg-transparent border-none outline-none"
                     />
-                    <ErrorMessage name="password" component="div" className="text-red-500 text-xs" />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
 
                   <div className="relative border border-gray-300 rounded-lg">
@@ -236,15 +310,27 @@ export default function LogDistributor() {
                       name="confirmPassword"
                       className="w-full px-4 py-2 bg-transparent border-none outline-none"
                     />
-                    <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-xs" />
+                    <ErrorMessage
+                      name="confirmPassword"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <Field type="checkbox" name="agreeToTerms" className="w-4 h-4" />
+                    <Field
+                      type="checkbox"
+                      name="agreeToTerms"
+                      className="w-4 h-4"
+                    />
                     <label htmlFor="agreeToTerms" className="text-sm">
                       I agree to the terms and conditions
                     </label>
-                    <ErrorMessage name="agreeToTerms" component="div" className="text-red-500 text-xs" />
+                    <ErrorMessage
+                      name="agreeToTerms"
+                      component="div"
+                      className="text-red-500 text-xs"
+                    />
                   </div>
 
                   <button
@@ -261,5 +347,5 @@ export default function LogDistributor() {
         </div>
       </div>
     </div>
-  )
+  );
 }
