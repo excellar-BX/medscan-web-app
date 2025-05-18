@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 import {
   FaUserCircle,
@@ -9,8 +9,58 @@ import {
 } from "react-icons/fa";
 import { navlink } from "../data-link";
 import logo from "../assets/images/image 2.png";
+import Welcomepage from "./Welcomepage";
 
-export default function Navlink({ isAuthenticated, userProfile }) {
+
+export default function Navlink() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token retrieved:", token);
+    if (token) {
+      fetchUserProfile(token);
+    } else {
+      // setLoading(false); // Set loading to false if no token
+    }
+  }, []);
+
+  const fetchUserProfile = async (token) => {
+    try {
+      // Check if token is correctly retrieved
+      if (!token) {
+        console.error("Token is missing, cannot fetch profile.");
+        return;
+      }
+
+      const response = await fetch(
+        "https://medscan-backend-4lgk.onrender.com/api/auth/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log("Error data:", errorData);
+        throw new Error(errorData.message || "Failed to fetch user profile");
+      }
+
+      const data = await response.json();
+      setIsAuthenticated(true);
+      setUserProfile(data); // Set the profile data once fetched
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      localStorage.removeItem("token"); // Remove token on error
+      setIsAuthenticated(false);
+      setUserProfile(null); // Clear user profile if error occurs
+      window.location.href = "/"; // Redirect to login
+    } finally {
+      // setLoading(false); 
+    }
+  };
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -24,20 +74,38 @@ export default function Navlink({ isAuthenticated, userProfile }) {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <img src={logo} alt="nav-logo" className="h-10" />
-            <h1 className="text-2xl font-[500]">
+            <h1 className="text-xl font-[500]">
               <Link to="/">MedScan </Link>{" "}
             </h1>
           </div>
 
-          <div className="lg:flex gap-5 items-center max-sm:hidden sm:hidden max-md:hidden md:hidden">
+          <div className="lg:flex gap-12 items-center max-sm:hidden sm:hidden max-md:hidden md:hidden">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-[500] hover:underline hover:decoration-blue-500">
+              <h1 className="text-xl  hover:underline hover:decoration-blue-500">
+                <Link to="/">Home</Link>{" "}
+              </h1>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <h1 className="text-xl  hover:underline hover:decoration-blue-500">
+                <Link to="/services">Services</Link>{" "}
+              </h1>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <h1 className="text-xl  hover:underline hover:decoration-blue-500">
+                <Link to="/pricing">Pricing </Link>{" "}
+              </h1>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <h1 className="text-xl  hover:underline hover:decoration-blue-500">
                 <Link to="/about-us">About</Link>{" "}
               </h1>
             </div>
 
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-[500] hover:underline hover:decoration-blue-500">
+              <h1 className="text-xl  hover:underline hover:decoration-blue-500">
                 <Link to="/contact-us">Contact Us </Link>{" "}
               </h1>
             </div>
@@ -60,13 +128,13 @@ export default function Navlink({ isAuthenticated, userProfile }) {
                   to="/signup"
                   className="ml-4 py-2 px-4 bg-transparent border border-blue-500 text-blue-500 rounded focus:outline-none hover:bg-blue-500 hover:text-white"
                 >
-                  Sign up
+                  Login
                 </Link>
                 <Link
                   to="/logoption"
                   className="py-2 px-4 ml-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
-                  Sign in
+                  Sign up
                 </Link>
               </>
             ) : (
@@ -167,7 +235,7 @@ export default function Navlink({ isAuthenticated, userProfile }) {
           </div>
         </div>
       )}
-      <Outlet />
+      <Welcomepage />
     </div>
   );
 }

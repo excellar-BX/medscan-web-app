@@ -7,12 +7,10 @@ import { useLoginUserMutation } from "../Helper/Apis/UseMutate";
 import { useEffect, useState } from "react";
 import { BiCheckCircle } from "react-icons/bi";
 import { CgDanger } from "react-icons/cg";
-import { useAuth } from "../Helper/AuthContext";
 
 export default function SignInManufactur() {
   const navigate = useNavigate();
   const { type } = useParams(); // Get the user role type from the URL params
-  const { setRole } = useAuth(); // Set role in AuthContext
   const [loginUser] = useLoginUserMutation();
   const [message, setMessage] = useState({
     success: "",
@@ -30,16 +28,15 @@ export default function SignInManufactur() {
     return () => clearTimeout(timer);
   }, [message.error, message.success]);
 
-  // Store role in AuthContext and localStorage
+  // Store role in localStorage
   useEffect(() => {
     if (type) {
-      setRole(type); // Set the role in AuthContext
       localStorage.setItem("role", type); // Store the role in localStorage for future use
     } else {
       const storedRole = localStorage.getItem("role");
-      setRole(storedRole || "Manufacturer"); // Set a default role if none exists
+      if (!storedRole) localStorage.setItem("role", "Manufacturer"); // Set a default role if none exists
     }
-  }, [type, setRole]);
+  }, [type]);
 
   // Get the role for display
   const roleToDisplay = type || localStorage.getItem("role") || "Manufacturer";
@@ -166,7 +163,7 @@ export default function SignInManufactur() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-blue-400  text-white py-4 rounded-lg hover:bg-green-400 duration-300  transition-all ease-in-out"
+                    className="w-full bg-blue-400 text-white py-4 rounded-lg hover:bg-green-400 duration-300 transition-all ease-in-out"
                   >
                     {isSubmitting ? "Submitting..." : "Sign In"}
                   </button>

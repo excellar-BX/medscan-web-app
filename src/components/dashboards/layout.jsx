@@ -404,7 +404,9 @@ const Layout = () => {
           onClick={() => setSmall(true)}
         />
         <div className="h-[150px]"></div>
-        <Outlet />
+        {/* <button onClick={() => setSmall(false)}> */}
+        <Outlet />  
+        {/* </button> */}
       </main>
     </div>
   );
