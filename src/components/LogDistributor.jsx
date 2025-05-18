@@ -8,20 +8,17 @@ import { useCreateUserMutation } from "../Helper/Apis/UseMutate";
 import PhoneNumberInput from "./phoneNumber";
 import logi from "../assets/images/image 2.png";
 import bgImage from "../assets/images/login-img.jpg";
-import { countriesStates } from "./country";
-import CountryState from "./country"; // Import the CountryState component
-
+import CountryStateCity from "./countryStateCity"; 
 const LocalSignupSchema = Yup.object().shape({
   fullName: Yup.string().required("Full Name is required"),
-  businessName: Yup.string().required("business Name is required"),
+  businessName: Yup.string().required("Business Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   phone: Yup.string().required("Phone number is required"),
-  businessDateOfEstab: Yup.string().required("business Date is required"),
-  businessLocation: Yup.string().required("business Location is required"),
-  businessRegNumber: Yup.string().required("businessReg Number is required"),
+  businessDateOfEstab: Yup.string().required("Business Date is required"),
+  businessLocation: Yup.string().required("Business Location is required"),
+  businessRegNumber: Yup.string().required("Business Registration Number is required"),
   country: Yup.string().required("Country is required"),
-  town: Yup.string().required("Town is required"),
-  // taxIdNumber: Yup.string().required('tax Id is required'),
+  businessTown: Yup.string().required("Business Town is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
@@ -38,7 +35,7 @@ export default function LogDistributor() {
   const navigate = useNavigate();
   const [createUser] = useCreateUserMutation();
   const [message, setMessage] = useState({ success: "", error: "" });
-  const { type } = useParams(); // Role type from URL params
+  const { type } = useParams();
 
   useEffect(() => {
     const timer = setTimeout(() => setMessage({}), 8000);
@@ -57,6 +54,7 @@ export default function LogDistributor() {
           <p>{message.success}</p>
         </div>
       )}
+      
       <div className="w-full h-full">
         <div className="relative h-full flex flex-col lg:flex-row">
           {/* Background image */}
@@ -92,8 +90,7 @@ export default function LogDistributor() {
                 businessLocation: "",
                 businessRegNumber: "",
                 country: "",
-                town: "",
-                // taxIdNumber: '',
+                businessTown: "",
                 password: "",
                 confirmPassword: "",
                 agreeToTerms: false,
@@ -144,6 +141,7 @@ export default function LogDistributor() {
                       className="text-red-500 text-xs"
                     />
                   </div>
+
                   <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
                       Business Name
@@ -186,91 +184,56 @@ export default function LogDistributor() {
                     className="text-red-500 text-xs"
                   />
 
-                  {/* Country and State selection using the CountryState component */}
-                  <div className="space-y-4">
-                    <div className="relative border border-gray-300 rounded-lg">
-                      <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                        Country
-                      </label>
-                      <Field
-                        as="select"
-                        name="country"
-                        className="w-full px-4 py-2 bg-transparent border-none outline-none"
-                        onChange={(e) => {
-                          setFieldValue("country", e.target.value);
-                          setFieldValue("businessLocation", ""); // Reset business location when country changes
-                        }}
-                      >
-                        <option value="">Select Country</option>
-                        {Object.keys(countriesStates).map((country) => (
-                          <option key={country} value={country}>
-                            {country}
-                          </option>
-                        ))}
-                      </Field>
-                      <ErrorMessage
-                        name="country"
-                        component="div"
-                        className="text-red-500 text-xs"
-                      />
-                    </div>
+                  {/* Country, State, and City selection using the CountryStateCity component */}
+                  <CountryStateCity
+                    countryValue={values.country}
+                    stateValue={values.businessLocation}
+                    cityValue={values.businessTown}
+                    handleCountryChange={(e) => {
+                      setFieldValue("country", e.target.value);
+                      setFieldValue("businessLocation", ""); // Reset state
+                      setFieldValue("businessTown", ""); // Reset city
+                    }}
+                    handleStateChange={(e) => {
+                      setFieldValue("businessLocation", e.target.value);
+                      setFieldValue("businessTown", ""); // Reset city
+                    }}
+                    handleCityChange={(e) => {
+                      setFieldValue("businessTown", e.target.value);
+                    }}
+                  />
 
-                    <div className="relative border border-gray-300 rounded-lg">
-                      <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                        Business Location
-                      </label>
-                      <Field
-                        as="select"
-                        name="businessLocation"
-                        className="w-full px-4 py-2 bg-transparent border-none outline-none"
-                        disabled={!values.country}
-                      >
-                        <option value="">Select State</option>
-                        {values.country && countriesStates[values.country] ? (
-                          countriesStates[values.country].map((state) => (
-                            <option key={state} value={state}>
-                              {state}
-                            </option>
-                          ))
-                        ) : (
-                          <option value="">
-                            Please select a country first
-                          </option>
-                        )}
-                      </Field>
-                      <ErrorMessage
-                        name="businessLocation"
-                        component="div"
-                        className="text-red-500 text-xs"
-                      />
-                    </div>
+                  {/* Add error messages for the location fields */}
+                  <ErrorMessage
+                    name="country"
+                    component="div"
+                    className="text-red-500 text-xs"
+                  />
+                  <ErrorMessage
+                    name="businessLocation"
+                    component="div"
+                    className="text-red-500 text-xs"
+                  />
+                  <ErrorMessage
+                    name="businessTown"
+                    component="div"
+                    className="text-red-500 text-xs"
+                  />
 
-                    <div className="relative border border-gray-300 rounded-lg">
-                      <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                        Business Town
-                      </label>
-                      <Field
-                        name="businessTown"
-                        className="w-full px-4 py-2 bg-transparent border-none outline-none"
-                      ></Field>
-                      <ErrorMessage
-                        name="businessTown"
-                        component="div"
-                        className="text-red-500 text-xs"
-                      />
-                    </div>
-                  </div>
-                  {/* 
-                  <div className="relative border border-gray-300 rounded-lg">
+                  {/* <div className="relative border border-gray-300 rounded-lg">
                     <label className="absolute top-0 left-2 bg-white text-gray-500 text-sm px-1 -translate-y-1/2">
-                      Business RegNumber
+                      Business Registration Number
                     </label>
                     <Field
                       type="text"
                       name="businessRegNumber"
                       className="w-full px-4 py-2 bg-transparent border-none outline-none"
                     />
-                    <ErrorMessage name="businessRegNumber" component="div" className="text-red-500 text-xs" />
+                    <ErrorMessage 
+                      name="businessRegNumber" 
+                      component="div" 
+                      className="text-red-500 text-xs" 
+                    />
                   </div>
 
                   <div className="relative border border-gray-300 rounded-lg">
@@ -282,7 +245,11 @@ export default function LogDistributor() {
                       name="businessDateOfEstab"
                       className="w-full px-4 py-2 bg-transparent border-none outline-none"
                     />
-                    <ErrorMessage name="businessDateOfEstab" component="div" className="text-red-500 text-xs" />
+                    <ErrorMessage 
+                      name="businessDateOfEstab" 
+                      component="div" 
+                      className="text-red-500 text-xs" 
+                    />
                   </div> */}
 
                   <div className="relative border border-gray-300 rounded-lg">
