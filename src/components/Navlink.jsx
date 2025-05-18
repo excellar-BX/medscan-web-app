@@ -125,13 +125,13 @@ export default function Navlink() {
             {!isAuthenticated ? (
               <>
                 <Link
-                  to="/signup"
+                  to="/logoption"
                   className="ml-4 py-2 px-4 bg-transparent border border-blue-500 text-blue-500 rounded focus:outline-none hover:bg-blue-500 hover:text-white"
                 >
                   Login
                 </Link>
                 <Link
-                  to="/logoption"
+                  to="/signup"
                   className="py-2 px-4 ml-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
                   Sign up
