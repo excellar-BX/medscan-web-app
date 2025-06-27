@@ -6,7 +6,7 @@ import bgImage2 from "../assets/images/Rectangle 18footer-img-1.png";
 import google from "../assets/images/google.png";
 import apple from "../assets/images/apple.png";
 import PricingPage from "./PricingPage";
-import WhyMedscan from "./WhyMedScan";
+import WhyMedscan from "./WhyMedscan";
 export default function Welcomepage() {
   return (
     <>
